@@ -1,0 +1,100 @@
+# 新建用户组织表
+CREATE TABLE upcs_user_org
+(
+    kn_created_by bigint(20) unsigned          DEFAULT NULL COMMENT '创建人id',
+    kn_created_at datetime(3)         NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+    kn_updated_by bigint(20) unsigned          DEFAULT NULL COMMENT '修改人id',
+    kn_updated_at datetime(3)         NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
+    is_del        tinyint(1)          NOT NULL DEFAULT '0' COMMENT '是否删除',
+    kn_id         bigint(20) unsigned NOT NULL COMMENT '唯一标识',
+    kn_user_id    bigint(20) unsigned NOT NULL COMMENT '用户id',
+    kn_org_id     bigint(20) unsigned NOT NULL COMMENT '组织id',
+    PRIMARY KEY (kn_id),
+    KEY idx_user_id (kn_user_id),
+    KEY idx_org_id (kn_org_id)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='用户组织表';
+
+# 迁移旧数据
+INSERT INTO upcs_user_org (kn_created_by, kn_created_at, kn_updated_by, kn_updated_at,
+                           is_del, kn_id, kn_user_id, kn_org_id)
+SELECT uuro.kn_created_by,
+       uuro.kn_created_at,
+       uuro.kn_updated_by,
+       uuro.kn_updated_at,
+       uuro.is_del,
+       uuro.kn_id,
+       uuro.kn_user_id,
+       uuro.kn_org_id
+FROM upcs_user_role_org uuro,
+     upcs_org uo
+WHERE uo.kn_id = uuro.kn_org_id
+  AND uuro.is_del = false
+  AND uuro.kn_org_id is not null;
+
+
+# 新建用户行政区域表
+CREATE TABLE upcs_user_region
+(
+    kn_id          bigint(20) unsigned NOT NULL COMMENT '唯一标识',
+    kn_user_id     bigint(20) unsigned NOT NULL COMMENT '用户id',
+    kn_region_code bigint(20) unsigned NOT NULL COMMENT '行政区域id',
+    is_del         tinyint(1)          NOT NULL DEFAULT '0' COMMENT '是否删除',
+    kn_created_by  bigint(20) unsigned          DEFAULT NULL COMMENT '创建人id',
+    kn_created_at  datetime(3)         NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+    kn_updated_by  bigint(20) unsigned          DEFAULT NULL COMMENT '修改人id',
+    kn_updated_at  datetime(3)         NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
+    PRIMARY KEY (kn_id),
+    KEY idx_user_id (kn_user_id),
+    KEY idx_org_id (kn_region_code)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='用户行政区域表';
+
+
+# 迁移旧数据
+INSERT INTO upcs_user_region(kn_id, kn_user_id, kn_region_code,
+                             is_del, kn_created_by, kn_created_at, kn_updated_by, kn_updated_at)
+SELECT uuro.kn_id,
+       uuro.kn_user_id,
+       uuro.kn_org_id,
+       uuro.is_del,
+       uuro.kn_created_by,
+       uuro.kn_created_at,
+       uuro.kn_updated_by,
+       uuro.kn_updated_at
+FROM upcs_user_role_org uuro,
+     upcs_administrative_division ur
+WHERE uuro.kn_org_id = ur.kn_code
+  AND uuro.is_del = FALSE
+  AND uuro.kn_org_id IS NOT NULL;
+
+
+# 删除数据
+DELETE
+FROM upcs_user_role_org
+WHERE kn_user_id IS NULL
+   OR kn_role_id IS NULL
+   OR is_del = true
+   OR kn_role_id NOT IN (SELECT ur.kn_id
+                         FROM upcs_role ur
+                         WHERE ur.is_del = false);
+
+# 修改表结构
+ALTER TABLE upcs_user_role_org
+    DROP COLUMN kn_org_id;
+
+ALTER TABLE upcs_user_role_org
+    MODIFY kn_user_id bigint(20) unsigned NOT NULL COMMENT '用户id';
+
+ALTER TABLE upcs_user_role_org
+    MODIFY kn_role_id bigint(20) unsigned NOT NULL COMMENT '角色id';
+
+ALTER TABLE upcs_user_role_org
+    COMMENT '用户角色表';
+
+# 修改表名
+RENAME TABLE upcs_user_role_org to upcs_user_role;
+
+

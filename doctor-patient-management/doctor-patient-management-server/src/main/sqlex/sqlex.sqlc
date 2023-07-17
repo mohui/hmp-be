@@ -1,0 +1,7 @@
+# SqlEx 配置文件
+package: com.bjknrt.doctor.patient.management
+#引入外部库的患者信息表
+foreign:
+  upcs: foreign/upcs.sql
+  opLog: foreign/opLog.sql
+  hs: foreign/hs.sql

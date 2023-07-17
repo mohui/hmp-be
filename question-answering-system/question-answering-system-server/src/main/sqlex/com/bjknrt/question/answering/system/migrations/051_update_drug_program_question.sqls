@@ -1,0 +1,29 @@
+-- 高血压
+-- 选择了否自动答题
+update qas_option
+set is_auto_commit = 1
+where id = 33000102;
+-- 时间
+update qas_option
+set option_type = 'TIME'
+where id = 33000204;
+-- 频次 多选 周一到周日, option_rule选项
+update qas_option
+set option_type = 'CHECKBOX',
+    option_rule = '{"options":[{"value":"MONDAY","name":"周一"},{"value":"TUESDAY","name":"周二"},{"value":"WEDNESDAY","name":"周三"},{"value":"THURSDAY","name":"周四"},{"value":"FRIDAY","name":"周五"},{"value":"SATURDAY","name":"周六"},{"value":"SUNDAY","name":"周日"}]}'
+where id = 33000203;
+
+-- 糖尿病
+-- 选择了否自动答题
+update qas_option
+set is_auto_commit = 1
+where id = 34000102;
+-- 时间
+update qas_option
+set option_type = 'TIME'
+where id = 34000204;
+-- 频次 多选 周一到周日, option_rule 选项
+update qas_option
+set option_type = 'CHECKBOX',
+    option_rule = '{"options":[{"value":"MONDAY","name":"周一"},{"value":"TUESDAY","name":"周二"},{"value":"WEDNESDAY","name":"周三"},{"value":"THURSDAY","name":"周四"},{"value":"FRIDAY","name":"周五"},{"value":"SATURDAY","name":"周六"},{"value":"SUNDAY","name":"周日"}]}'
+where id = 34000203;

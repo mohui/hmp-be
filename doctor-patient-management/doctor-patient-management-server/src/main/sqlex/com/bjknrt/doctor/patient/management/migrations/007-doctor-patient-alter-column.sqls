@@ -1,0 +1,4 @@
+alter table dpm_doctor_patient
+    modify kn_doctor_id bigint unsigned  not null comment '医生Id(医生信息表主键)';
+
+

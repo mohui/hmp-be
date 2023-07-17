@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: hmp-server-gateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+    - name: hmp-server
+      port:
+        name: http-server
+        number: 80
+        protocol: HTTP
+      hosts:
+        - "./*"

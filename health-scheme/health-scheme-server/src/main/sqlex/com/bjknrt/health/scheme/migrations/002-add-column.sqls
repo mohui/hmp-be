@@ -1,0 +1,2 @@
+alter table  hs_hsm_health_plan
+    add column kn_foreign_plan_frequency_ids varchar(1024) not null default '' comment '频率id数组';

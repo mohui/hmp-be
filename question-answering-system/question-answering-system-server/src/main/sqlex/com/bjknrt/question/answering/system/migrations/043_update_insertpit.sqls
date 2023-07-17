@@ -1,0 +1,3 @@
+UPDATE qas_questions SET  match_reg_exp='((?=.*FIFTH_NONE)|(?=.*FIFTH_ONE_NIGHT)|(?=.*FIFTH_TWO_NIGHT)|(?=.*FIFTH_THREE_NIGHT))',match_fail_msg ='必须选择一个选项。' WHERE id=124;
+
+UPDATE qas_questions SET  match_reg_exp='((?=.*FIVE_J_NONE)|(?=.*FIVE_J_ONE_NIGHT)|(?=.*FIVE_J_TWO_NIGHT)|(?=.*FIVE_J_THREE_NIGHT))',match_fail_msg ='必须选择一个选项。' WHERE id=114;

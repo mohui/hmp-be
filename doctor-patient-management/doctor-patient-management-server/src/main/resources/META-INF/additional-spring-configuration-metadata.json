@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "spring.data.redis.host",
+      "type": "java.lang.String",
+      "description": "Description for spring.data.redis.host."
+  }
+] }

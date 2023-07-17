@@ -1,0 +1,27 @@
+CREATE TABLE IF NOT EXISTS mg_combined_medication_contraindication
+(
+    contraindication_id       bigint      not null COMMENT '主键',
+    contraindication_type     varchar(10) not null COMMENT '禁忌类型 DRUGDRUG-药品间禁忌',
+    drug_anchor_type          bigint COMMENT '设置类别 1-通用名 2-分类 3-药品',
+    drug_anchor_id            bigint      not null COMMENT '设置编号',
+    doseage_form_id           bigint COMMENT '规格',
+    strength                  varchar(300) COMMENT '剂型',
+    route_id                  bigint COMMENT '给药途径',
+    conflict_drug_anchor_type bigint COMMENT '设置冲突类别 1-通用名 2-分类 3-药品',
+    conflict_drug_anchor_id   bigint      not null COMMENT '设置冲突编号',
+    conflict_route_id         bigint COMMENT '冲突给药途径',
+    disease_id                bigint COMMENT '疾病',
+    day_low                   int COMMENT '年龄下限-天',
+    day_high                  int COMMENT '年龄上限-天',
+    weight_low                decimal(20, 2) COMMENT '体重下限-kg',
+    weigth_high               decimal(20, 2) COMMENT '体重上限-kg',
+    warning_scope             int COMMENT '禁忌范围',
+    severity_level            int COMMENT '禁忌等级',
+    short_dec                 varchar(200) COMMENT '禁忌短描述',
+    long_desc                 varchar(2000) COMMENT '禁忌长描述',
+    created_at                DATETIME(3) NOT NULL DEFAULT current_timestamp(3) COMMENT '创建时间',
+    gender                    char(1) COMMENT '性别',
+    constraint pk_mg_combined_medication_contraindication primary key (contraindication_id, contraindication_type)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4 COMMENT ='用药指导-联合用药禁忌';

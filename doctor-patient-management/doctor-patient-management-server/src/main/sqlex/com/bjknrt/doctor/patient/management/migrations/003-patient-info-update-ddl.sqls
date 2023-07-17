@@ -1,0 +1,13 @@
+alter table dpm_patient_info
+    add kn_drink_wine tinyint(1) null default null comment '是否饮酒 （1-是，0-否）' after kn_smoking;
+
+alter table dpm_patient_info
+    add kn_sports tinyint(1) null default null comment '是否运动 （1-是，0-否）' after kn_drink_wine;
+
+alter table dpm_patient_info
+    add kn_salt_intake decimal(10, 2) null default null comment '每天盐的摄入量（单位 g）' after kn_sports;
+alter table dpm_patient_info
+    add kn_height_density_protein_tch decimal(10, 2) null default null comment '高密度蛋白质胆固醇（单位 mmol/L）' after kn_serum_tch;
+
+alter table dpm_patient_info
+    add kn_low_density_protein_tch decimal(10, 2) null default null comment '低密度蛋白质胆固醇（单位 mmol/L）' after kn_height_density_protein_tch;

@@ -1,0 +1,11 @@
+.openapi-generator-ignore
+question-answering-system-api/build.gradle.kts
+question-answering-system-api/src/main/kotlin/com/bjknrt/question/answering/system/api/ExaminationPaperApi.kt
+question-answering-system-api/src/main/kotlin/com/bjknrt/question/answering/system/vo/ExaminationPaper.kt
+question-answering-system-api/src/main/kotlin/com/bjknrt/question/answering/system/vo/ImageRequest.kt
+question-answering-system-api/src/main/kotlin/com/bjknrt/question/answering/system/vo/OptionType.kt
+question-answering-system-api/src/main/kotlin/com/bjknrt/question/answering/system/vo/PageExaminationPaperRequest.kt
+question-answering-system-api/src/main/kotlin/com/bjknrt/question/answering/system/vo/QuestionImageInfo.kt
+question-answering-system-api/src/main/kotlin/com/bjknrt/question/answering/system/vo/Questions.kt
+question-answering-system-api/src/main/kotlin/com/bjknrt/question/answering/system/vo/QuestionsOptions.kt
+question-answering-system-api/src/main/kotlin/com/bjknrt/question/answering/system/vo/QuestionsType.kt

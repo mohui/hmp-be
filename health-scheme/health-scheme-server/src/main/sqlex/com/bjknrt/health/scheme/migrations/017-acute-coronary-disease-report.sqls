@@ -1,0 +1,46 @@
+CREATE TABLE `hs_acute_coronary_disease_stage_statistics`
+(
+    `id`                                                bigint(20) unsigned NOT NULL,
+    `stage_report_id`                                   bigint(20) unsigned NOT NULL COMMENT '阶段性报告id',
+    `actual_measure_number`                             int(11)             NOT NULL COMMENT '本次测量次数',
+    `standard_measure_number`                           int(11)             NOT NULL COMMENT '本次达标测量次数',
+    `systolic_blood_pressure_avg`                       decimal(5, 2)       NOT NULL COMMENT '本次收缩压平均值',
+    `diastolic_blood_pressure_avg`                      decimal(5, 2)       NOT NULL COMMENT '本次舒张压平均值',
+    `systolic_blood_pressure_standard_deviation`        decimal(5, 2)       NOT NULL COMMENT '本次收缩压标准差',
+    `diastolic_blood_pressure_standard_deviation`       decimal(5, 2)       NOT NULL COMMENT '本次舒张压标准差',
+    `is_blood_pressure_avg_standard`                    tinyint(1)          NOT NULL COMMENT '血压平均值是否达标',
+    `actual_measure_number_deviation_value`             int(11)                                  DEFAULT NULL COMMENT '本次测量(上传)次数与上次测量(上传)次数的差',
+    `standard_measure_number_deviation_value`           int(11)                                  DEFAULT NULL COMMENT '本次达标次数与上次达标次数的差',
+    `systolic_blood_pressure_avg_deviation_value`       decimal(5, 2)                            DEFAULT NULL COMMENT '本次收缩压平均值与上次收缩压平均值的差值',
+    `diastolic_blood_pressure_avg_deviation_value`      decimal(5, 2)                            DEFAULT NULL COMMENT '本次舒张压平均值与上次舒张压平均值的差值',
+    `systolic_blood_pressure_standard_deviation_value`  decimal(5, 2)                            DEFAULT NULL COMMENT '本次收缩压标准差与上次收缩压标准差的差值',
+    `diastolic_blood_pressure_standard_deviation_value` decimal(5, 2)                            DEFAULT NULL COMMENT '本次舒张压标准差与上次舒张压标准差的差值',
+    `score_deviation_value`                             decimal(5, 2)                            DEFAULT NULL COMMENT '本次报告得分与上次报告得分的差值',
+    `blood_pressure_fill_rate`                          decimal(5, 2)       NOT NULL             DEFAULT '0' COMMENT '血压完成率（患者实际总的血压测量次数/系统建议本阶段内的血压测量次数）',
+    `blood_pressure_standard_rate`                      decimal(5, 2)       NOT NULL             DEFAULT '0' COMMENT '血压达标率（患者实际血压达标次数/患者实际总的血压测量次数）',
+    `standard_rate_deviation_value`                     decimal(5, 2)                            DEFAULT NULL COMMENT '本次达标率与上次达标率的差',
+    `systolic_blood_pressure_upper_limit_num`           int(11)             NOT NULL             DEFAULT '0' COMMENT '超收缩压上限的次数（收缩压≥140mmHg的次数；）',
+    `diastolic_blood_pressure_lower_limit_num`          int(11)             NOT NULL             DEFAULT '0' COMMENT '超舒张压下限的次数（ 舒张压≥90mmHg ）',
+    `low_blood_pressure_num`                            int(11)             NOT NULL             DEFAULT '0' COMMENT '低血压次数（ 收缩压＜90mmHg 或 舒张压＜60mmHg ）',
+    `abnormal_data_alert_msg`                           varchar(2048) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '异常数据提醒消息',
+    `created_by`                                        bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `created_at`                                        datetime            NOT NULL             DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='冠心病统计';
+
+
+CREATE TABLE `hs_acute_coronary_disease_stage_statistics_detail`
+(
+    `id`                       bigint(20) unsigned NOT NULL,
+    `stage_report_id`          bigint(20) unsigned NOT NULL COMMENT '阶段性报告id',
+    `systolic_blood_pressure`  decimal(5, 2)       NOT NULL COMMENT '收缩压',
+    `diastolic_blood_pressure` decimal(5, 2)       NOT NULL COMMENT '舒张压',
+    `measure_datetime`         datetime            NOT NULL COMMENT '测量时间',
+    `created_by`               bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `created_at`               datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='冠心病统计明细';

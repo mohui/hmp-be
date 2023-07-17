@@ -1,0 +1,10 @@
+# SqlEx 配置文件
+
+package: com.bjknrt.statistic.analysis
+foreign:
+  dpm: foreign/dpm.sql #引入外部库的患者信息表
+  upcs: foreign/upcs.sql #引入外部库的患者信息表
+  qass: foreign/qass.sql #引入外部库的患者信息表
+  hi: foreign/healthIndicator.sql #引入外部库的患者信息表
+  hs: foreign/healthScheme.sql #引入外部库的患者信息表
+  opLog: foreign/opLog.sql

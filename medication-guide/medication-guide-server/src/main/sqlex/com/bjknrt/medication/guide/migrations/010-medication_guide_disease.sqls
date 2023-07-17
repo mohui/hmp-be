@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS medication_guide_disease
+(
+    kn_disease_id   bigint primary key COMMENT '主键',
+    kn_disease_name varchar(200) not null COMMENT '名称',
+    kn_type         int COMMENT '类型',
+    kn_parent_id    bigint COMMENT '上级疾病id'
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4 COMMENT ='用药指导-疾病列表';

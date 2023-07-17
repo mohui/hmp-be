@@ -1,0 +1,35 @@
+# 高血压
+UPDATE
+        hs_stage_statistics
+SET abnormal_data_alert_msg = CONCAT( '[{"title": "", "content": "', REPLACE ( abnormal_data_alert_msg, '\n', '" },{"title": "","content": "' ), '"}]' )
+WHERE
+    abnormal_data_alert_msg IS NOT NULL;
+
+# 糖尿病
+UPDATE
+    hs_diabetes_stage_statistics
+SET abnormal_data_alert_msg = CONCAT( '[{"title": "", "content": "', REPLACE ( abnormal_data_alert_msg, '\n', '" },{"title": "","content": "' ), '"}]' )
+WHERE
+    abnormal_data_alert_msg IS NOT NULL;
+
+# 脑卒中
+UPDATE
+    hs_cerebral_stroke_stage_statistics
+SET abnormal_data_alert_msg = CONCAT( '[{"title": "", "content": "', REPLACE ( abnormal_data_alert_msg, '\n', '" },{"title": "","content": "' ), '"}]' )
+WHERE
+    abnormal_data_alert_msg IS NOT NULL;
+
+# 冠心病
+UPDATE
+    hs_acute_coronary_disease_stage_statistics
+SET abnormal_data_alert_msg = CONCAT( '[{"title": "", "content": "', REPLACE ( abnormal_data_alert_msg, '\n', '" },{"title": "","content": "' ), '"}]' )
+WHERE
+    abnormal_data_alert_msg IS NOT NULL;
+
+# 慢阻肺
+UPDATE
+    hs_copd_stage_statistics
+SET abnormal_data_alert_msg = CONCAT( '[{"title": "", "content": "', REPLACE ( abnormal_data_alert_msg, '\n', '" },{"title": "","content": "' ), '"}]' )
+WHERE
+    abnormal_data_alert_msg IS NOT NULL;
+

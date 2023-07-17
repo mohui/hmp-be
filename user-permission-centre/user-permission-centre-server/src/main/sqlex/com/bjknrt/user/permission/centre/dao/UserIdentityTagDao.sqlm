@@ -1,0 +1,16 @@
+import java.math.BigInteger
+
+selectIdentityTagByUserId(userId:BigInteger*) {
+    select uuit.kn_id,
+           kn_user_id,
+           kn_identify_tag,
+           is_del,
+           kn_created_by,
+           kn_created_at,
+           kn_updated_by,
+           kn_updated_at
+    from upcs_user_identity_tag uuit
+    WHERE uuit.is_del = false
+      and uuit.kn_user_id in (:userId)
+
+}

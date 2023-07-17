@@ -1,0 +1,23 @@
+INSERT INTO qas_examination_paper (id, examination_paper_title, examination_paper_desc,
+                                   examination_paper_tip, examination_paper_code,
+                                   examination_paper_reference, evaluation_time,
+                                   strategy_code, created_by, created_at, updated_by,
+                                   updated_at, is_del)
+VALUES (2200, '改良RANKIN量表 (mRS)','改良RANKIN量表用于衡量脑卒中后患者的神经功能恢复的情况。',
+        null, 'MRS', 'Haggag Hammazah,Hodgson Carol,Clinimetrics: Modified Rankin Scale (mRS).[J] .J Physiother, 2022, 68: 281.', '', 'MRS',
+        1, current_timestamp(), 1, current_timestamp(), 0);
+
+insert into qas_questions(id, examination_paper_id, questions_title, questions_type, questions_sort, created_by,
+                          updated_by, questions_tip)
+values (220001, 2200, '患者当前状况为?', 'RADIO', 1, 1, 1, null);
+
+insert into qas_option(id, questions_id, option_code, option_value, option_label, option_tip, option_sort, option_score,
+                       option_type, option_rule, created_by, updated_by)
+values (22000101, 220001, 'MRS_220001_22000101', '1', '完全无症状', '', 1, 0, 'SELECT', null, 1, 1),
+       (22000102, 220001, 'MRS_220001_22000102', '2', '尽管有症状，但无明显功能障碍，能完成所有日常职责和活动', '', 2, 1, 'SELECT', null, 1, 1),
+       (22000103, 220001, 'MRS_220001_22000103', '3', '轻度残疾，不能完成病前所有活动，但不需要帮助，能照顾自己的事务', '', 3, 2, 'SELECT', null, 1, 1),
+       (22000104, 220001, 'MRS_220001_22000104', '4', '中度残疾，要求一些帮助，但行走不需要帮助', '', 4, 3, 'SELECT', null, 1, 1),
+       (22000105, 220001, 'MRS_220001_22000105', '5', '重度残疾，不能独立行走，无他人帮助不能满足自身需要', '', 5, 4, 'SELECT', null, 1, 1),
+       (22000106, 220001, 'MRS_220001_22000106', '6', '严重残疾，卧床、失禁、要求持续护理和关注', '', 6, 5, 'SELECT', null, 1, 1);
+
+

@@ -1,0 +1,31 @@
+-- auto-generated definition
+create table medication_guide_dose_limit
+(
+    kn_dose_limit_id        int primary key comment '主键',
+    kn_drug_id              bigint      not null COMMENT '药品编号',
+    kn_day_low              int COMMENT '年龄下限-天',
+    kn_day_high             int COMMENT '年龄上限-天',
+    kn_weight_low           decimal(20, 2) COMMENT '体重下限-kg',
+    kn_weigth_high          decimal(20, 2) COMMENT '体重上限-kg',
+    kn_route_id             bigint COMMENT '给药途径',
+    kn_disease_id           bigint COMMENT '疾病',
+    kn_gender               char(1) COMMENT '性别 M-男 F-女',
+    kn_dose_high_each       decimal(20, 4) COMMENT '单次剂量-高',
+    kn_dose_low_each        decimal(20, 4) COMMENT '单次剂量-低',
+    kn_dose_high_per_day    decimal(20, 4) COMMENT '单日-高',
+    kn_dose_low_per_day     decimal(20, 4) COMMENT '单日-低',
+    kn_dose_max_each        decimal(20, 4) COMMENT '单次极量',
+    kn_dose_max_per_day     decimal(20, 4) COMMENT '单日极量',
+    kn_frequency_times_low  decimal(20, 4) COMMENT '使用频次-次(低)',
+    kn_frequency_days_low   bigint COMMENT '使用频次-天(低)',
+    kn_frequency_times_high decimal(20, 4) COMMENT '使用频次-次(高)',
+    kn_frequency_days_high  bigint COMMENT '使用频次-天(高)',
+    kn_dose_max_life        decimal(20, 4) COMMENT '终生剂量',
+    kn_warning_scope        int COMMENT '禁忌范围',
+    kn_severity_level       int COMMENT '禁忌等级',
+    kn_short_dec            varchar(200) COMMENT '禁忌短描述',
+    kn_long_desc            varchar(2000) COMMENT '禁忌长描述',
+    kn_created_at           DATETIME(3) NOT NULL DEFAULT current_timestamp(3) COMMENT '创建时间'
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4 COMMENT ='用药指导-剂量禁忌';

@@ -1,0 +1,6 @@
+alter table `hi_drinking`
+    add column `kn_yellow_rice_spirit` double unsigned not null default 0 comment '黄酒/两/日' after kn_wine;
+
+update `hi_drinking` drink
+set `kn_total_alcohol` = drink.kn_beer * 0.1 + drink.kn_wine * 0.25 + drink.kn_yellow_rice_spirit * 0.2 + drink.kn_white_spirit
+where drink.kn_total_alcohol = 0

@@ -1,0 +1,54 @@
+.framework-webapi:init:
+  variables:
+    MODULE_NAME: framework-webapi # 目录
+  before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - cd ${MODULE_NAME}
+
+framework-webapi:test:
+  extends:
+    - .framework-webapi:init
+  stage: test
+  tags:
+    - pve
+    - docker
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^standalone*/'
+      when: never
+    - if: '$CI_COMMIT_BRANCH'
+      changes:
+        - ${MODULE_NAME}/*.{kts,properties,yml}
+        - ${MODULE_NAME}/**/*
+  script:
+    - gradle test
+  cache:
+    paths:
+      - .gradle/wrapper
+      - .gradle/caches
+  artifacts:
+    when: always
+    reports:
+      junit: ${MODULE_NAME}/**/build/test-results/test/**/TEST-*.xml
+
+framework-webapi:build:
+  extends:
+    - .framework-webapi:init
+  stage: build
+  tags:
+    - pve
+    - docker
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^standalone*/'
+      changes:
+        - ${MODULE_NAME}/*.{kts,properties,yml}
+        - ${MODULE_NAME}/**/*
+  script:
+    - gradle build publishAllPublicationsToBjknrtRepository
+  cache:
+    paths:
+      - .gradle/wrapper
+      - .gradle/caches
+  artifacts:
+    when: always
+    reports:
+      junit: ${MODULE_NAME}/**/build/test-results/test/**/TEST-*.xml

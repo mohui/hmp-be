@@ -1,0 +1,17 @@
+CREATE TABLE IF NOT EXISTS medication_guide_drug
+(
+    kn_drug_id         bigint      not null primary key COMMENT '编号',
+    kn_drug_name       varchar(100) COMMENT '药品名称',
+    kn_doseage_form_id bigint COMMENT '规格',
+    kn_strength        varchar(300) COMMENT '剂型',
+    kn_brand           varchar(100) COMMENT '品牌',
+    kn_spproval_no     varchar(64) COMMENT '准字号',
+    kn_pinyin          varchar(20) COMMENT '拼音',
+    kn_generic_id      bigint COMMENT '通用名id',
+    kn_created_at      DATETIME(3) NOT NULL DEFAULT current_timestamp(3) COMMENT '创建时间',
+    manufacture_id     bigint COMMENT '厂家id',
+    manufacture_name   varchar(200) COMMENT '生产厂家',
+    dose_limit_unit    varchar(50) COMMENT '剂量单位'
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4 COMMENT ='用药指导-药品商品列表';

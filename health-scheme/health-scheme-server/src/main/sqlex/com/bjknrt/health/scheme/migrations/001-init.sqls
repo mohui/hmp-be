@@ -1,0 +1,584 @@
+/* hs_acute_coronary_visit */
+CREATE TABLE `hs_acute_coronary_visit`
+(
+    `id`                               bigint(20) unsigned NOT NULL,
+    `patient_id`                       bigint(20) unsigned NOT NULL COMMENT '患者id',
+    `patient_name`                     varchar(255)        NOT NULL COMMENT '患者姓名(手录)',
+    `doctor_id`                        bigint(20) unsigned                    DEFAULT NULL COMMENT '随访医生id',
+    `doctor_name`                      varchar(255)                           DEFAULT NULL COMMENT '随访医生姓名(手录)',
+    `follow_way`                       varchar(16) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '随访方式. SELF. 患者自填. OUTPATIENT. 门诊; FAMILY. 家庭; PHONE. 电话;ONLINE.线上',
+    `follow_date`                      datetime                               DEFAULT NULL COMMENT '随访日期',
+    `is_symptom_none`                  tinyint(1)                             DEFAULT NULL COMMENT '无症状',
+    `is_symptom_dizziness_headache`    tinyint(1)                             DEFAULT NULL COMMENT '头痛头晕',
+    `is_symptom_nausea_vomiting`       tinyint(1)                             DEFAULT NULL COMMENT '恶心呕吐',
+    `is_symptom_blurred_tinnitus`      tinyint(1)                             DEFAULT NULL COMMENT '眼花耳鸣',
+    `is_symptom_breathing`             tinyint(1)                             DEFAULT NULL COMMENT '呼吸困难',
+    `is_symptom_palpitations_toc`      tinyint(1)                             DEFAULT NULL COMMENT '心悸胸闷',
+    `is_symptom_nose_bleed`            tinyint(1)                             DEFAULT NULL COMMENT '鼻衄出血不止',
+    `is_symptom_numbness`              tinyint(1)                             DEFAULT NULL COMMENT '四肢发麻',
+    `is_symptom_lower_extremity_edema` tinyint(1)                             DEFAULT NULL COMMENT '下肢水肿',
+    `symptom_other`                    varchar(255)                           DEFAULT NULL COMMENT '其它',
+    `signs_sbp`                        double unsigned                        DEFAULT NULL COMMENT '血压 - 收缩压. 单位: mmHg',
+    `signs_dbp`                        double unsigned                        DEFAULT NULL COMMENT '血压 - 舒张压. 单位: mmHg',
+    `signs_height`                     double unsigned                        DEFAULT NULL COMMENT '身高. 单位: cm',
+    `signs_weight`                     double unsigned                        DEFAULT NULL COMMENT '体重. 单位: kg',
+    `signs_heart_rate`                 double unsigned                        DEFAULT NULL COMMENT '心率. 单位: 次/分钟',
+    `signs_bim`                        double unsigned                        DEFAULT NULL COMMENT '体质指数. 单位: kg/m²',
+    `signs_other`                      varchar(255)                           DEFAULT NULL COMMENT '体征 - 其他',
+    `life_cigarettes_per_day`          tinyint(3) unsigned                    DEFAULT NULL COMMENT '日吸烟量. 单位: 支',
+    `life_alcohol_per_day`             double unsigned                        DEFAULT NULL COMMENT '日饮酒量. 单位: 两',
+    `life_sport_per_week`              tinyint(3) unsigned                    DEFAULT NULL COMMENT '每周运动次数. 单位: 次',
+    `life_sport_per_time`              double unsigned                        DEFAULT NULL COMMENT '每次运动时间. 单位: 分钟',
+    `life_salt_situation`              varchar(255)                           DEFAULT NULL COMMENT '摄盐情况. LIGHT: 轻; MIDDLE: 中; DEEP: 重',
+    `life_mental_adjustment`           varchar(255)                           DEFAULT NULL COMMENT '心理调整. GOOD: 良好; ORDINARY: 一般; BAD: 差',
+    `life_follow_medical_advice`       varchar(255)                           DEFAULT NULL COMMENT '遵医行为. GOOD: 良好; ORDINARY: 一般; BAD: 差',
+    `abbreviations_about_examination`  varchar(255)                           DEFAULT NULL COMMENT '辅助检查',
+    `drug_compliance`                  varchar(255)                           DEFAULT NULL COMMENT '服药依从性. LAW: 规律; GAP: 间断; NO: 不服药',
+    `is_adr`                           tinyint(1)                             DEFAULT NULL COMMENT '有无药物不良反应',
+    `adr_desc`                         varchar(255)                           DEFAULT NULL COMMENT '药物不良反应描述',
+    `visit_class`                      varchar(255)                           DEFAULT NULL COMMENT '此次随访分类. SATISFACTORY: 控制满意; UNSATISFACTORY: 控制不满意; UNTOWARD_EFFECT: 不良反应; COMPLICATION: 并发症',
+    `is_referral`                      tinyint(1)                             DEFAULT NULL COMMENT '是否转诊',
+    `referral_reason`                  varchar(255)                           DEFAULT NULL COMMENT '转诊原因',
+    `referral_agencies`                varchar(255)                           DEFAULT NULL COMMENT '转诊机构及科别',
+    `next_visit`                       datetime                               DEFAULT NULL COMMENT '下次随访日期',
+    `created_by`                       bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `created_at`                       timestamp           NOT NULL           DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_by`                       bigint(20) unsigned NOT NULL COMMENT '更新人',
+    `updated_at`                       timestamp           NOT NULL           DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `recommend_weight`                 double unsigned                        DEFAULT NULL COMMENT '建议体重. 单位: kg',
+    `recommend_bim`                    double unsigned                        DEFAULT NULL COMMENT '建议体质指数',
+    `recommend_cigarettes_per`         tinyint(3) unsigned                    DEFAULT NULL COMMENT '建议日吸烟量',
+    `recommend_alcohol_per`            double unsigned                        DEFAULT NULL COMMENT '建议饮酒量',
+    `recommend_sport_per_week`         tinyint(3) unsigned                    DEFAULT NULL COMMENT '建议每周运动次数 单位: 次',
+    `recommend_sport_per_time`         double unsigned                        DEFAULT NULL COMMENT '建议每次运动时间. 单位: 分钟',
+    `recommend_salt_situation`         varchar(16) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '建议摄盐情况. LIGHT: 轻; MIDDLE: 中; DEEP: 重',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='冠心病患者随访表';
+
+/* hs_acute_coronary_visit_drug */
+CREATE TABLE `hs_acute_coronary_visit_drug`
+(
+    `id`             bigint(20) unsigned NOT NULL,
+    `visit_id`       bigint(20) unsigned NOT NULL COMMENT '随访id',
+    `drug_name`      varchar(255)                 DEFAULT NULL COMMENT '药品名称',
+    `times_per_day`  tinyint(3) unsigned          DEFAULT NULL COMMENT '每日次数',
+    `units_per_time` varchar(255)                 DEFAULT NULL COMMENT '每次用量',
+    `created_by`     bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `created_at`     timestamp           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_by`     bigint(20) unsigned NOT NULL COMMENT '更新人',
+    `updated_at`     timestamp           NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='冠心病随访药品表';
+
+/* hs_cerebral_stroke_visit */
+CREATE TABLE `hs_cerebral_stroke_visit`
+(
+    `id`                               bigint(20) unsigned NOT NULL,
+    `patient_id`                       bigint(20) unsigned NOT NULL COMMENT '患者id',
+    `patient_name`                     varchar(255)        NOT NULL COMMENT '患者姓名(手录)',
+    `doctor_id`                        bigint(20) unsigned                    DEFAULT NULL COMMENT '随访医生id',
+    `doctor_name`                      varchar(255)                           DEFAULT NULL COMMENT '随访医生姓名(手录)',
+    `follow_way`                       varchar(16) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '随访方式. SELF. 患者自填. OUTPATIENT. 门诊; FAMILY. 家庭; PHONE. 电话;ONLINE.线上',
+    `follow_date`                      datetime                               DEFAULT NULL COMMENT '随访日期',
+    `is_symptom_none`                  tinyint(1)                             DEFAULT NULL COMMENT '无症状',
+    `is_symptom_dizziness_headache`    tinyint(1)                             DEFAULT NULL COMMENT '头痛头晕',
+    `is_symptom_nausea_vomiting`       tinyint(1)                             DEFAULT NULL COMMENT '恶心呕吐',
+    `is_symptom_blurred_tinnitus`      tinyint(1)                             DEFAULT NULL COMMENT '眼花耳鸣',
+    `is_symptom_breathing`             tinyint(1)                             DEFAULT NULL COMMENT '呼吸困难',
+    `is_symptom_palpitations_toc`      tinyint(1)                             DEFAULT NULL COMMENT '心悸胸闷',
+    `is_symptom_nose_bleed`            tinyint(1)                             DEFAULT NULL COMMENT '鼻衄出血不止',
+    `is_symptom_numbness`              tinyint(1)                             DEFAULT NULL COMMENT '四肢发麻',
+    `is_symptom_lower_extremity_edema` tinyint(1)                             DEFAULT NULL COMMENT '下肢水肿',
+    `symptom_other`                    varchar(255)                           DEFAULT NULL COMMENT '其它',
+    `signs_sbp`                        double unsigned                        DEFAULT NULL COMMENT '血压 - 收缩压. 单位: mmHg',
+    `signs_dbp`                        double unsigned                        DEFAULT NULL COMMENT '血压 - 舒张压. 单位: mmHg',
+    `signs_height`                     double unsigned                        DEFAULT NULL COMMENT '身高. 单位: cm',
+    `signs_weight`                     double unsigned                        DEFAULT NULL COMMENT '体重. 单位: kg',
+    `signs_heart_rate`                 double unsigned                        DEFAULT NULL COMMENT '心率. 单位: 次/分钟',
+    `signs_bim`                        double unsigned                        DEFAULT NULL COMMENT '体质指数. 单位: kg/m²',
+    `signs_other`                      varchar(255)                           DEFAULT NULL COMMENT '体征 - 其他',
+    `life_cigarettes_per_day`          tinyint(3) unsigned                    DEFAULT NULL COMMENT '日吸烟量. 单位: 支',
+    `life_alcohol_per_day`             double unsigned                        DEFAULT NULL COMMENT '日饮酒量. 单位: 两',
+    `life_sport_per_week`              tinyint(3) unsigned                    DEFAULT NULL COMMENT '每周运动次数. 单位: 次',
+    `life_sport_per_time`              double unsigned                        DEFAULT NULL COMMENT '每次运动时间. 单位: 分钟',
+    `life_salt_situation`              varchar(255)                           DEFAULT NULL COMMENT '摄盐情况. LIGHT: 轻; MIDDLE: 中; DEEP: 重',
+    `life_mental_adjustment`           varchar(255)                           DEFAULT NULL COMMENT '心理调整. GOOD: 良好; ORDINARY: 一般; BAD: 差',
+    `life_follow_medical_advice`       varchar(255)                           DEFAULT NULL COMMENT '遵医行为. GOOD: 良好; ORDINARY: 一般; BAD: 差',
+    `abbreviations_about_examination`  varchar(255)                           DEFAULT NULL COMMENT '辅助检查',
+    `drug_compliance`                  varchar(255)                           DEFAULT NULL COMMENT '服药依从性. LAW: 规律; GAP: 间断; NO: 不服药',
+    `is_adr`                           tinyint(1)                             DEFAULT NULL COMMENT '有无药物不良反应',
+    `adr_desc`                         varchar(255)                           DEFAULT NULL COMMENT '药物不良反应描述',
+    `visit_class`                      varchar(255)                           DEFAULT NULL COMMENT '此次随访分类. SATISFACTORY: 控制满意; UNSATISFACTORY: 控制不满意; UNTOWARD_EFFECT: 不良反应; COMPLICATION: 并发症',
+    `is_referral`                      tinyint(1)                             DEFAULT NULL COMMENT '是否转诊',
+    `referral_reason`                  varchar(255)                           DEFAULT NULL COMMENT '转诊原因',
+    `referral_agencies`                varchar(255)                           DEFAULT NULL COMMENT '转诊机构及科别',
+    `next_visit`                       datetime                               DEFAULT NULL COMMENT '下次随访日期',
+    `created_by`                       bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `created_at`                       timestamp           NOT NULL           DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_by`                       bigint(20) unsigned NOT NULL COMMENT '更新人',
+    `updated_at`                       timestamp           NOT NULL           DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `recommend_weight`                 double unsigned                        DEFAULT NULL COMMENT '建议体重. 单位: kg',
+    `recommend_bim`                    double unsigned                        DEFAULT NULL COMMENT '建议体质指数',
+    `recommend_cigarettes_per`         tinyint(3) unsigned                    DEFAULT NULL COMMENT '建议日吸烟量',
+    `recommend_alcohol_per`            double unsigned                        DEFAULT NULL COMMENT '建议饮酒量',
+    `recommend_sport_per_week`         tinyint(3) unsigned                    DEFAULT NULL COMMENT '建议每周运动次数 单位: 次',
+    `recommend_sport_per_time`         double unsigned                        DEFAULT NULL COMMENT '建议每次运动时间. 单位: 分钟',
+    `recommend_salt_situation`         varchar(16) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '建议摄盐情况. LIGHT: 轻; MIDDLE: 中; DEEP: 重',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='脑卒中患者随访表';
+
+/* hs_cerebral_stroke_visit_drug */
+CREATE TABLE `hs_cerebral_stroke_visit_drug`
+(
+    `id`             bigint(20) unsigned NOT NULL,
+    `visit_id`       bigint(20) unsigned NOT NULL COMMENT '随访id',
+    `drug_name`      varchar(255)                 DEFAULT NULL COMMENT '药品名称',
+    `times_per_day`  tinyint(3) unsigned          DEFAULT NULL COMMENT '每日次数',
+    `units_per_time` varchar(255)                 DEFAULT NULL COMMENT '每次用量',
+    `created_by`     bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `created_at`     timestamp           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_by`     bigint(20) unsigned NOT NULL COMMENT '更新人',
+    `updated_at`     timestamp           NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='脑卒中随访药品表';
+
+/* hs_clinic_scheme */
+CREATE TABLE `hs_clinic_scheme`
+(
+    `kn_id`               bigint(20) unsigned NOT NULL COMMENT '主键',
+    `kn_suggest_date`     varchar(100)        NOT NULL COMMENT '就诊时间',
+    `kn_type`             varchar(100)        NOT NULL COMMENT '随诊类型',
+    `kn_suggest_hospital` varchar(200)        NOT NULL COMMENT '就诊医院',
+    `kn_reason`           varchar(255) DEFAULT '' COMMENT '就诊原因',
+    `kn_health_scheme_id` bigint(20) unsigned NOT NULL COMMENT '健康方案ID',
+    PRIMARY KEY (`kn_id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='就诊方案表';
+
+/* hs_copd_visit */
+CREATE TABLE `hs_copd_visit`
+(
+    `id`                               bigint(20) unsigned NOT NULL,
+    `patient_id`                       bigint(20) unsigned NOT NULL COMMENT '患者id',
+    `patient_name`                     varchar(255)        NOT NULL COMMENT '患者姓名(手录)',
+    `doctor_id`                        bigint(20) unsigned                    DEFAULT NULL COMMENT '随访医生id',
+    `doctor_name`                      varchar(255)                           DEFAULT NULL COMMENT '随访医生姓名(手录)',
+    `follow_way`                       varchar(16) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '随访方式. SELF. 患者自填. OUTPATIENT. 门诊; FAMILY. 家庭; PHONE. 电话;ONLINE.线上',
+    `follow_date`                      datetime                               DEFAULT NULL COMMENT '随访日期',
+    `is_symptom_none`                  tinyint(1)                             DEFAULT NULL COMMENT '无症状',
+    `is_symptom_dizziness_headache`    tinyint(1)                             DEFAULT NULL COMMENT '头痛头晕',
+    `is_symptom_nausea_vomiting`       tinyint(1)                             DEFAULT NULL COMMENT '恶心呕吐',
+    `is_symptom_blurred_tinnitus`      tinyint(1)                             DEFAULT NULL COMMENT '眼花耳鸣',
+    `is_symptom_breathing`             tinyint(1)                             DEFAULT NULL COMMENT '呼吸困难',
+    `is_symptom_palpitations_toc`      tinyint(1)                             DEFAULT NULL COMMENT '心悸胸闷',
+    `is_symptom_nose_bleed`            tinyint(1)                             DEFAULT NULL COMMENT '鼻衄出血不止',
+    `is_symptom_numbness`              tinyint(1)                             DEFAULT NULL COMMENT '四肢发麻',
+    `is_symptom_lower_extremity_edema` tinyint(1)                             DEFAULT NULL COMMENT '下肢水肿',
+    `symptom_other`                    varchar(255)                           DEFAULT NULL COMMENT '其它',
+    `signs_sbp`                        double unsigned                        DEFAULT NULL COMMENT '血压 - 收缩压. 单位: mmHg',
+    `signs_dbp`                        double unsigned                        DEFAULT NULL COMMENT '血压 - 舒张压. 单位: mmHg',
+    `signs_height`                     double unsigned                        DEFAULT NULL COMMENT '身高. 单位: cm',
+    `signs_weight`                     double unsigned                        DEFAULT NULL COMMENT '体重. 单位: kg',
+    `signs_heart_rate`                 double unsigned                        DEFAULT NULL COMMENT '心率. 单位: 次/分钟',
+    `signs_bim`                        double unsigned                        DEFAULT NULL COMMENT '体质指数. 单位: kg/m²',
+    `signs_other`                      varchar(255)                           DEFAULT NULL COMMENT '体征 - 其他',
+    `life_cigarettes_per_day`          tinyint(3) unsigned                    DEFAULT NULL COMMENT '日吸烟量. 单位: 支',
+    `life_alcohol_per_day`             double unsigned                        DEFAULT NULL COMMENT '日饮酒量. 单位: 两',
+    `life_sport_per_week`              tinyint(3) unsigned                    DEFAULT NULL COMMENT '每周运动次数. 单位: 次',
+    `life_sport_per_time`              double unsigned                        DEFAULT NULL COMMENT '每次运动时间. 单位: 分钟',
+    `life_salt_situation`              varchar(255)                           DEFAULT NULL COMMENT '摄盐情况. LIGHT: 轻; MIDDLE: 中; DEEP: 重',
+    `life_mental_adjustment`           varchar(255)                           DEFAULT NULL COMMENT '心理调整. GOOD: 良好; ORDINARY: 一般; BAD: 差',
+    `life_follow_medical_advice`       varchar(255)                           DEFAULT NULL COMMENT '遵医行为. GOOD: 良好; ORDINARY: 一般; BAD: 差',
+    `abbreviations_about_examination`  varchar(255)                           DEFAULT NULL COMMENT '辅助检查',
+    `drug_compliance`                  varchar(255)                           DEFAULT NULL COMMENT '服药依从性. LAW: 规律; GAP: 间断; NO: 不服药',
+    `is_adr`                           tinyint(1)                             DEFAULT NULL COMMENT '有无药物不良反应',
+    `adr_desc`                         varchar(255)                           DEFAULT NULL COMMENT '药物不良反应描述',
+    `visit_class`                      varchar(255)                           DEFAULT NULL COMMENT '此次随访分类. SATISFACTORY: 控制满意; UNSATISFACTORY: 控制不满意; UNTOWARD_EFFECT: 不良反应; COMPLICATION: 并发症',
+    `is_referral`                      tinyint(1)                             DEFAULT NULL COMMENT '是否转诊',
+    `referral_reason`                  varchar(255)                           DEFAULT NULL COMMENT '转诊原因',
+    `referral_agencies`                varchar(255)                           DEFAULT NULL COMMENT '转诊机构及科别',
+    `next_visit`                       datetime                               DEFAULT NULL COMMENT '下次随访日期',
+    `created_by`                       bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `created_at`                       timestamp           NOT NULL           DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_by`                       bigint(20) unsigned NOT NULL COMMENT '更新人',
+    `updated_at`                       timestamp           NOT NULL           DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `recommend_weight`                 double unsigned                        DEFAULT NULL COMMENT '建议体重. 单位: kg',
+    `recommend_bim`                    double unsigned                        DEFAULT NULL COMMENT '建议体质指数',
+    `recommend_cigarettes_per`         tinyint(3) unsigned                    DEFAULT NULL COMMENT '建议日吸烟量',
+    `recommend_alcohol_per`            double unsigned                        DEFAULT NULL COMMENT '建议饮酒量',
+    `recommend_sport_per_week`         tinyint(3) unsigned                    DEFAULT NULL COMMENT '建议每周运动次数 单位: 次',
+    `recommend_sport_per_time`         double unsigned                        DEFAULT NULL COMMENT '建议每次运动时间. 单位: 分钟',
+    `recommend_salt_situation`         varchar(16) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '建议摄盐情况. LIGHT: 轻; MIDDLE: 中; DEEP: 重',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='慢阻肺患者随访表';
+
+/* hs_copd_visit_drug */
+CREATE TABLE `hs_copd_visit_drug`
+(
+    `id`             bigint(20) unsigned NOT NULL,
+    `visit_id`       bigint(20) unsigned NOT NULL COMMENT '随访id',
+    `drug_name`      varchar(255)                 DEFAULT NULL COMMENT '药品名称',
+    `times_per_day`  tinyint(3) unsigned          DEFAULT NULL COMMENT '每日次数',
+    `units_per_time` varchar(255)                 DEFAULT NULL COMMENT '每次用量',
+    `created_by`     bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `created_at`     timestamp           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_by`     bigint(20) unsigned NOT NULL COMMENT '更新人',
+    `updated_at`     timestamp           NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='慢阻肺随访药品表';
+
+/* hs_current_health_scheme_info */
+CREATE TABLE `hs_current_health_scheme_info`
+(
+    `kn_id`         bigint(20) unsigned NOT NULL COMMENT '主键ID',
+    `kn_doctor_id`  bigint(20) unsigned NOT NULL COMMENT '医生ID',
+    `kn_patient_id` bigint(20) unsigned NOT NULL COMMENT '患者ID',
+    `kn_scheme_id`  bigint(20) unsigned NOT NULL COMMENT '健康方案ID',
+    PRIMARY KEY (`kn_id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='当前健康方案表';
+
+/* hs_drug_scheme */
+CREATE TABLE `hs_drug_scheme`
+(
+    `kn_id`               bigint(20) unsigned NOT NULL COMMENT '主键',
+    `kn_drug_name`        varchar(100)        NOT NULL COMMENT '药品名称',
+    `kn_product_name`     varchar(100)        NOT NULL COMMENT '商品名称',
+    `kn_frequency`        varchar(50)         NOT NULL COMMENT '每日频次',
+    `kn_dosage`           varchar(50)         NOT NULL COMMENT '剂量',
+    `kn_reason`           varchar(255) DEFAULT '' COMMENT '备注',
+    `kn_health_scheme_id` bigint(20) unsigned NOT NULL COMMENT '健康方案ID',
+    PRIMARY KEY (`kn_id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='药品方案表';
+
+/* hs_food_scheme */
+CREATE TABLE `hs_food_scheme`
+(
+    `kn_id`               bigint(20) unsigned NOT NULL COMMENT '主键',
+    `kn_descriptions`     longtext            NOT NULL COMMENT '饮食建议',
+    `kn_reason`           varchar(255) DEFAULT '' COMMENT '备注',
+    `kn_health_scheme_id` bigint(20) unsigned NOT NULL COMMENT '健康方案ID',
+    PRIMARY KEY (`kn_id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='饮食方案表';
+
+/* hs_health_scheme_info */
+CREATE TABLE `hs_health_scheme_info`
+(
+    `kn_id`           bigint(20) unsigned NOT NULL COMMENT '唯一主键',
+    `kn_create_by`    bigint(20) unsigned NOT NULL COMMENT '创建人ID',
+    `kn_created_at`   datetime(3)         NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+    `kn_patient_id`   bigint(20) unsigned NOT NULL COMMENT '患者ID',
+    `kn_patient_name` varchar(50)         NOT NULL COMMENT '患者名称',
+    `kn_doctor_id`    bigint(20) unsigned NOT NULL COMMENT '医生ID',
+    `kn_doctor_name`  varchar(50)         NOT NULL COMMENT '医生名称',
+    `kn_status`       tinyint(1)          NOT NULL COMMENT '是否发送至患者端（0：否，1：是）',
+    PRIMARY KEY (`kn_id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='健康方案主表';
+
+/* hs_health_scheme_management_info */
+CREATE TABLE `hs_health_scheme_management_info`
+(
+    `kn_id`                 bigint(20) unsigned NOT NULL COMMENT '主键ID',
+    `kn_management_stage`   varchar(255)                 DEFAULT NULL COMMENT '初始监测阶段:INITIAL_STAGE，短期稳定阶段:STABLE_STAGE，中期稳定阶段:METAPHASE_STABLE_STAGE，长期稳定阶段：SECULAR_STABLE_STAGE）',
+    `kn_start_date`         date                         DEFAULT NULL COMMENT '阶段开始时间',
+    `kn_end_date`           date                         DEFAULT NULL COMMENT '阶段结束时间',
+    `kn_report_output_date` date                         DEFAULT NULL COMMENT '阶段性报告输出时间',
+    `kn_created_by`         bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `kn_created_at`         datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `is_del`                tinyint(1)          NOT NULL DEFAULT '0' COMMENT '删除状态 （1-是，0-否）',
+    `kn_patient_id`         bigint(20) unsigned NOT NULL COMMENT '患者ID',
+    `kn_job_id`             int(11)                      DEFAULT NULL COMMENT '任务id',
+    `kn_health_manage_type` varchar(255)        NOT NULL COMMENT '健康方案类型 SYNTHETIC-综合健康方案，HYPERTENSION-高血压健康方案',
+    `kn_disease_exists_tag` varchar(255)        NOT NULL COMMENT '健康方案病种患者标签,多个逗号隔开  HYPERTENSION-高血压 DIABETES-糖尿病 ACUTE_CORONARY_DISEASE-冠心病 CEREBRAL_STROKE-脑卒中 COPD-慢阻肺',
+    PRIMARY KEY (`kn_id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='健康方案管理表(个性化)';
+
+/* hs_hsm_health_plan */
+CREATE TABLE `hs_hsm_health_plan`
+(
+    `kn_id`                   bigint(20) unsigned NOT NULL COMMENT '主键ID',
+    `kn_plan_type`            varchar(255)        NOT NULL COMMENT '计划类型（BLOOD_PRESSURE_MEASUREMENT: 测血压,SCIENCE_POPULARIZATION_PLAN: 科普计划,EXERCISE_PROGRAM: 运动方案,EXERCISE_PROGRAM_NOT_EVALUATED: 未进行评估(运动计划),EXERCISE_PROGRAM_ADJUSTMENT_REMIND: 运动调整提醒(运动计划),FASTING_BLOOD_GLUCOSE: 空腹血糖,MEAL_TWO_HOUR_RANDOM_BLOOD_GLUCOSE: 餐后2h/随机血糖,DIET_PLAN: 饮食计划,BEHAVIOR_VISIT: 行为习惯随访(线上随访),HYPERTENSION_VISIT: 高血压随访(线上随访),ONLINE_DIABETES: 糖尿病(线上随访),ONLINE_ACUTE_CORONARY_DISEASE: 冠心病(线上随访),ONLINE_CEREBRAL_STROKE: 脑卒中(线上随访),ONLINE_COPD: 慢阻肺(线上随访),OFFLINE_HYPERTENSION: 高血压(线下随访),OFFLINE_DIABETES: 糖尿病(线下随访),OFFLINE_ACUTE_CORONARY_DISEASE: 冠心病(线下随访),OFFLINE_CEREBRAL_STROKE: 脑卒中(线下随访),OFFLINE_COPD: 慢阻肺(线下随访)）',
+    `kn_start_date`           datetime            NOT NULL COMMENT '开始时间',
+    `kn_end_date`             datetime                     DEFAULT NULL COMMENT '结束时间',
+    `kn_scheme_management_id` bigint(20) unsigned NOT NULL COMMENT '健康管理方案ID',
+    `kn_foreign_plan_id`      bigint(20) unsigned NOT NULL COMMENT '健康计划ID',
+    `is_del`                  tinyint(1)          NOT NULL DEFAULT '0' COMMENT '删除状态 （1-是，0-否）',
+    `kn_job_id`               int(11)                      DEFAULT NULL COMMENT '任务id',
+    PRIMARY KEY (`kn_id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='健康计划表';
+
+/* hs_htn_visit */
+CREATE TABLE `hs_htn_visit`
+(
+    `id`                               bigint(20) unsigned NOT NULL,
+    `patient_id`                       bigint(20) unsigned NOT NULL COMMENT '患者id',
+    `patient_name`                     varchar(255)        NOT NULL COMMENT '患者姓名(手录)',
+    `doctor_id`                        bigint(20) unsigned                    DEFAULT NULL COMMENT '随访医生id',
+    `doctor_name`                      varchar(255)                           DEFAULT NULL COMMENT '随访医生姓名(手录)',
+    `follow_way`                       varchar(16) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '随访方式. SELF. 患者自填. OUTPATIENT. 门诊; FAMILY. 家庭; PHONE. 电话;ONLINE.线上',
+    `follow_date`                      datetime                               DEFAULT NULL COMMENT '随访日期',
+    `is_symptom_none`                  tinyint(1)                             DEFAULT NULL COMMENT '无症状',
+    `is_symptom_dizziness_headache`    tinyint(1)                             DEFAULT NULL COMMENT '头痛头晕',
+    `is_symptom_nausea_vomiting`       tinyint(1)                             DEFAULT NULL COMMENT '恶心呕吐',
+    `is_symptom_blurred_tinnitus`      tinyint(1)                             DEFAULT NULL COMMENT '眼花耳鸣',
+    `is_symptom_breathing`             tinyint(1)                             DEFAULT NULL COMMENT '呼吸困难',
+    `is_symptom_palpitations_toc`      tinyint(1)                             DEFAULT NULL COMMENT '心悸胸闷',
+    `is_symptom_nose_bleed`            tinyint(1)                             DEFAULT NULL COMMENT '鼻衄出血不止',
+    `is_symptom_numbness`              tinyint(1)                             DEFAULT NULL COMMENT '四肢发麻',
+    `is_symptom_lower_extremity_edema` tinyint(1)                             DEFAULT NULL COMMENT '下肢水肿',
+    `symptom_other`                    varchar(255)                           DEFAULT NULL COMMENT '其它',
+    `signs_sbp`                        double unsigned                        DEFAULT NULL COMMENT '血压 - 收缩压. 单位: mmHg',
+    `signs_dbp`                        double unsigned                        DEFAULT NULL COMMENT '血压 - 舒张压. 单位: mmHg',
+    `signs_height`                     double unsigned                        DEFAULT NULL COMMENT '身高. 单位: cm',
+    `signs_weight`                     double unsigned                        DEFAULT NULL COMMENT '体重. 单位: kg',
+    `signs_heart_rate`                 double unsigned                        DEFAULT NULL COMMENT '心率. 单位: 次/分钟',
+    `signs_bim`                        double unsigned                        DEFAULT NULL COMMENT '体质指数. 单位: kg/m²',
+    `signs_other`                      varchar(255)                           DEFAULT NULL COMMENT '体征 - 其他',
+    `life_cigarettes_per_day`          tinyint(3) unsigned                    DEFAULT NULL COMMENT '日吸烟量. 单位: 支',
+    `life_alcohol_per_day`             double unsigned                        DEFAULT NULL COMMENT '日饮酒量. 单位: 两',
+    `life_sport_per_week`              tinyint(3) unsigned                    DEFAULT NULL COMMENT '每周运动次数. 单位: 次',
+    `life_sport_per_time`              double unsigned                        DEFAULT NULL COMMENT '每次运动时间. 单位: 分钟',
+    `life_salt_situation`              varchar(255)                           DEFAULT NULL COMMENT '摄盐情况. LIGHT: 轻; MIDDLE: 中; DEEP: 重',
+    `life_mental_adjustment`           varchar(255)                           DEFAULT NULL COMMENT '心理调整. GOOD: 良好; ORDINARY: 一般; BAD: 差',
+    `life_follow_medical_advice`       varchar(255)                           DEFAULT NULL COMMENT '遵医行为. GOOD: 良好; ORDINARY: 一般; BAD: 差',
+    `abbreviations_about_examination`  varchar(255)                           DEFAULT NULL COMMENT '辅助检查',
+    `drug_compliance`                  varchar(255)                           DEFAULT NULL COMMENT '服药依从性. LAW: 规律; GAP: 间断; NO: 不服药',
+    `is_adr`                           tinyint(1)                             DEFAULT NULL COMMENT '有无药物不良反应',
+    `adr_desc`                         varchar(255)                           DEFAULT NULL COMMENT '药物不良反应描述',
+    `visit_class`                      varchar(255)                           DEFAULT NULL COMMENT '此次随访分类. SATISFACTORY: 控制满意; UNSATISFACTORY: 控制不满意; UNTOWARD_EFFECT: 不良反应; COMPLICATION: 并发症',
+    `is_referral`                      tinyint(1)                             DEFAULT NULL COMMENT '是否转诊',
+    `referral_reason`                  varchar(255)                           DEFAULT NULL COMMENT '转诊原因',
+    `referral_agencies`                varchar(255)                           DEFAULT NULL COMMENT '转诊机构及科别',
+    `next_visit`                       datetime                               DEFAULT NULL COMMENT '下次随访日期',
+    `created_by`                       bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `created_at`                       timestamp           NOT NULL           DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_by`                       bigint(20) unsigned NOT NULL COMMENT '更新人',
+    `updated_at`                       timestamp           NOT NULL           DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `recommend_weight`                 double unsigned                        DEFAULT NULL COMMENT '建议体重. 单位: kg',
+    `recommend_bim`                    double unsigned                        DEFAULT NULL COMMENT '建议体质指数',
+    `recommend_cigarettes_per`         tinyint(3) unsigned                    DEFAULT NULL COMMENT '建议日吸烟量',
+    `recommend_alcohol_per`            double unsigned                        DEFAULT NULL COMMENT '建议饮酒量',
+    `recommend_sport_per_week`         tinyint(3) unsigned                    DEFAULT NULL COMMENT '建议每周运动次数 单位: 次',
+    `recommend_sport_per_time`         double unsigned                        DEFAULT NULL COMMENT '建议每次运动时间. 单位: 分钟',
+    `recommend_salt_situation`         varchar(16) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '建议摄盐情况. LIGHT: 轻; MIDDLE: 中; DEEP: 重',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='高血压患者随访表';
+
+/* hs_htn_visit_drug */
+CREATE TABLE `hs_htn_visit_drug`
+(
+    `id`             bigint(20) unsigned NOT NULL,
+    `visit_id`       bigint(20) unsigned NOT NULL COMMENT '随访id',
+    `drug_name`      varchar(255)                 DEFAULT NULL COMMENT '药品名称',
+    `times_per_day`  tinyint(3) unsigned          DEFAULT NULL COMMENT '每日次数',
+    `units_per_time` varchar(255)                 DEFAULT NULL COMMENT '每次用量',
+    `created_by`     bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `created_at`     timestamp           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_by`     bigint(20) unsigned NOT NULL COMMENT '更新人',
+    `updated_at`     timestamp           NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='高血压随访药品表';
+
+/* hs_other_scheme */
+CREATE TABLE `hs_other_scheme`
+(
+    `kn_id`               bigint(20) unsigned NOT NULL COMMENT '主键',
+    `kn_descriptions`     varchar(255)        NOT NULL COMMENT '其它建议',
+    `kn_reason`           varchar(255) DEFAULT '' COMMENT '备注',
+    `kn_health_scheme_id` bigint(20) unsigned NOT NULL COMMENT '健康方案ID',
+    PRIMARY KEY (`kn_id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='其它方案表';
+
+/* hs_sport_scheme */
+CREATE TABLE `hs_sport_scheme`
+(
+    `kn_id`               bigint(20) unsigned NOT NULL COMMENT '主键',
+    `kn_types`            varchar(100)        NOT NULL COMMENT '运动种类',
+    `kn_formal`           varchar(100)        NOT NULL COMMENT '运动形式',
+    `kn_frequency`        varchar(50)         NOT NULL COMMENT '运动频次(NO_RECOMMEND:不推荐；ONCE_A_WEEK:每周1次；TWICE_A_WEEK:每周两次；THREE_TIMES_A_WEEK:每周三次；FOUR_TIMES_A_WEEK:每周四次；FIVE_TIMES_A_WEEK:每周5次；SIX_TIMES_A_WEEK:每周6次；SEVEN_TIMES_A_WEEK:每周7次；NEUROMOTOR_MEDICAL_ADVICE:遵医嘱执行)',
+    `kn_duration`         varchar(100)        NOT NULL COMMENT '运动持续时间',
+    `kn_degree`           varchar(255)        NOT NULL COMMENT '运动强度',
+    `kn_reason`           varchar(255) DEFAULT '' COMMENT '备注',
+    `kn_health_scheme_id` bigint(20) unsigned NOT NULL COMMENT '健康方案ID',
+    PRIMARY KEY (`kn_id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='运动方案表';
+
+/* hs_stage_report */
+CREATE TABLE `hs_stage_report`
+(
+    `id`                               bigint(20) unsigned NOT NULL,
+    `health_scheme_management_info_id` bigint(20) unsigned NOT NULL COMMENT '健康方案管理信息id',
+    `patient_id`                       bigint(20) unsigned NOT NULL COMMENT '患者id',
+    `patient_name`                     varchar(50)         NOT NULL COMMENT '患者姓名',
+    `report_name`                      varchar(50)         NOT NULL COMMENT '报告名称',
+    `report_score`                     decimal(5, 2)                DEFAULT NULL COMMENT '报告得分',
+    `report_start_datetime`            datetime            NOT NULL COMMENT '报告开始时间',
+    `report_end_datetime`              datetime            NOT NULL COMMENT '报告截止时间',
+    `created_by`                       bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `created_at`                       datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='阶段性报告';
+
+/* hs_stage_statistics */
+CREATE TABLE `hs_stage_statistics`
+(
+    `id`                                                bigint(20) unsigned NOT NULL,
+    `stage_report_id`                                   bigint(20) unsigned NOT NULL COMMENT '阶段性报告id',
+    `actual_measure_number`                             int(11)             NOT NULL COMMENT '本次测量次数',
+    `standard_measure_number`                           int(11)             NOT NULL COMMENT '本次达标测量次数',
+    `systolic_blood_pressure_avg`                       decimal(5, 2)       NOT NULL COMMENT '本次收缩压平均值',
+    `diastolic_blood_pressure_avg`                      decimal(5, 2)       NOT NULL COMMENT '本次舒张压平均值',
+    `systolic_blood_pressure_standard_deviation`        decimal(5, 2)       NOT NULL COMMENT '本次收缩压标准差',
+    `diastolic_blood_pressure_standard_deviation`       decimal(5, 2)       NOT NULL COMMENT '本次舒张压标准差',
+    `is_blood_pressure_avg_standard`                    tinyint(1)          NOT NULL COMMENT '血压平均值是否达标',
+    `actual_measure_number_deviation_value`             int(11)                      DEFAULT NULL COMMENT '本次测量(上传)次数与上次测量(上传)次数的差',
+    `standard_measure_number_deviation_value`           int(11)                      DEFAULT NULL COMMENT '本次达标次数与上次达标次数的差',
+    `systolic_blood_pressure_avg_deviation_value`       decimal(5, 2)                DEFAULT NULL COMMENT '本次收缩压平均值与上次收缩压平均值的差值',
+    `diastolic_blood_pressure_avg_deviation_value`      decimal(5, 2)                DEFAULT NULL COMMENT '本次舒张压平均值与上次舒张压平均值的差值',
+    `systolic_blood_pressure_standard_deviation_value`  decimal(5, 2)                DEFAULT NULL COMMENT '本次收缩压标准差与上次收缩压标准差的差值',
+    `diastolic_blood_pressure_standard_deviation_value` decimal(5, 2)                DEFAULT NULL COMMENT '本次舒张压标准差与上次舒张压标准差的差值',
+    `score_deviation_value`                             decimal(5, 2)                DEFAULT NULL COMMENT '本次报告得分与上次报告得分的差值',
+    `created_by`                                        bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `created_at`                                        datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='阶段性统计';
+
+/* hs_stage_statistics_detail */
+CREATE TABLE `hs_stage_statistics_detail`
+(
+    `id`                              bigint(20) unsigned NOT NULL,
+    `stage_report_id`                 bigint(20) unsigned NOT NULL COMMENT '阶段性报告id',
+    `systolic_blood_pressure`         decimal(5, 2)       NOT NULL COMMENT '收缩压',
+    `diastolic_blood_pressure`        decimal(5, 2)       NOT NULL COMMENT '舒张压',
+    `is_systolic_blood_pressure_max`  tinyint(1)          NOT NULL COMMENT '是否是收缩压最大值',
+    `is_diastolic_blood_pressure_max` tinyint(1)          NOT NULL COMMENT '是否是舒张压最大值',
+    `measure_datetime`                datetime            NOT NULL COMMENT '测量时间',
+    `created_by`                      bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `created_at`                      datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='阶段性统计明细';
+
+/* hs_t2dm_visit */
+CREATE TABLE `hs_t2dm_visit`
+(
+    `id`                               bigint(20) unsigned NOT NULL,
+    `patient_id`                       bigint(20) unsigned NOT NULL COMMENT '患者id',
+    `patient_name`                     varchar(255)        NOT NULL COMMENT '患者姓名(手录)',
+    `doctor_id`                        bigint(20) unsigned                    DEFAULT NULL COMMENT '随访医生id',
+    `doctor_name`                      varchar(255)                           DEFAULT NULL COMMENT '随访医生姓名(手录)',
+    `follow_way`                       varchar(16) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '随访方式. SELF. 患者自填. OUTPATIENT. 门诊; FAMILY. 家庭; PHONE. 电话;ONLINE.线上',
+    `follow_date`                      datetime                               DEFAULT NULL COMMENT '随访日期.',
+    `is_symptom_none`                  tinyint(1)                             DEFAULT NULL COMMENT '无症状',
+    `is_symptom_drink`                 tinyint(1)                             DEFAULT NULL COMMENT '多饮',
+    `is_symptom_eat`                   tinyint(1)                             DEFAULT NULL COMMENT '多食',
+    `is_symptom_diuresis`              tinyint(1)                             DEFAULT NULL COMMENT '多尿',
+    `is_symptom_blurred`               tinyint(1)                             DEFAULT NULL COMMENT '视力模糊',
+    `is_symptom_infection`             tinyint(1)                             DEFAULT NULL COMMENT '感染',
+    `is_symptom_hand_feet_numbness`    tinyint(1)                             DEFAULT NULL COMMENT '手脚麻木',
+    `is_symptom_lower_extremity_edema` tinyint(1)                             DEFAULT NULL COMMENT '下肢浮肿',
+    `is_symptom_weight_loss_diagnosed` tinyint(1)                             DEFAULT NULL COMMENT '体重明显下降',
+    `symptom_other`                    varchar(255)                           DEFAULT NULL COMMENT '其它',
+    `signs_sbp`                        double unsigned                        DEFAULT NULL COMMENT '血压 - 收缩压. 单位: mmHg',
+    `signs_dbp`                        double unsigned                        DEFAULT NULL COMMENT '血压 - 舒张压. 单位: mmHg',
+    `signs_height`                     double unsigned                        DEFAULT NULL COMMENT '身高. 单位: cm',
+    `signs_weight`                     double unsigned                        DEFAULT NULL COMMENT '体重. 单位: kg',
+    `signs_bim`                        double unsigned                        DEFAULT NULL COMMENT '体质指数. 单位: kg/m²',
+    `is_signs_adp_normal`              tinyint(1)                             DEFAULT NULL COMMENT '足背动脉搏动: 触及正常',
+    `is_signs_adp_recede`              tinyint(1)                             DEFAULT NULL COMMENT '足背动脉搏动: 减弱-双侧',
+    `is_signs_adp_recede_left`         tinyint(1)                             DEFAULT NULL COMMENT '足背动脉搏动: 减弱-左侧',
+    `is_signs_adp_recede_right`        tinyint(1)                             DEFAULT NULL COMMENT '足背动脉搏动: 减弱-右侧',
+    `is_signs_adp_vanish`              tinyint(1)                             DEFAULT NULL COMMENT '足背动脉搏动: 消失-双侧',
+    `is_signs_adp_vanish_left`         tinyint(1)                             DEFAULT NULL COMMENT '足背动脉搏动: 消失-左侧',
+    `is_signs_adp_vanish_right`        tinyint(1)                             DEFAULT NULL COMMENT '足背动脉搏动: 消失-右侧',
+    `signs_other`                      varchar(255)                           DEFAULT NULL COMMENT '体征 - 其他',
+    `life_cigarettes_per_day`          tinyint(3) unsigned                    DEFAULT NULL COMMENT '日吸烟量. 单位: 支',
+    `life_alcohol_per_day`             double unsigned                        DEFAULT NULL COMMENT '日饮酒量. 单位: 两',
+    `life_sport_per_week`              double unsigned                        DEFAULT NULL COMMENT '每周运动次数. 单位: 次',
+    `life_sport_per_time`              double unsigned                        DEFAULT NULL COMMENT '每次运动时间. 单位: 分钟',
+    `life_food_situation`              double unsigned                        DEFAULT NULL COMMENT '主食. 单位: 克/天',
+    `life_mental_adjustment`           varchar(255)                           DEFAULT NULL COMMENT '心理调整. GOOD: 良好; ORDINARY: 一般; BAD: 差',
+    `life_follow_medical_advice`       varchar(255)                           DEFAULT NULL COMMENT '遵医行为. GOOD: 良好; ORDINARY: 一般; BAD: 差',
+    `glu`                              double                                 DEFAULT NULL COMMENT '空腹血糖. 单位: mmol/L',
+    `HbA1c`                            double                                 DEFAULT NULL COMMENT '糖化血糖蛋白值. 单位: %',
+    `HbA1c_date`                       datetime                               DEFAULT NULL COMMENT '糖化血糖蛋白检查日期',
+    `assist_other`                     varchar(255)                           DEFAULT NULL COMMENT '辅助检查其他检查',
+    `drug_compliance`                  varchar(255)                           DEFAULT NULL COMMENT '服药依从性. LAW: 规律; GAP: 间断; NO: 不服药',
+    `is_adr`                           tinyint(1)                             DEFAULT NULL COMMENT '有无药物不良反应',
+    `adr_desc`                         varchar(255)                           DEFAULT NULL COMMENT '药物不良反应描述',
+    `rhg`                              varchar(255)                           DEFAULT NULL COMMENT '低血糖反应. NO: 无; OCCASIONALLY: 偶尔; FREQUENTLY: 频繁',
+    `visit_class`                      varchar(255)                           DEFAULT NULL COMMENT '此次随访分类. SATISFACTORY: 控制满意; UNSATISFACTORY: 控制不满意; UNTOWARD_EFFECT: 不良反应; COMPLICATION: 并发症',
+    `insulin_name`                     varchar(255)                           DEFAULT NULL COMMENT '胰岛素名称',
+    `insulin_desc`                     varchar(255)                           DEFAULT NULL COMMENT '胰岛素用法用量',
+    `is_has_referral`                  tinyint(1)                             DEFAULT NULL COMMENT '是否转诊',
+    `referral_reason`                  varchar(255)                           DEFAULT NULL COMMENT '转诊原因',
+    `referral_agencies`                varchar(255)                           DEFAULT NULL COMMENT '转诊机构及科别',
+    `next_visit`                       datetime            NOT NULL COMMENT '下次随访日期',
+    `created_by`                       bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `created_at`                       timestamp           NOT NULL           DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_by`                       bigint(20) unsigned NOT NULL COMMENT '更新人',
+    `updated_at`                       timestamp           NOT NULL           DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `recommend_weight`                 double unsigned                        DEFAULT NULL COMMENT '建议体重. 单位: kg',
+    `recommend_bim`                    double unsigned                        DEFAULT NULL COMMENT '建议体质指数',
+    `recommend_cigarettes_per`         tinyint(3) unsigned                    DEFAULT NULL COMMENT '建议日吸烟量',
+    `recommend_alcohol_per`            double unsigned                        DEFAULT NULL COMMENT '建议饮酒量',
+    `recommend_sport_per_week`         tinyint(3) unsigned                    DEFAULT NULL COMMENT '建议每周运动次数 单位: 次',
+    `recommend_sport_per_time`         double unsigned                        DEFAULT NULL COMMENT '建议每次运动时间. 单位: 分钟',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='2型糖尿病随访表';
+
+/* hs_t2dm_visit_drug */
+CREATE TABLE `hs_t2dm_visit_drug`
+(
+    `id`             bigint(20) unsigned NOT NULL,
+    `visit_id`       bigint(20) unsigned NOT NULL COMMENT '随访id',
+    `drug_name`      varchar(255)                 DEFAULT NULL COMMENT '药品名称',
+    `times_per_day`  tinyint(3) unsigned          DEFAULT NULL COMMENT '每日次数',
+    `units_per_time` varchar(255)                 DEFAULT NULL COMMENT '每次用量',
+    `created_by`     bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `created_at`     timestamp           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_by`     bigint(20) unsigned NOT NULL COMMENT '更新人',
+    `updated_at`     timestamp           NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='2型糖尿病随访药品表';

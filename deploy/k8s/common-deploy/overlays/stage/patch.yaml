@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: hmp-server-gateway
+spec:
+  servers:
+    - name: hmp-server
+      port:
+        name: http-server
+        number: 80
+        protocol: HTTP
+      hosts:
+        - "stage/hmp-api-stage.gate.bjknrt.com"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: hmp-server-vs
+spec:
+  hosts:
+    - "hmp-api-stage.gate.bjknrt.com"

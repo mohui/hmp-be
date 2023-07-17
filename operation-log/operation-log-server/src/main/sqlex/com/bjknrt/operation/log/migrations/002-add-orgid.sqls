@@ -1,0 +1,2 @@
+-- 数据库Schema描述文件, 执行DDL操作
+ALTER TABLE `ol_operator_log` ADD COLUMN `kn_org_id` BIGINT UNSIGNED NULL COMMENT '机构ID'

@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS medication_guide_monograph_content
+(
+    kn_monograph_id    BIGINT      NOT NULL COMMENT '说明书id',
+    kn_section_id      bigint      NOT NULL COMMENT '节点id',
+    kn_section_content longtext    NOT NULL COMMENT '节点内容',
+    kn_created_at      DATETIME(3) NOT NULL DEFAULT current_timestamp(3) COMMENT '创建时间',
+    constraint pk_medication_guide_monograph_content primary key (kn_monograph_id, kn_section_id)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4 COMMENT ='用药指导-药品说明书内容';

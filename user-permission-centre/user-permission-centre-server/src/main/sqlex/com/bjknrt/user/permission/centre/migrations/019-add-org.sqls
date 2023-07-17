@@ -1,0 +1,3 @@
+-- 新增松山湖虚拟社区机构
+INSERT INTO upcs_org (kn_created_by, kn_updated_by, kn_id, kn_name, kn_sort, kn_region_code)
+VALUES (0, 0, 215, '松山湖社区卫生服务中心', 100, '441900401000');

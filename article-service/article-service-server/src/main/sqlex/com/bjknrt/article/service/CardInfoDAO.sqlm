@@ -1,0 +1,73 @@
+import java.util.Date
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.math.BigInteger
+
+pageCard*(cardTitle:String, articleTag:String*, startCreatedAt:LocalDateTime,endCreatedAt:LocalDateTime, status:String) {
+    select aci.*
+    from as_card_info aci
+    where aci.is_del = 0
+
+      and (
+            :cardTitle is null
+            or (aci.kn_card_title like concat('%', :cardTitle, '%'))
+        )
+
+      and (
+            :articleTag is null
+            or (aci.kn_id in (select tag.kn_article_info_id
+                              from as_article_tag_info tag
+                              where tag.is_del = false
+                                and tag.kn_tag in (:articleTag))
+                )
+        )
+      and (
+            :startCreatedAt is null
+            or (aci.kn_created_at >= :startCreatedAt)
+        )
+
+      and (
+            :endCreatedAt is null
+            or (aci.kn_created_at < :endCreatedAt)
+        )
+
+      and (
+            :status is null
+            or (aci.kn_status = :status)
+        )
+    order by aci.kn_created_at desc
+}
+
+pageArticleAndCard*(title:String) {
+    select aci.kn_id, aci.kn_card_title, aci.kn_relation_article_id
+    from as_card_info aci
+    where aci.is_del = 0
+      and (
+            :title is null
+            or (aci.kn_card_title like concat('%', :title, '%'))
+        )
+
+    union
+
+    select aai.kn_id, aai.kn_article_title, null
+    from as_article_info aai
+    where aai.is_del = 0
+      and (
+            :title is null
+            or (aai.kn_article_title like concat('%', :title, '%'))
+        )
+}
+
+listArticleAndCardSimpleInfo(ids:BigInteger*) {
+    select aci.kn_id, aci.kn_card_title as title
+    from as_card_info aci
+    where aci.is_del = 0
+      and aci.kn_id in (:ids)
+
+    union
+
+    select aai.kn_id, aai.kn_article_title
+    from as_article_info aai
+    where aai.is_del = 0
+      and aai.kn_id in (:ids)
+}

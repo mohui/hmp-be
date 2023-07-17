@@ -1,0 +1,6 @@
+alter table dpm_doctor_patient
+    add kn_message_status varchar(16) NOT NULL DEFAULT 'NONE' COMMENT '留言类型 （READ-已读，UNREAD-未读，NONE-无）';
+
+alter table dpm_doctor_patient
+    add kn_message_num int NOT NULL DEFAULT 0 COMMENT '留言数量 ';
+

@@ -1,0 +1,123 @@
+import java.math.BigInteger
+
+serviceList(patientId:BigInteger) {
+    select service.*,
+           upss.health_service_id is not null as signed,
+           upss.expire_date                   as expire,
+           upss.created_at                    as activation_date
+    from upcs_health_service service
+             left join(select a.health_service_id,
+                              a.patient_id,
+                              a.created_at,
+                              row_number() over (partition by a.health_service_id, a.patient_id order by a.created_at desc ) as no,
+                              a.expire_date
+                       from upcs_patient_health_service a
+                       where a.expire_date is null
+                          or a.expire_date >= now()) upss
+                      on service.health_service_id = upss.health_service_id
+                          and upss.patient_id = :patientId
+                          and upss.no = 1
+}
+
+serviceItems(ServiceId:BigInteger) {
+    select item.*
+    from upcs_health_service_item ussi
+             inner join upcs_health_service service on service.health_service_id = ussi.health_service_id
+             inner join upcs_health_management_item item
+                        on ussi.health_management_item_id = item.health_management_item_id
+    where ussi.health_service_id = :ServiceId
+}
+
+patientItemList(patientId:BigInteger) {
+    select distinct item.*
+    from upcs_patient_health_service uphs
+             inner join upcs_health_service service on service.health_service_id = uphs.health_service_id
+             inner join upcs_health_service_item ussi on ussi.health_service_id = uphs.health_service_id
+             inner join upcs_health_management_item item
+                        on ussi.health_management_item_id = item.health_management_item_id
+    where uphs.patient_id = :patientId
+      and (uphs.expire_date is null or uphs.expire_date >= now())
+}
+
+patientServiceNumber(patientId:BigInteger, serviceCode:String) {
+    select count(1)
+    from upcs_health_service as uhs,
+         upcs_patient_health_service as uphs
+    where uhs.health_service_id = uphs.health_service_id
+      and (uphs.expire_date is null or uphs.expire_date >= now())
+      and uhs.health_service_code = :serviceCode
+      and uphs.patient_id = :patientId
+}
+
+activationCodeList(code:String, regionCode:BigInteger, hospitalId:BigInteger, createdIds:BigInteger*, serviceIds:BigInteger*, onlyDefined:Boolean, isUsed:Boolean, isForbidden:Boolean, createdAtMin:String, createdAtMax:String) {
+    -- 查找当前区域与所有下级区域
+    with recursive recursion(code, name, parent, level) as (select kn_code, kn_name, kn_parent_code, kn_level_code
+                                                            from upcs_region
+                                                            where kn_code = :regionCode
+                                                            union all
+                                                            select d1.kn_code, d1.kn_name, d1.kn_parent_code, d1.kn_level_code
+                                                            from upcs_region d1,
+                                                                 recursion d2
+                                                            where d1.kn_parent_code = d2.code)
+    select c.activation_code,
+           c.created_by,
+           u.kn_name       as createdByName,
+           u.kn_login_name as createdByLoginName,
+           c.created_at,
+           c.forbidden_by,
+           f.kn_name       as forbiddenByName,
+           f.kn_login_name as forbiddenByLoginName,
+           c.forbidden_at,
+           c.purchased_by,
+           c.purchaser_phone,
+           c.purchase_remarks,
+           c.health_service_id,
+           uhs.health_service_code,
+           uhs.health_service_name,
+           uhs.during_time
+    from upcs_health_service_activation_code c
+             inner join upcs_health_service uhs on c.health_service_id = uhs.health_service_id
+        -- 数据锁定-区域或机构或指定人
+             left join upcs_user u on u.kn_id = c.created_by -- and u.is_del = 0 已失效人员创建的数据可见
+             left join upcs_user_org uoo on u.kn_id = uoo.kn_user_id and uoo.is_del = 0
+             left join upcs_org uo on uoo.kn_org_id = uo.kn_id and uo.is_del = 0
+             left join upcs_user_region uur on u.kn_id = uur.kn_user_id and uur.is_del = 0
+             left join recursion r on uo.kn_region_code = r.code or uur.kn_region_code = r.code
+        -- 禁用人信息
+             left join upcs_user f on f.kn_id = c.forbidden_by
+    where (:createdAtMin is null or c.created_at >= :createdAtMin)
+      and (:createdAtMax is null or c.created_at < :createdAtMax)
+      -- 创建人条件
+      and (:createdIds is null or u.kn_id in (:createdIds))
+      -- 指定机构条件
+      and (:hospitalId is null or uo.kn_id = :hospitalId)
+      -- 人员信息区域或机构满足任一条件
+      and (:regionCode is null or r.code is not null)
+      -- 指定激活码
+      and (:code is null or activation_code = :code)
+      -- 待使用
+      and (:onlyDefined is false or (forbidden_by is null and activation_code not in (select activation_code
+                                                                                      from upcs_patient_health_service
+                                                                                      where activation_code is not null)))
+      -- 已使用
+      and (:isUsed is false or activation_code in (select activation_code
+                                                   from upcs_patient_health_service
+                                                   where activation_code is not null))
+      -- 已禁用
+      and (:isForbidden is false or forbidden_by is not null)
+      -- 包含某服务包的激活码
+      and (:serviceIds is null or activation_code in
+                                  (select activation_code
+                                   from upcs_health_service_activation_code
+                                   where health_service_id in (:serviceIds)))
+    order by c.created_at desc
+}
+
+activationCodeBindingList(codeList:String*) {
+    select a.activation_code, a.patient_id, b.kn_login_name as patient_login_name, a.created_at
+    from upcs_patient_health_service a,
+         upcs_user b
+    where a.activation_code in (:codeList)
+      and a.patient_id = b.kn_id
+    order by a.created_at desc
+}

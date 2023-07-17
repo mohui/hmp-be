@@ -1,0 +1,15 @@
+-- 增加id
+alter table upcs_patient_health_service
+    add column id bigint(20) unsigned default null;
+
+-- id补充随机数
+update upcs_patient_health_service
+set id=replace(unix_timestamp(created_at),'.','')
+where id is null;
+
+-- 修改id属性
+alter table upcs_patient_health_service
+    modify id bigint(20) unsigned not null comment '主键';
+
+alter table upcs_patient_health_service
+    add primary key (id);

@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS medication_guide_generic
+(
+    kn_generic_id   bigint      not null primary key COMMENT '通用名id',
+    kn_generic_name varchar(100) COMMENT '通用名名称',
+    kn_created_at   DATETIME(3) NOT NULL DEFAULT current_timestamp(3) COMMENT '创建时间'
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4 COMMENT ='用药指导-通用名列表';

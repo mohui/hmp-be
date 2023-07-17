@@ -1,0 +1,19 @@
+alter table `hs_htn_visit_drug`
+    add column drug_id            bigint(20) unsigned NULL COMMENT '药品Id',
+    add column drug_manufacturers varchar(255)        NULL COMMENT '药品厂家';
+
+alter table `hs_t2dm_visit_drug`
+    add column drug_id            bigint(20) unsigned NULL COMMENT '药品Id',
+    add column drug_manufacturers varchar(255)        NULL COMMENT '药品厂家';
+
+alter table `hs_copd_visit_drug`
+    add column drug_id            bigint(20) unsigned NULL COMMENT '药品Id',
+    add column drug_manufacturers varchar(255)        NULL COMMENT '药品厂家';
+
+alter table `hs_cerebral_stroke_visit_drug`
+    add column drug_id            bigint(20) unsigned NULL COMMENT '药品Id',
+    add column drug_manufacturers varchar(255)        NULL COMMENT '药品厂家';
+
+alter table `hs_acute_coronary_visit_drug`
+    add column drug_id            bigint(20) unsigned NULL COMMENT '药品Id',
+    add column drug_manufacturers varchar(255)        NULL COMMENT '药品厂家';

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/article-service" />
+            <option value="$PROJECT_DIR$/article-service/article-service-api" />
+            <option value="$PROJECT_DIR$/article-service/article-service-server" />
+            <option value="$PROJECT_DIR$/cloud-dependencies" />
+            <option value="$PROJECT_DIR$/doctor-patient-management" />
+            <option value="$PROJECT_DIR$/doctor-patient-management/doctor-patient-management-api" />
+            <option value="$PROJECT_DIR$/doctor-patient-management/doctor-patient-management-server" />
+            <option value="$PROJECT_DIR$/framework-webapi" />
+            <option value="$PROJECT_DIR$/health-indicator" />
+            <option value="$PROJECT_DIR$/health-indicator/health-indicator-api" />
+            <option value="$PROJECT_DIR$/health-indicator/health-indicator-server" />
+            <option value="$PROJECT_DIR$/health-scheme" />
+            <option value="$PROJECT_DIR$/health-scheme/health-scheme-api" />
+            <option value="$PROJECT_DIR$/health-scheme/health-scheme-server" />
+            <option value="$PROJECT_DIR$/medication-guide" />
+            <option value="$PROJECT_DIR$/medication-guide/medication-guide-api" />
+            <option value="$PROJECT_DIR$/medication-guide/medication-guide-server" />
+            <option value="$PROJECT_DIR$/medication-remind" />
+            <option value="$PROJECT_DIR$/medication-remind/medication-remind-api" />
+            <option value="$PROJECT_DIR$/medication-remind/medication-remind-server" />
+            <option value="$PROJECT_DIR$/message-board" />
+            <option value="$PROJECT_DIR$/message-board/message-board-api" />
+            <option value="$PROJECT_DIR$/message-board/message-board-server" />
+            <option value="$PROJECT_DIR$/operation-log" />
+            <option value="$PROJECT_DIR$/operation-log/operation-log-api" />
+            <option value="$PROJECT_DIR$/operation-log/operation-log-sdk" />
+            <option value="$PROJECT_DIR$/operation-log/operation-log-server" />
+            <option value="$PROJECT_DIR$/question-answering-system" />
+            <option value="$PROJECT_DIR$/question-answering-system/question-answering-system-api" />
+            <option value="$PROJECT_DIR$/question-answering-system/question-answering-system-server" />
+            <option value="$PROJECT_DIR$/statistic-analysis" />
+            <option value="$PROJECT_DIR$/statistic-analysis/statistic-analysis-api" />
+            <option value="$PROJECT_DIR$/statistic-analysis/statistic-analysis-server" />
+            <option value="$PROJECT_DIR$/user-permission-centre" />
+            <option value="$PROJECT_DIR$/user-permission-centre/security" />
+            <option value="$PROJECT_DIR$/user-permission-centre/user-permission-centre-api" />
+            <option value="$PROJECT_DIR$/user-permission-centre/user-permission-centre-server" />
+            <option value="$PROJECT_DIR$/web" />
+            <option value="$PROJECT_DIR$/wechat-service" />
+            <option value="$PROJECT_DIR$/wechat-service/wechat-service-api" />
+            <option value="$PROJECT_DIR$/wechat-service/wechat-service-server" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

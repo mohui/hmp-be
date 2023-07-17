@@ -1,0 +1,394 @@
+INSERT INTO qas_examination_paper (id, examination_paper_title, examination_paper_desc,
+                                   examination_paper_tip, examination_paper_code,
+                                   examination_paper_reference, evaluation_time,
+                                   strategy_code, created_by, created_at, updated_by,
+                                   updated_at, is_del)
+VALUES (300, '五病综合筛查',
+        '采用指标法判定是否为五病的高危人群，并通过专病症状评估患者的五病风险分层，我们将根据评估的结果给您制定个性化的健康管理方案',
+        '', 'FIVE_DISEASE', '', '', 'NONE', 1, '2022-08-05 12:12:50.042', 1, '2022-08-08 09:52:28.593', 0);
+
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (301, 300, '身高(cm)？', '基本信息', NULL, 'FILL_IN_THE_BLANK', 1, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (3011, 301, 'FIVE_DISEASE_HEIGHT', '', '身高', '', 1, 0.00, 'INPUT',
+        '{\"required\":true,\"isNumber\":true,\"notZero\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (302, 300, '体重(kg)？', '基本信息', NULL, 'FILL_IN_THE_BLANK', 2, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (3021, 302, 'FIVE_DISEASE_WEIGHT', '', '体重', '', 1, 0.00, 'INPUT',
+        '{\"isNumber\":true,\"notZero\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (303, 300, '腰围(cm)？', '基本信息', NULL, 'FILL_IN_THE_BLANK', 3, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (3031, 303, 'FIVE_DISEASE_WAISTLINE', '', '腰围', '', 1, 0.00, 'INPUT',
+        '{\"isNumber\":true,\"notZero\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (304, 300, '是否吸烟？', '基本信息', NULL, 'FILL_IN_THE_BLANK', 4, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (3041, 304, 'FIVE_DISEASE_SMOKING_YES', 'true', '是', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (3042, 304, 'FIVE_DISEASE_SMOKING_NO', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (305, 300, '收缩压(mmHg)？', '实验室检查', NULL, 'FILL_IN_THE_BLANK', 5, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (3051, 305, 'FIVE_DISEASE_SYSTOLIC_PRESSURE', '', '收缩压', '', 1, 0.00, 'INPUT',
+        '{\"required\":true,\"isNumber\":true,\"min\":0,\"max\":300}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (306, 300, '舒张压(mmHg)？', '实验室检查', NULL, 'FILL_IN_THE_BLANK', 6, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (3061, 306, 'FIVE_DISEASE_DIASTOLIC_BLOOD_PRESSURE', '', '舒张压', '', 1, 0.00, 'INPUT',
+        '{\"required\":true,\"isNumber\":true,\"min\":0,\"max\":200}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (307, 300, '空腹血糖(mmol/L)？', '实验室检查', NULL, 'FILL_IN_THE_BLANK', 7, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (3071, 307, 'FIVE_DISEASE_FASTING_BLOOD_SUGAR', '', '空腹血糖', '', 1, 0.00, 'INPUT',
+        '{\"isNumber\":true,\"notZero\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (308, 300, '血清总胆固醇(mmol/L)？', '实验室检查', NULL, 'FILL_IN_THE_BLANK', 8, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (3081, 308, 'FIVE_DISEASE_SERUM_TCH', '', '血清总胆固醇', '', 1, 0.00, 'INPUT',
+        '{\"isNumber\":true,\"notZero\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (309, 300, '原发性高血压？', '既往病史', NULL, 'FILL_IN_THE_BLANK', 9, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (3091, 309, 'FIVE_DISEASE_PMH_ESSENTIAL_HYPERTENSION_YES', 'true', '是', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (3092, 309, 'FIVE_DISEASE_PMH_ESSENTIAL_HYPERTENSION_NO', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (310, 300, 'II型糖尿病？', '既往病史', NULL, 'FILL_IN_THE_BLANK', 10, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (3101, 310, 'FIVE_DISEASE_PMH_TYPE_TWO_DIABETES_YES', 'true', '是', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (3102, 310, 'FIVE_DISEASE_PMH_TYPE_TWO_DIABETES_NO', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (311, 300, '缺血性脑卒中（脑梗死）？', '既往病史', NULL, 'FILL_IN_THE_BLANK', 11, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (3111, 311, 'FIVE_DISEASE_PMH_CEREBRAL_INFARCTION_YES', 'true', '是', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (3112, 311, 'FIVE_DISEASE_PMH_CEREBRAL_INFARCTION_NO', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (312, 300, '冠心病？', '既往病史', NULL, 'FILL_IN_THE_BLANK', 12, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (3121, 312, 'FIVE_DISEASE_PMH_CORONARY_HEART_DISEASE_YES', 'true', '是', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (3122, 312, 'FIVE_DISEASE_PMH_CORONARY_HEART_DISEASE_NO', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (313, 300, '慢阻肺？', '既往病史', NULL, 'FILL_IN_THE_BLANK', 13, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (3131, 313, 'FIVE_DISEASE_PMH_COPD_YES', 'true', '是', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (3132, 313, 'FIVE_DISEASE_PMH_COPD_NO', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (314, 300, '血脂异常（高脂血症）？', '既往病史', NULL, 'FILL_IN_THE_BLANK', 14, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (3141, 314, 'FIVE_DISEASE_PMH_DYSLIPIDEMIA_HYPERLIPIDEMIA_YES', 'true', '是', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (3142, 314, 'FIVE_DISEASE_PMH_DYSLIPIDEMIA_HYPERLIPIDEMIA_NO', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (315, 300, '原发性高血压？', '家族病史', NULL, 'FILL_IN_THE_BLANK', 15, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (3151, 315, 'FIVE_DISEASE_FH_ESSENTIAL_HYPERTENSION_YES', 'true', '是', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (3152, 315, 'FIVE_DISEASE_FH_ESSENTIAL_HYPERTENSION_NO', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (316, 300, 'II型糖尿病？', '家族病史', NULL, 'FILL_IN_THE_BLANK', 16, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (3161, 316, 'FIVE_DISEASE_FH_TYPE_TWO_DIABETES_YES', 'true', '是', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (3162, 316, 'FIVE_DISEASE_FH_TYPE_TWO_DIABETES_NO', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (317, 300, '缺血性脑卒中（脑梗死）？', '家族病史', NULL, 'FILL_IN_THE_BLANK', 17, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (3171, 317, 'FIVE_DISEASE_FH_CEREBRAL_INFARCTION_YES', 'true', '是', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (3172, 317, 'FIVE_DISEASE_FH_CEREBRAL_INFARCTION_NO', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (318, 300, '冠心病？', '家族病史', NULL, 'FILL_IN_THE_BLANK', 18, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (3181, 318, 'FIVE_DISEASE_FH_CORONARY_HEART_DISEASE_YES', 'true', '是', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (3182, 318, 'FIVE_DISEASE_FH_CORONARY_HEART_DISEASE_NO', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (319, 300, '慢阻肺？', '家族病史', NULL, 'FILL_IN_THE_BLANK', 19, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (3191, 319, 'FIVE_DISEASE_FH_COPD_YES', 'true', '是', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (3192, 319, 'FIVE_DISEASE_FH_COPD_NO', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (320, 300, '头晕、头疼症状？', '慢病症状', NULL, 'FILL_IN_THE_BLANK', 20, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (3201, 320, 'FIVE_DISEASE_SYMPTOM_DIZZY_YES', 'true', '是', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (3202, 320, 'FIVE_DISEASE_SYMPTOM_DIZZY_NO', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (321, 300, '体力劳动、精神紧张或激动时出现胸痛症状，休息后逐渐缓解？', '慢病症状', NULL, 'FILL_IN_THE_BLANK', 21, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (3211, 321, 'FIVE_DISEASE_SYMPTOM_CHEST_PAIN_YES', 'true', '是', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (3212, 321, 'FIVE_DISEASE_SYMPTOM_CHEST_PAIN_NO', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (322, 300, '呼吸困难或慢性咳嗽？', '慢病症状', NULL, 'FILL_IN_THE_BLANK', 22, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (3221, 322, 'FIVE_DISEASE_SYMPTOM_CHRONIC_COUGH_YES', 'true', '是', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (3222, 322, 'FIVE_DISEASE_SYMPTOM_CHRONIC_COUGH_NO', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (323, 300, '多饮、多尿、多食、不明原因体重下降？', '慢病症状', NULL, 'FILL_IN_THE_BLANK', 23, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (3231, 323, 'FIVE_DISEASE_SYMPTOM_WEIGHT_LOSS_YES', 'true', '是', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (3232, 323, 'FIVE_DISEASE_SYMPTOM_WEIGHT_LOSS_NO', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (324, 300, '一过性黑曚、眩晕？', '慢病症状', NULL, 'FILL_IN_THE_BLANK', 24, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (3241, 324, 'FIVE_DISEASE_SYMPTOM_GIDDINESS_YES', 'true', '是', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (3242, 324, 'FIVE_DISEASE_SYMPTOM_GIDDINESS_NO', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (325, 300, '无以上症状？', '慢病症状', NULL, 'FILL_IN_THE_BLANK', 25, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (3251, 325, 'FIVE_DISEASE_SYMPTOM_NONE_YES', 'true', '是', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (3252, 325, 'FIVE_DISEASE_SYMPTOM_NONE_NO', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+

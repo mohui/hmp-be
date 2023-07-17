@@ -1,0 +1,25 @@
+-- 数据库Schema描述文件, 执行DDL操作
+create table `as_read_record_info`
+(
+    `kn_id`         bigint(20) unsigned not null comment '主键ID',
+    `kn_reader_id`  bigint(20) unsigned not null comment '阅读人id',
+    `kn_article_id` bigint(20) unsigned not null comment '文章id',
+    `kn_created_by` bigint(20) unsigned null comment '创建人',
+    `kn_created_at` datetime(3)         not null default current_timestamp(3) comment '创建时间',
+    PRIMARY KEY (`kn_id`) USING BTREE
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '人员阅读记录表';
+
+-- 推荐记录
+create table `as_recommend_record_info`
+(
+    `kn_id`         bigint(20) unsigned not null comment '主键ID',
+    `kn_reader_id`  bigint(20) unsigned not null comment '阅读人id',
+    `kn_article_id` bigint(20) unsigned not null comment '文章id',
+    `kn_created_by` bigint(20) unsigned null comment '创建人',
+    `kn_created_at` datetime(3)         not null default current_timestamp(3) comment '创建时间',
+    PRIMARY KEY (`kn_id`) USING BTREE
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '人员推荐记录表';

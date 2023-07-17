@@ -1,0 +1,584 @@
+#获取机构管理员与医护员工数量
+import java.math.BigInteger
+
+#获取机构信息
+findHospitalSelfAndChildren(id:BigInteger) {
+    select kn_id, kn_name, kn_region_code
+    from upcs.upcs_org
+    where :id is not null
+      and (kn_id = :id)
+    order by kn_id
+}
+#根据编码获取区域或机构的信息
+findRegionOrHospital(regionOrhospital:BigInteger)
+{
+    select kn_code as id, convert(kn_name using utf8) as name, 'region' as type
+    from upcs.upcs_region
+    where kn_code = :regionOrhospital
+       or kn_parent_code = :regionOrhospital
+    union
+    select kn_id as id, convert(kn_name using utf8) as name, 'org' as type
+    from upcs.upcs_org
+    where kn_id = :regionOrhospital
+       or kn_region_code = :regionOrhospital
+    order by type desc, id
+}
+
+roleUser(code:BigInteger, OrgIds:BigInteger*) {
+    with recursive recursion(code, name, parent, level, path) as (select kn_code,
+                                                                         kn_name,
+                                                                         kn_parent_code,
+                                                                         kn_level_code,
+                                                                         concat(COALESCE(kn_parent_code, ''), '.', kn_code)
+                                                                  from upcs.upcs_region
+                                                                  where kn_code = :code
+                                                                  union all
+                                                                  select d1.kn_code,
+                                                                         d1.kn_name,
+                                                                         d1.kn_parent_code,
+                                                                         d1.kn_level_code,
+                                                                         concat(d2.path, '.', d1.kn_code)
+                                                                  from upcs.upcs_region d1,
+                                                                       recursion d2
+                                                                  where d1.kn_parent_code = d2.code)
+    select uuo.kn_org_id                                    as kn_hospital_id,
+           r.path                                           as regionPath,
+           count(u.kn_id)                                   as count,
+           sum(case when t.medical > 0 then 1 else 0 end)   as medical,
+           sum(case when t.physician > 0 then 1 else 0 end) as physician,
+           sum(case when t.nurse > 0 then 1 else 0 end)     as nurse,
+           sum(case when t.region > 0 then 1 else 0 end)    as region
+    from upcs.upcs_user u
+             inner join (select kn_user_id,
+                                sum(case when kn_identify_tag in ('DOCTOR', 'NURSE') then 1 else 0 end) as medical,
+                                max(case when kn_identify_tag = 'DOCTOR' then 1 else 0 end)             as physician,
+                                max(case when kn_identify_tag = 'NURSE' then 1 else 0 end)              as nurse,
+                                max(case when kn_identify_tag = 'REGION_ADMIN' then 1 else 0 end)       as region
+                         from upcs.upcs_user_identity_tag
+                         where is_del = FALSE
+                         group by kn_user_id) t on t.kn_user_id = u.kn_id
+             left join upcs.upcs_user_org uuo on uuo.kn_user_id = u.kn_id and uuo.is_del = FALSE
+             left join upcs.upcs_org uo
+                       on uo.kn_id = uuo.kn_org_id and uo.is_del = FALSE
+             left join upcs.upcs_user_region uur on uur.kn_user_id = u.kn_id and uur.is_del = FALSE
+             left join recursion r on r.code = COALESCE(uo.kn_region_code, uur.kn_region_code)
+    where u.is_del = 0
+      and ((:OrgIds is null and :code is null) or
+        -- 当设置机构id时，锁定机构医生患者数据
+           (:OrgIds is not null and uo.kn_id in (:OrgIds)) or
+        -- 当设置区域时，锁定区域内的医生患者数据
+           (:code is not null and r.code is not null))
+    group by uuo.kn_org_id, r.path
+}
+#获取机构医护人员分布-每个机构每个职称的人员数量
+medicalStaff(code:BigInteger, OrgIds:BigInteger*) {
+    with recursive recursion(code, name, parent, level, path) as (select kn_code,
+                                                                         kn_name,
+                                                                         kn_parent_code,
+                                                                         kn_level_code,
+                                                                         concat(COALESCE(kn_parent_code, ''), '.', kn_code)
+                                                                  from upcs.upcs_region
+                                                                  where kn_code = :code
+                                                                  union all
+                                                                  select d1.kn_code,
+                                                                         d1.kn_name,
+                                                                         d1.kn_parent_code,
+                                                                         d1.kn_level_code,
+                                                                         concat(d2.path, '.', d1.kn_code)
+                                                                  from upcs.upcs_region d1,
+                                                                       recursion d2
+                                                                  where d1.kn_parent_code = d2.code)
+    select d.kn_hospital_id,
+           r.path   as regionPath,
+           d.kn_doctor_level,
+           count(*) as count
+    from dpm.dpm_doctor_info d
+             left join upcs.upcs_user_org uuo on uuo.kn_user_id = d.kn_id and uuo.is_del = FALSE
+             left join upcs.upcs_org uo
+                       on uo.kn_id = uuo.kn_org_id and uo.is_del = FALSE
+             left join upcs.upcs_user_region uur on uur.kn_user_id = d.kn_id and uur.is_del = FALSE
+             left join recursion r on r.code = COALESCE(uo.kn_region_code, uur.kn_region_code)
+    where d.kn_del = 0
+      and ((:OrgIds is null and :code is null) or
+        -- 当设置机构id时，锁定机构医生患者数据
+           (:OrgIds is not null and uo.kn_id in (:OrgIds)) or
+        -- 当设置区域时，锁定区域内的医生患者数据
+           (:code is not null and r.code is not null))
+    group by d.kn_hospital_id, r.path, d.kn_doctor_level
+}
+
+#获取机构医生管理患者数量及患者订阅服务包数量
+findHospitalPhysicianPatient(ids:BigInteger*) {
+    select d.kn_hospital_id,
+           ddp.kn_doctor_id,
+           d.kn_name                                                                      as kn_doctor_name,
+           count(dpi.kn_id)                                                               as count,
+           sum(case when dpi.kn_copd_disease_tag = 'EXISTS' then 1 else 0 end)            as copd_disease_exists,
+           sum(case when dpi.kn_cerebral_stroke_disease_tag = 'EXISTS' then 1 else 0 end) as cerebral_stroke_disease_exists,
+           sum(case when dpi.kn_acute_coronary_disease_tag = 'EXISTS' then 1 else 0 end)  as acute_coronary_disease_exists,
+           sum(case when dpi.kn_diabetes_disease_tag = 'EXISTS' then 1 else 0 end)        as diabetes_disease_exists,
+           sum(case when dpi.kn_hypertension_disease_tag = 'EXISTS' then 1 else 0 end)    as hypertension_disease_exists,
+           count(ps.patient_id)                                                           as servicesPatientCount,
+           sum(case
+                   when ps.patient_id is not null and ps.copd_disease > 0 then 1
+                   else 0 end)                                                            as services_copd_disease_exists,
+           sum(case
+                   when ps.patient_id is not null and ps.cerebral_stroke_disease > 0 then 1
+                   else 0 end)                                                            as services_cerebral_stroke_disease_exists,
+           sum(case
+                   when ps.patient_id is not null and ps.acute_coronary_disease > 0 then 1
+                   else 0 end)                                                            as services_acute_coronary_disease_exists,
+           sum(case
+                   when ps.patient_id is not null and ps.diabetes_disease > 0 then 1
+                   else 0 end)                                                            as services_diabetes_disease_exists,
+           sum(case
+                   when ps.patient_id is not null and ps.hypertension_disease > 0 then 1
+                   else 0 end)                                                            as services_hypertension_disease_exists
+    from dpm.dpm_doctor_info d
+             left join dpm.dpm_doctor_patient ddp on d.kn_id = ddp.kn_doctor_id
+             left join dpm.dpm_patient_info dpi on ddp.kn_patient_id = dpi.kn_id and dpi.kn_del = 0
+             left join (select patient_id,
+                               max(case when health_service_id = 2022090108 then 1 else 0 end) as copd_disease,
+                               max(case when health_service_id = 2022090106 then 1 else 0 end) as cerebral_stroke_disease,
+                               max(case when health_service_id = 2022090107 then 1 else 0 end) as acute_coronary_disease,
+                               max(case when health_service_id = 2022090103 then 1 else 0 end) as diabetes_disease,
+                               max(case when health_service_id = 2022090102 then 1 else 0 end) as hypertension_disease
+                        from upcs.upcs_patient_health_service
+                        where (expire_date is null or expire_date >= now())
+                          and health_service_id in (2022090108, 2022090106, 2022090107, 2022090103, 2022090102)
+                        group by patient_id) ps on ps.patient_id = dpi.kn_id
+    where (:ids is null or d.kn_hospital_id in (:ids))
+      and d.kn_del = 0
+    group by d.kn_hospital_id, ddp.kn_doctor_id, d.kn_name
+}
+#获取机构管理患者数量及患者订阅服务包数量
+findHospitalManagerPatient(code:BigInteger, ids:BigInteger*) {
+    with recursive recursion(code, name, parent, level, path) as (select kn_code,
+                                                                         kn_name,
+                                                                         kn_parent_code,
+                                                                         kn_level_code,
+                                                                         concat(COALESCE(kn_parent_code, ''), '.', kn_code)
+                                                                  from upcs.upcs_region
+                                                                  where kn_code = :code
+                                                                  union all
+                                                                  select d1.kn_code,
+                                                                         d1.kn_name,
+                                                                         d1.kn_parent_code,
+                                                                         d1.kn_level_code,
+                                                                         concat(d2.path, '.', d1.kn_code)
+                                                                  from upcs.upcs_region d1,
+                                                                       recursion d2
+                                                                  where d1.kn_parent_code = d2.code)
+    select d.kn_hospital_id,
+           r.path                                                                         as regionPath,
+           count(dpi.kn_id)                                                               as count,
+           sum(case when dpi.kn_copd_disease_tag = 'EXISTS' then 1 else 0 end)            as copd_disease_exists,
+           sum(case when dpi.kn_cerebral_stroke_disease_tag = 'EXISTS' then 1 else 0 end) as cerebral_stroke_disease_exists,
+           sum(case when dpi.kn_acute_coronary_disease_tag = 'EXISTS' then 1 else 0 end)  as acute_coronary_disease_exists,
+           sum(case when dpi.kn_diabetes_disease_tag = 'EXISTS' then 1 else 0 end)        as diabetes_disease_exists,
+           sum(case when dpi.kn_hypertension_disease_tag = 'EXISTS' then 1 else 0 end)    as hypertension_disease_exists,
+           count(ps.patient_id)                                                           as servicesPatientCount,
+           sum(case
+                   when ps.patient_id is not null and ps.copd_disease > 0 then 1
+                   else 0 end)                                                            as services_copd_disease_exists,
+           sum(case
+                   when ps.patient_id is not null and ps.cerebral_stroke_disease > 0 then 1
+                   else 0 end)                                                            as services_cerebral_stroke_disease_exists,
+           sum(case
+                   when ps.patient_id is not null and ps.acute_coronary_disease > 0 then 1
+                   else 0 end)                                                            as services_acute_coronary_disease_exists,
+           sum(case
+                   when ps.patient_id is not null and ps.diabetes_disease > 0 then 1
+                   else 0 end)                                                            as services_diabetes_disease_exists,
+           sum(case
+                   when ps.patient_id is not null and ps.hypertension_disease > 0 then 1
+                   else 0 end)                                                            as services_hypertension_disease_exists
+    from dpm.dpm_doctor_info d
+             left join dpm.dpm_doctor_patient ddp on d.kn_id = ddp.kn_doctor_id
+             left join dpm.dpm_patient_info dpi on ddp.kn_patient_id = dpi.kn_id and dpi.kn_del = 0
+             left join (select patient_id,
+                               max(case when health_service_id = 2022090108 then 1 else 0 end) as copd_disease,
+                               max(case when health_service_id = 2022090106 then 1 else 0 end) as cerebral_stroke_disease,
+                               max(case when health_service_id = 2022090107 then 1 else 0 end) as acute_coronary_disease,
+                               max(case when health_service_id = 2022090103 then 1 else 0 end) as diabetes_disease,
+                               max(case when health_service_id = 2022090102 then 1 else 0 end) as hypertension_disease
+                        from upcs.upcs_patient_health_service
+                        where (expire_date is null or expire_date >= now())
+                          and health_service_id in (2022090108, 2022090106, 2022090107, 2022090103, 2022090102)
+                        group by patient_id) ps on ps.patient_id = dpi.kn_id
+             left join upcs.upcs_user_org uuo on uuo.kn_user_id = d.kn_id and uuo.is_del = FALSE
+             left join upcs.upcs_org uo
+                       on uo.kn_id = uuo.kn_org_id and uo.is_del = FALSE
+             left join upcs.upcs_user_region uur on uur.kn_user_id = d.kn_id and uur.is_del = FALSE
+             left join recursion r on r.code = COALESCE(uo.kn_region_code, uur.kn_region_code)
+    where d.kn_del = 0
+      and ((:ids is null and :code is null) or
+        -- 当设置机构id时，锁定机构医生患者数据
+           (:ids is not null and uo.kn_id in (:ids)) or
+        -- 当设置区域时，锁定区域内的医生患者数据
+           (:code is not null and r.code is not null))
+    group by d.kn_hospital_id, r.path
+}
+#获取机构性别年龄划分
+findHospitalManagerPatientGenderAge(code:BigInteger, ids:BigInteger*) {
+    with recursive recursion(code, name, parent, level, path) as (select kn_code,
+                                                                         kn_name,
+                                                                         kn_parent_code,
+                                                                         kn_level_code,
+                                                                         concat(COALESCE(kn_parent_code, ''), '.', kn_code)
+                                                                  from upcs.upcs_region
+                                                                  where kn_code = :code
+                                                                  union all
+                                                                  select d1.kn_code,
+                                                                         d1.kn_name,
+                                                                         d1.kn_parent_code,
+                                                                         d1.kn_level_code,
+                                                                         concat(d2.path, '.', d1.kn_code)
+                                                                  from upcs.upcs_region d1,
+                                                                       recursion d2
+                                                                  where d1.kn_parent_code = d2.code)
+    select d.kn_hospital_id,
+           r.path              as regionPath,
+           dpi.kn_gender,
+           count(dpi.kn_id)    as count,
+           sum(case
+                   when dpi.age < 18 then 1
+                   else 0 end) as count_18,
+           sum(case
+                   when dpi.age < 18 and dpi.kn_copd_disease_tag = 'EXISTS' then 1
+                   else 0 end) as copd_disease_exists_18,
+           sum(case
+                   when dpi.age < 18 and dpi.kn_cerebral_stroke_disease_tag = 'EXISTS' then 1
+                   else 0 end) as cerebral_stroke_disease_exists_18,
+           sum(case
+                   when dpi.age < 18 and dpi.kn_acute_coronary_disease_tag = 'EXISTS' then 1
+                   else 0 end) as acute_coronary_disease_exists_18,
+           sum(case
+                   when dpi.age < 18 and dpi.kn_diabetes_disease_tag = 'EXISTS' then 1
+                   else 0 end) as diabetes_disease_exists_18,
+           sum(case
+                   when dpi.age < 18 and dpi.kn_hypertension_disease_tag = 'EXISTS' then 1
+                   else 0 end) as hypertension_disease_exists_18,
+           sum(case
+                   when dpi.age between 19 and 44 then 1
+                   else 0 end) as count_44,
+           sum(case
+                   when dpi.age between 19 and 44 and dpi.kn_copd_disease_tag = 'EXISTS' then 1
+                   else 0 end) as copd_disease_exists_44,
+           sum(case
+                   when dpi.age between 19 and 44 and dpi.kn_cerebral_stroke_disease_tag = 'EXISTS' then 1
+                   else 0 end) as cerebral_stroke_disease_exists_44,
+           sum(case
+                   when dpi.age between 19 and 44 and dpi.kn_acute_coronary_disease_tag = 'EXISTS' then 1
+                   else 0 end) as acute_coronary_disease_exists_44,
+           sum(case
+                   when dpi.age between 19 and 44 and dpi.kn_diabetes_disease_tag = 'EXISTS' then 1
+                   else 0 end) as diabetes_disease_exists_44,
+           sum(case
+                   when dpi.age between 19 and 44 and dpi.kn_hypertension_disease_tag = 'EXISTS' then 1
+                   else 0 end) as hypertension_disease_exists_44,
+           sum(case
+                   when dpi.age between 45 and 59 then 1
+                   else 0 end) as count_59,
+           sum(case
+                   when dpi.age between 45 and 59 and dpi.kn_copd_disease_tag = 'EXISTS' then 1
+                   else 0 end) as copd_disease_exists_59,
+           sum(case
+                   when dpi.age between 45 and 59 and dpi.kn_cerebral_stroke_disease_tag = 'EXISTS' then 1
+                   else 0 end) as cerebral_stroke_disease_exists_59,
+           sum(case
+                   when dpi.age between 45 and 59 and dpi.kn_acute_coronary_disease_tag = 'EXISTS' then 1
+                   else 0 end) as acute_coronary_disease_exists_59,
+           sum(case
+                   when dpi.age between 45 and 59 and dpi.kn_diabetes_disease_tag = 'EXISTS' then 1
+                   else 0 end) as diabetes_disease_exists_59,
+           sum(case
+                   when dpi.age between 45 and 59 and dpi.kn_hypertension_disease_tag = 'EXISTS' then 1
+                   else 0 end) as hypertension_disease_exists_59,
+           sum(case
+                   when dpi.age between 60 and 79 then 1
+                   else 0 end) as count_79,
+           sum(case
+                   when dpi.age between 60 and 79 and dpi.kn_copd_disease_tag = 'EXISTS' then 1
+                   else 0 end) as copd_disease_exists_79,
+           sum(case
+                   when dpi.age between 60 and 79 and dpi.kn_cerebral_stroke_disease_tag = 'EXISTS' then 1
+                   else 0 end) as cerebral_stroke_disease_exists_79,
+           sum(case
+                   when dpi.age between 60 and 79 and dpi.kn_acute_coronary_disease_tag = 'EXISTS' then 1
+                   else 0 end) as acute_coronary_disease_exists_79,
+           sum(case
+                   when dpi.age between 60 and 79 and dpi.kn_diabetes_disease_tag = 'EXISTS' then 1
+                   else 0 end) as diabetes_disease_exists_79,
+           sum(case
+                   when dpi.age between 60 and 79 and dpi.kn_hypertension_disease_tag = 'EXISTS' then 1
+                   else 0 end) as hypertension_disease_exists_79,
+           sum(case
+                   when dpi.age >= 80 then 1
+                   else 0 end) as count_80,
+           sum(case
+                   when dpi.age >= 80 and dpi.kn_copd_disease_tag = 'EXISTS' then 1
+                   else 0 end) as copd_disease_exists_80,
+           sum(case
+                   when dpi.age >= 80 and dpi.kn_cerebral_stroke_disease_tag = 'EXISTS' then 1
+                   else 0 end) as cerebral_stroke_disease_exists_80,
+           sum(case
+                   when dpi.age >= 80 and dpi.kn_acute_coronary_disease_tag = 'EXISTS' then 1
+                   else 0 end) as acute_coronary_disease_exists_80,
+           sum(case
+                   when dpi.age >= 80 and dpi.kn_diabetes_disease_tag = 'EXISTS' then 1
+                   else 0 end) as diabetes_disease_exists_80,
+           sum(case
+                   when dpi.age >= 80 and dpi.kn_hypertension_disease_tag = 'EXISTS' then 1
+                   else 0 end) as hypertension_disease_exists_80,
+           sum(case
+                   when ps.patient_id is not null and dpi.age < 18 and ps.copd_disease > 0 then 1
+                   else 0 end) as services_copd_disease_exists_18,
+           sum(case
+                   when ps.patient_id is not null and dpi.age < 18 and ps.cerebral_stroke_disease > 0
+                       then 1
+                   else 0 end) as services_cerebral_stroke_disease_exists_18,
+           sum(case
+                   when ps.patient_id is not null and dpi.age < 18 and ps.acute_coronary_disease > 0
+                       then 1
+                   else 0 end) as services_acute_coronary_disease_exists_18,
+           sum(case
+                   when ps.patient_id is not null and dpi.age < 18 and ps.diabetes_disease > 0 then 1
+                   else 0 end) as services_diabetes_disease_exists_18,
+           sum(case
+                   when ps.patient_id is not null and dpi.age < 18 and ps.hypertension_disease > 0 then 1
+                   else 0 end) as services_hypertension_disease_exists_18,
+           sum(case
+                   when ps.patient_id is not null and dpi.age between 19 and 44 and ps.copd_disease > 0
+                       then 1
+                   else 0 end) as services_copd_disease_exists_44,
+           sum(case
+                   when ps.patient_id is not null and dpi.age between 19 and 44 and ps.cerebral_stroke_disease > 0
+                       then 1
+                   else 0 end) as services_cerebral_stroke_disease_exists_44,
+           sum(case
+                   when ps.patient_id is not null and dpi.age between 19 and 44 and ps.acute_coronary_disease > 0 then 1
+                   else 0 end) as services_acute_coronary_disease_exists_44,
+           sum(case
+                   when ps.patient_id is not null and dpi.age between 19 and 44 and ps.diabetes_disease > 0 then 1
+                   else 0 end) as services_diabetes_disease_exists_44,
+           sum(case
+                   when ps.patient_id is not null and dpi.age between 19 and 44 and ps.hypertension_disease > 0 then 1
+                   else 0 end) as services_hypertension_disease_exists_44,
+           sum(case
+                   when ps.patient_id is not null and dpi.age between 45 and 59 and ps.copd_disease > 0 then 1
+                   else 0 end) as services_copd_disease_exists_59,
+           sum(case
+                   when ps.patient_id is not null and dpi.age between 45 and 59 and ps.cerebral_stroke_disease > 0
+                       then 1
+                   else 0 end) as services_cerebral_stroke_disease_exists_59,
+           sum(case
+                   when ps.patient_id is not null and dpi.age between 45 and 59 and ps.acute_coronary_disease > 0 then 1
+                   else 0 end) as services_acute_coronary_disease_exists_59,
+           sum(case
+                   when ps.patient_id is not null and dpi.age between 45 and 59 and ps.diabetes_disease > 0 then 1
+                   else 0 end) as services_diabetes_disease_exists_59,
+           sum(case
+                   when ps.patient_id is not null and dpi.age between 45 and 59 and ps.hypertension_disease > 0 then 1
+                   else 0 end) as services_hypertension_disease_exists_59,
+           sum(case
+                   when ps.patient_id is not null and dpi.age between 60 and 79 and ps.copd_disease > 0 then 1
+                   else 0 end) as services_copd_disease_exists_79,
+           sum(case
+                   when ps.patient_id is not null and dpi.age between 60 and 79 and ps.cerebral_stroke_disease > 0
+                       then 1
+                   else 0 end) as services_cerebral_stroke_disease_exists_79,
+           sum(case
+                   when ps.patient_id is not null and dpi.age between 60 and 79 and ps.acute_coronary_disease > 0 then 1
+                   else 0 end) as services_acute_coronary_disease_exists_79,
+           sum(case
+                   when ps.patient_id is not null and dpi.age between 60 and 79 and ps.diabetes_disease > 0 then 1
+                   else 0 end) as services_diabetes_disease_exists_79,
+           sum(case
+                   when ps.patient_id is not null and dpi.age between 60 and 79 and ps.hypertension_disease > 0 then 1
+                   else 0 end) as services_hypertension_disease_exists_79,
+           sum(case
+                   when ps.patient_id is not null and dpi.age >= 80 and ps.copd_disease > 0 then 1
+                   else 0 end) as services_copd_disease_exists_80,
+           sum(case
+                   when ps.patient_id is not null and dpi.age >= 80 and ps.cerebral_stroke_disease > 0 then 1
+                   else 0 end) as services_cerebral_stroke_disease_exists_80,
+           sum(case
+                   when ps.patient_id is not null and dpi.age >= 80 and ps.acute_coronary_disease > 0 then 1
+                   else 0 end) as services_acute_coronary_disease_exists_80,
+           sum(case
+                   when ps.patient_id is not null and dpi.age >= 80 and ps.diabetes_disease > 0 then 1
+                   else 0 end) as services_diabetes_disease_exists_80,
+           sum(case
+                   when ps.patient_id is not null and dpi.age >= 80 and ps.hypertension_disease > 0 then 1
+                   else 0 end) as services_hypertension_disease_exists_80
+    from dpm.dpm_doctor_info d
+             left join dpm.dpm_doctor_patient ddp on d.kn_id = ddp.kn_doctor_id
+             left join (select kn_id,
+                               kn_gender,
+                               kn_copd_disease_tag,
+                               kn_cerebral_stroke_disease_tag,
+                               kn_acute_coronary_disease_tag,
+                               kn_diabetes_disease_tag,
+                               kn_hypertension_disease_tag,
+                               CAST(timestampdiff(year, kn_birthday, curdate()) as unsigned) as age
+                        from dpm.dpm_patient_info
+                        where kn_del = 0) dpi on ddp.kn_patient_id = dpi.kn_id
+             left join (select patient_id,
+                               max(case when health_service_id = 2022090108 then 1 else 0 end) as copd_disease,
+                               max(case when health_service_id = 2022090106 then 1 else 0 end) as cerebral_stroke_disease,
+                               max(case when health_service_id = 2022090107 then 1 else 0 end) as acute_coronary_disease,
+                               max(case when health_service_id = 2022090103 then 1 else 0 end) as diabetes_disease,
+                               max(case when health_service_id = 2022090102 then 1 else 0 end) as hypertension_disease
+                        from upcs.upcs_patient_health_service
+                        where (expire_date is null or expire_date >= now())
+                          and health_service_id in (2022090108, 2022090106, 2022090107, 2022090103, 2022090102)
+                        group by patient_id) ps on ps.patient_id = dpi.kn_id
+             left join upcs.upcs_user_org uuo on uuo.kn_user_id = d.kn_id and uuo.is_del = FALSE
+             left join upcs.upcs_org uo
+                       on uo.kn_id = uuo.kn_org_id and uo.is_del = FALSE
+             left join upcs.upcs_user_region uur on uur.kn_user_id = d.kn_id and uur.is_del = FALSE
+             left join recursion r on r.code = COALESCE(uo.kn_region_code, uur.kn_region_code)
+    where d.kn_del = 0
+      and ((:ids is null and :code is null) or
+        -- 当设置机构id时，锁定机构医生患者数据
+           (:ids is not null and uo.kn_id in (:ids)) or
+        -- 当设置区域时，锁定区域内的医生患者数据
+           (:code is not null and r.code is not null))
+    group by d.kn_hospital_id, r.path, dpi.kn_gender
+}
+
+#获取机构患者的指标信息
+findHospitalPatientIndicator(code:BigInteger, ids:BigInteger*)
+{
+    with recursive recursion(code, name, parent, level, path) as (select kn_code,
+                                                                         kn_name,
+                                                                         kn_parent_code,
+                                                                         kn_level_code,
+                                                                         concat(COALESCE(kn_parent_code, ''), '.', kn_code)
+                                                                  from upcs.upcs_region
+                                                                  where kn_code = :code
+                                                                  union all
+                                                                  select d1.kn_code,
+                                                                         d1.kn_name,
+                                                                         d1.kn_parent_code,
+                                                                         d1.kn_level_code,
+                                                                         concat(d2.path, '.', d1.kn_code)
+                                                                  from upcs.upcs_region d1,
+                                                                       recursion d2
+                                                                  where d1.kn_parent_code = d2.code)
+    select d.kn_hospital_id,
+           r.path                                                                  as region_path,
+           count(dpi.kn_id)                                                        as count,
+           sum(case when kn_hypertension_disease_tag = 'EXISTS' then 1 else 0 end) as hypertension_count,
+           sum(case
+                   when kn_hypertension_disease_tag = 'EXISTS' and kn_diabetes_disease_tag = 'EXISTS' then 1
+                   else 0 end)                                                     as hypertension_diabetes_count,
+           sum(case
+                   when kn_hypertension_disease_tag = 'EXISTS' and kn_acute_coronary_disease_tag = 'EXISTS' then 1
+                   else 0 end)                                                     as hypertension_acute_coronary_count,
+           sum(case
+                   when kn_hypertension_disease_tag = 'EXISTS' and kn_cerebral_stroke_disease_tag = 'EXISTS' then 1
+                   else 0 end)                                                     as hypertension_cerebral_stroke_count,
+           sum(case
+                   when kn_hypertension_disease_tag = 'EXISTS' and bmi >= 18.5 and
+                        ((age >= 65 and bmi < 27) or (age < 65 and bmi < 24)) then 1
+                   else 0 end)                                                     as hypertension_bmi_count,
+           sum(case
+                   when kn_hypertension_disease_tag = 'EXISTS' and pressure.kn_patient_id is not null then 1
+                   else 0 end)                                                     as hypertension_pressure_count,
+           sum(case
+                   when kn_hypertension_disease_tag = 'EXISTS' and pressure.high < 90 and
+                        ((age >= 65 and pressure.low < 150) or (age < 65 and pressure.low < 140)) then 1
+                   else 0 end)                                                     as hypertension_pressure_correct_count,
+           sum(case when kn_diabetes_disease_tag = 'EXISTS' then 1 else 0 end)     as diabetes_count,
+           sum(case
+                   when kn_diabetes_disease_tag = 'EXISTS' and evaluate.is_pmh_diabetic_nephropathy = 1 then 1
+                   else 0 end)                                                     as diabetes_nephropathy_count,
+           sum(case
+                   when kn_diabetes_disease_tag = 'EXISTS' and evaluate.is_pmh_diabetic_retinopathy = 1 then 1
+                   else 0 end)                                                     as diabetes_retinopathy_count,
+           sum(case
+                   when kn_diabetes_disease_tag = 'EXISTS' and evaluate.is_pmh_diabetic_foot = 1 then 1
+                   else 0 end)                                                     as diabetes_foot_count,
+           sum(case
+                   when kn_diabetes_disease_tag = 'EXISTS' and bmi >= 18.5 and
+                        ((age >= 65 and bmi < 27) or (age < 65 and bmi < 24)) then 1
+                   else 0 end)                                                     as diabetes_bmi_count,
+           sum(case
+                   when kn_diabetes_disease_tag = 'EXISTS' and sugar.kn_patient_id is not null then 1
+                   else 0 end)                                                     as diabetes_sugar_count,
+           sum(case
+                   when kn_diabetes_disease_tag = 'EXISTS' and sugar.kn_fasting_blood_sandalwood < 7 then 1
+                   else 0 end)                                                     as diabetes_sugar_correct_count,
+           sum(case
+                   when kn_diabetes_disease_tag = 'EXISTS' and visit.patient_id is not null then 1
+                   else 0 end)                                                     as diabetes_HbA1c_count,
+           sum(case
+                   when kn_diabetes_disease_tag = 'EXISTS' and visit.HbA1c_count1 > 0 then 1
+                   else 0 end)                                                     as diabetes_HbA1c_count1
+    from dpm.dpm_doctor_info d
+             left join dpm.dpm_doctor_patient ddp on d.kn_id = ddp.kn_doctor_id
+             left join (select kn_id,
+                               kn_copd_disease_tag,
+                               kn_cerebral_stroke_disease_tag,
+                               kn_acute_coronary_disease_tag,
+                               kn_diabetes_disease_tag,
+                               kn_hypertension_disease_tag,
+                               CAST(timestampdiff(year, kn_birthday, curdate()) as unsigned) as age
+                        from dpm.dpm_patient_info
+                        where kn_del = 0) dpi on ddp.kn_patient_id = dpi.kn_id
+             left join (select kn_patient_id,
+                               kn_bmi                                                                     as bmi,
+                               row_number() over (partition by kn_patient_id order by kn_created_at desc) as no
+                        from hi.hi_bmi
+                        where timestampdiff(day, kn_created_at, now()) <= 30) bmi
+                       on bmi.kn_patient_id = dpi.kn_id and bmi.no = 1
+             left join (select kn_patient_id,
+                               kn_diastolic_blood_pressure                                                as high,
+                               kn_systolic_blood_pressure                                                 as low,
+                               row_number() over (partition by kn_patient_id order by kn_created_at desc) as no
+                        from hi.hi_blood_pressure
+                        where (kn_diastolic_blood_pressure is not null or kn_systolic_blood_pressure is not null)
+                          and timestampdiff(day, kn_created_at, now()) <= 30) pressure
+                       on pressure.kn_patient_id = dpi.kn_id and pressure.no = 1
+             left join(select patient_id,
+                              is_pmh_diabetic_nephropathy,
+                              is_pmh_diabetic_retinopathy,
+                              is_pmh_diabetic_foot,
+                              row_number() over (partition by patient_id order by created_at desc) as no
+                       from qass.qas_disease_evaluate
+                       where timestampdiff(day, created_at, now()) <= 30) evaluate
+                      on evaluate.patient_id = dpi.kn_id and evaluate.no = 1
+             left join(select kn_patient_id,
+                              kn_fasting_blood_sandalwood,
+                              kn_random_blood_sugar,
+                              kn_after_meal_blood_sugar,
+                              row_number() over (partition by kn_patient_id order by kn_created_at desc) as no
+                       from hi.hi_blood_sugar
+                       where kn_fasting_blood_sandalwood is not null
+                         and timestampdiff(day, kn_created_at, now()) <= 30) sugar
+                      on sugar.kn_patient_id = dpi.kn_id and sugar.no = 1
+             left join (select patient_id,
+                               count(*)            as HbA1c_count,
+                               sum(case
+                                       when timestampdiff(day, ifnull(ifnull(HbA1c_date, follow_date), created_at),
+                                                          now()) <= 30 then 1
+                                       else 0 end) as HbA1c_count1
+                        from hs.hs_t2dm_visit
+                        where HbA1c is not null
+                          and timestampdiff(month, ifnull(ifnull(HbA1c_date, follow_date), created_at), now()) <= 6
+                        group by patient_id) visit on visit.patient_id = dpi.kn_id
+             left join upcs.upcs_user_org uuo on uuo.kn_user_id = d.kn_id and uuo.is_del = FALSE
+             left join upcs.upcs_org uo
+                       on uo.kn_id = uuo.kn_org_id and uo.is_del = FALSE
+             left join upcs.upcs_user_region uur on uur.kn_user_id = d.kn_id and uur.is_del = FALSE
+             left join recursion r on r.code = COALESCE(uo.kn_region_code, uur.kn_region_code)
+    where d.kn_del = 0
+      and ((:ids is null and :code is null) or
+        -- 当设置机构id时，锁定机构医生患者数据
+           (:ids is not null and uo.kn_id in (:ids)) or
+        -- 当设置区域时，锁定区域内的医生患者数据
+           (:code is not null and r.code is not null))
+    group by d.kn_hospital_id, r.path
+}

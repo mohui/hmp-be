@@ -1,0 +1,39 @@
+INSERT INTO qas_examination_paper (id, examination_paper_title, examination_paper_desc,
+                                   examination_paper_tip, examination_paper_code,
+                                   examination_paper_reference, evaluation_time,
+                                   strategy_code, created_by, created_at, updated_by,
+                                   updated_at, is_del)
+VALUES (3500, '饮食评估', '', '', 'DIET_EVALUATE_HYPERTENSION', '', '', 'DIET_EVALUATE_HYPERTENSION',
+        1, current_timestamp(), 1, current_timestamp(), 0);
+
+insert into qas_questions(id, examination_paper_id, questions_title, questions_type, questions_sort, created_by,
+                          updated_by, questions_tip)
+values (350001, 3500, '您的饮食口味倾向于：', 'RADIO', 1, 1, 1, null),
+       (350002, 3500, '您有吃加工食品（如火腿、虾皮、各类炒货、烟熏食品等）或腌制食品（如咸菜等）的习惯吗？', 'RADIO', 2, 1, 1, null),
+       (350003, 3500, '您每周在外吃饭次数是否多于在家吃饭次数？', 'RADIO', 3, 1, 1, null),
+       (350004, 3500, '您喝酒么？', 'RADIO', 4, 1, 1, null),
+       (350005, 3500, '您现在是否吸烟？', 'RADIO', 5, 1, 1, null),
+       (350006, 3500, '您每天正常喝水的量是多少？ （以250ml水杯计算）', 'RADIO', 6, 1, 1, null);
+
+insert into qas_option(id, questions_id, option_code, option_value, option_label, option_tip, option_sort, option_score,
+                       option_type, option_rule, created_by, updated_by, is_auto_commit, forward_to)
+values (35000101, 350001, 'DIET_EVALUATE_350001_1', 'a', '清淡（低油、低盐）', '', 1, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (35000102, 350001, 'DIET_EVALUATE_350001_2', 'b', '偏咸', '' , 2, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (35000103, 350001, 'DIET_EVALUATE_350001_3', 'c', '偏油腻', '' , 3, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+
+       (35000201, 350002, 'DIET_EVALUATE_350002_1', 'a', '是', '', 1, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (35000202, 350002, 'DIET_EVALUATE_350002_2', 'b', '否', '', 2, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+
+       (35000301, 350003, 'DIET_EVALUATE_350003_1', 'a', '是', '', 1, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (35000302, 350003, 'DIET_EVALUATE_350003_2', 'b', '否', '', 2, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+
+       (35000401, 350004, 'DIET_EVALUATE_350004_1', 'a', '基本不喝','', 1, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (35000402, 350004, 'DIET_EVALUATE_350004_2', 'b', '偶尔喝（一周一次或少于一次）','' , 2, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (35000403, 350004, 'DIET_EVALUATE_350004_3', 'c', '经常喝（一周二次及以上）','' , 3, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+
+       (35000501, 350005, 'DIET_EVALUATE_350005_1', 'a', '是', '', 1, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (35000502, 350005, 'DIET_EVALUATE_350005_2', 'b', '否', '', 2, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+
+       (35000601, 350006, 'DIET_EVALUATE_350006_1', 'a', '1700mL以上（7杯以上）', '', 1, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (35000602, 350006, 'DIET_EVALUATE_350006_2', 'b', '1500mL-1700mL（6杯——7杯）', '', 2, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (35000603, 350006, 'DIET_EVALUATE_350006_3', 'c', '小于1500mL（0杯——6杯）', '', 3, 0, 'SELECT', '{"single":true}', 1, 1, false, null);

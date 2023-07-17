@@ -1,0 +1,32 @@
+-- 数据库Schema描述文件, 执行DDL操作
+
+-- 把角色数据关系，迁移到用户身份标签表中 upcs_user_identity_tag
+INSERT INTO upcs_user_identity_tag (kn_created_by, kn_created_at, kn_updated_by, kn_updated_at, kn_id, kn_user_id, kn_identify_tag)
+select
+    ur.kn_created_by,
+    ur.kn_created_at,
+    ur.kn_updated_by,
+    ur.kn_updated_at,
+    ur. kn_id ,
+    ur.kn_user_id,
+    IF(role.kn_code = 'ADMIN', 'ORG_ADMIN', kn_code)  as upcs_user_identity_tag
+from upcs_user_role ur
+         inner join upcs_role role  on ur.kn_role_id = role.kn_id and role.is_del = false
+where ur.is_del = false and role.kn_code in ('ADMIN','DOCTOR','REGION_ADMIN','NURSE','PATIENT');
+
+-- 新建医护角色
+INSERT INTO upcs_role (kn_created_by, kn_updated_by, kn_id, kn_name, kn_code)
+VALUES (0, 0, 6, '医护', 'DOCTOR_NURSE');
+
+-- 把医生和护士的角色绑定到医护角色上
+update upcs_user_role set kn_role_id = 6
+where kn_role_id in (select kn_id from upcs_role where kn_code in ('DOCTOR','NURSE'));
+
+-- 删除用户和患者角色的关联
+delete from upcs_user_role where kn_role_id = (select kn_id from upcs_role where kn_code = 'PATIENT');
+-- 删除患者角色和菜单关系
+delete from upcs_role_permission where kn_role_id in (select kn_id from upcs_role where kn_code in ('DOCTOR','NURSE','PATIENT'));
+
+-- 删除医生,护士,患者角色
+delete from upcs_role where kn_code in ('DOCTOR', 'NURSE', 'PATIENT')
+

@@ -1,0 +1,24 @@
+CREATE TABLE IF NOT EXISTS medication_guide_special_crowd_contraindication
+(
+    kn_contraindication_id bigint      not null COMMENT '主键',
+    kn_special_crowd       varchar(20) not null COMMENT '特殊人群编码',
+    kn_drug_anchor_type    bigint      not null COMMENT '设置类别 1-通用名 2-分类 3-药品',
+    kn_drug_anchor_id      bigint      not null COMMENT '设置编号',
+    kn_doseage_form_id     bigint COMMENT '规格',
+    kn_strength            varchar(300) COMMENT '剂型',
+    kn_day_low             int COMMENT '年龄下限-天',
+    kn_day_high            int COMMENT '年龄上限-天',
+    kn_weight_low          decimal(20, 2) COMMENT '体重下限-kg',
+    kn_weigth_high         decimal(20, 2) COMMENT '体重上限-kg',
+    kn_route_id            bigint COMMENT '给药途径',
+    kn_disease_id          bigint COMMENT '疾病',
+    kn_warning_scope       int COMMENT '禁忌范围',
+    kn_severity_level      int COMMENT '禁忌等级',
+    kn_short_dec           varchar(300) COMMENT '禁忌短描述',
+    kn_long_desc           varchar(4000) COMMENT '禁忌长描述',
+    kn_created_at          DATETIME(3) NOT NULL DEFAULT current_timestamp(3) COMMENT '创建时间',
+    kn_gender              char(1) COMMENT '性别',
+    constraint pk_medication_guide_special_crowd_contraindication primary key (kn_contraindication_id, kn_special_crowd)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4 COMMENT ='用药指导-小儿用药禁忌';

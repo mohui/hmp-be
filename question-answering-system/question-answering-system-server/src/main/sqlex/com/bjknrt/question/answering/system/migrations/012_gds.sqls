@@ -1,0 +1,504 @@
+INSERT INTO qas_examination_paper (id, examination_paper_title, examination_paper_desc,
+                                   examination_paper_tip, examination_paper_code,
+                                   examination_paper_reference, evaluation_time,
+                                   strategy_code, created_by, created_at, updated_by,
+                                   updated_at, is_del)
+VALUES (1000, '老年抑郁量表（GDS-30）',
+        '老年抑郁量表 (GDS)是通过三十条的简单是非题，判断老人抑郁状态是轻微还是严重。量表对于各种教育程度的老人均适合。此量表专为老人设计，由量表所得的答案，可协助医生确认老人是否需要支援辅导，找出老人在那一方面需要特别协助。',
+        '', 'GDS',
+        'Mui,A.C.(1996). Geriatric Depression Scale as a community-screening instrument for elderly Chinese immigrants. International Psychogeriatric,8(3),445-458.',
+        '', 'DEFAULT', 1, '2022-08-05 12:12:50.042', 1, '2022-10-20 13:24:02.592', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1001, 1000, '你对生活基本上满意吗？', '', NULL, 'RADIO', 1, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10011, 1001, 'GDS_1_1', 'true', '是 ', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10012, 1001, 'GDS_1_2', 'false', '否', '', 2, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1002, 1000, '你是否已放弃了许多活动与兴趣？', '', NULL, 'RADIO', 2, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10021, 1002, 'GDS_2_1', 'true', '是 ', '', 1, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10022, 1002, 'GDS_2_2', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1003, 1000, '你是否觉得生活空虚？', '', NULL, 'RADIO', 3, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10031, 1003, 'GDS_3_1', 'true', '是 ', '', 1, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10032, 1003, 'GDS_3_2', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1004, 1000, '你是否常感到厌倦？', '', NULL, 'RADIO', 4, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10041, 1004, 'GDS_4_1', 'true', '是 ', '', 1, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10042, 1004, 'GDS_4_2', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1005, 1000, '你觉得未来有希望吗？', '', NULL, 'RADIO', 5, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10051, 1005, 'GDS_5_1', 'true', '是 ', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10052, 1005, 'GDS_5_2', 'false', '否', '', 2, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1006, 1000, '你是否因为脑子里一些想法摆脱不掉而烦恼？', '', NULL, 'RADIO', 6, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10061, 1006, 'GDS_6_1', 'true', '是 ', '', 1, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10062, 1006, 'GDS_6_2', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1007, 1000, '你是否大部分时间精力充沛？', '', NULL, 'RADIO', 7, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10071, 1007, 'GDS_7_1', 'true', '是 ', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10072, 1007, 'GDS_7_2', 'false', '否', '', 2, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1008, 1000, '你是否害怕会有不幸的事落到你头上？', '', NULL, 'RADIO', 8, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10081, 1008, 'GDS_8_1', 'true', '是 ', '', 1, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10082, 1008, 'GDS_8_2', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1009, 1000, '你是否大部分时间感到幸福？', '', NULL, 'RADIO', 9, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10091, 1009, 'GDS_9_1', 'true', '是 ', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10092, 1009, 'GDS_9_2', 'false', '否', '', 2, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1010, 1000, '你是否常感到孤立无援？', '', NULL, 'RADIO', 10, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10101, 1010, 'GDS_10_1', 'true', '是 ', '', 1, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10102, 1010, 'GDS_10_2', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1011, 1000, '你是否常经常坐立不安，心烦意乱？', '', NULL, 'RADIO', 11, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10111, 1011, 'GDS_11_1', 'true', '是 ', '', 1, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10112, 1011, 'GDS_11_2', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1012, 1000, '你是否希望呆在家里而不愿去做些新鲜事？', '', NULL, 'RADIO', 12, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10121, 1012, 'GDS_12_1', 'true', '是 ', '', 1, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10122, 1012, 'GDS_12_2', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1013, 1000, '你是否常常担心将来？', '', NULL, 'RADIO', 13, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10131, 1013, 'GDS_13_1', 'true', '是 ', '', 1, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10132, 1013, 'GDS_13_2', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1014, 1000, '你是否觉得记忆力比以前差？', '', NULL, 'RADIO', 14, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10141, 1014, 'GDS_14_1', 'true', '是 ', '', 1, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10142, 1014, 'GDS_14_2', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1015, 1000, '你觉得现在活着很惬意吗？', '', NULL, 'RADIO', 15, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10151, 1015, 'GDS_15_1', 'true', '是 ', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10152, 1015, 'GDS_15_2', 'false', '否', '', 2, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1016, 1000, '你是否常感到心情沉重、郁闷？', '', NULL, 'RADIO', 16, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10161, 1016, 'GDS_16_1', 'true', '是 ', '', 1, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10162, 1016, 'GDS_16_2', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1017, 1000, '你是否觉得象现在这样活着毫无意义？', '', NULL, 'RADIO', 17, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10171, 1017, 'GDS_17_1', 'true', '是 ', '', 1, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10172, 1017, 'GDS_17_2', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1018, 1000, '你是否总为过去的事忧愁？', '', NULL, 'RADIO', 18, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10181, 1018, 'GDS_18_1', 'true', '是 ', '', 1, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10182, 1018, 'GDS_18_2', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1019, 1000, '你觉得生活很令人兴奋吗？', '', NULL, 'RADIO', 19, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10191, 1019, 'GDS_19_1', 'true', '是 ', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10192, 1019, 'GDS_19_2', 'false', '否', '', 2, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1020, 1000, '你开始一件新的工作很困难吗？', '', NULL, 'RADIO', 20, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10201, 1020, 'GDS_20_1', 'true', '是 ', '', 1, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10202, 1020, 'GDS_20_2', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1021, 1000, '你觉得生活充满活力吗？', '', NULL, 'RADIO', 21, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10211, 1021, 'GDS_21_1', 'true', '是 ', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10212, 1021, 'GDS_21_2', 'false', '否', '', 2, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1022, 1000, '你是否觉得你的处境已毫无希望？', '', NULL, 'RADIO', 22, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10221, 1022, 'GDS_22_1', 'true', '是 ', '', 1, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10222, 1022, 'GDS_22_2', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1023, 1000, '你是否觉得大多数人比你强得多？', '', NULL, 'RADIO', 23, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10231, 1023, 'GDS_23_1', 'true', '是 ', '', 1, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10232, 1023, 'GDS_23_2', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1024, 1000, '你是否常为些小事伤心？', '', NULL, 'RADIO', 24, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10241, 1024, 'GDS_24_1', 'true', '是 ', '', 1, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10242, 1024, 'GDS_24_2', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1025, 1000, '你是否常觉得想哭？', '', NULL, 'RADIO', 25, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10251, 1025, 'GDS_25_1', 'true', '是 ', '', 1, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10252, 1025, 'GDS_25_2', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1026, 1000, '你集中精力有困难吗？', '', NULL, 'RADIO', 26, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10261, 1026, 'GDS_26_1', 'true', '是 ', '', 1, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10262, 1026, 'GDS_26_2', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1027, 1000, '你早晨起来很快活吗？', '', NULL, 'RADIO', 27, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10271, 1027, 'GDS_27_1', 'true', '是 ', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10272, 1027, 'GDS_27_2', 'false', '否', '', 2, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1028, 1000, '你希望避开聚会吗？', '', NULL, 'RADIO', 28, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10281, 1028, 'GDS_28_1', 'true', '是 ', '', 1, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10282, 1028, 'GDS_28_2', 'false', '否', '', 2, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1029, 1000, '你做决定很容易吗？', '', NULL, 'RADIO', 29, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10291, 1029, 'GDS_29_1', 'true', '是 ', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10292, 1029, 'GDS_29_2', 'false', '否', '', 2, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (1030, 1000, '你的头脑象往常一样清晰吗？', '', NULL, 'RADIO', 30, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (10301, 1030, 'GDS_30_1', 'true', '是 ', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (10302, 1030, 'GDS_30_2', 'false', '否', '', 2, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+
+INSERT INTO qas_interpretation_of_results (id, examination_paper_id, min_value,
+                                           max_value, results_tag, results_msg,
+                                           created_by, created_at, updated_by,
+                                           updated_at, is_del)
+VALUES (1099, 1000, 0.00, 10.00, '正常', '',
+        1, '2022-08-05 12:12:50.018', 1, '2022-08-05 12:12:50.018', 0),
+       (1098, 1000, 11.00, 20.00, '轻度抑郁', '',
+        1, '2022-08-05 12:12:50.018', 1, '2022-08-05 12:12:50.018', 0),
+       (1097, 1000, 21.00, 30.00, '中重度抑郁', '',
+        1, '2022-08-05 12:12:50.018', 1, '2022-08-05 12:12:50.018', 0);

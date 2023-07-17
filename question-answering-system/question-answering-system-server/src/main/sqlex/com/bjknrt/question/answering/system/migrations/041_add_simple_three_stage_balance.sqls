@@ -1,0 +1,29 @@
+-- 简易三级平衡
+INSERT INTO qas_examination_paper (id, examination_paper_title, examination_paper_desc,
+                                   examination_paper_tip, examination_paper_code,
+                                   examination_paper_reference, evaluation_time,
+                                   strategy_code, created_by, created_at, updated_by,
+                                   updated_at, is_del)
+VALUES (2900, '简易三级平衡','平衡功能检测与患者的跌倒风险息息相关，本量表是临床上常用的评估平衡能力的工具，可预测患者的跌倒风险。其中，一级为静态平衡，二级为自动态平衡，三级为他动态平衡。',
+        null, 'SIMPLE_THREE_STAGE_BALANCE', '卓大宏.中国康复医学(第二版)[M].北京:华夏出版社,2003:155.', '', 'SIMPLE_THREE_STAGE_BALANCE',
+        1, current_timestamp(), 1, current_timestamp(), 0);
+
+insert into qas_questions(id, examination_paper_id, questions_title, questions_type, questions_sort, created_by,
+                          updated_by, questions_tip)
+values (290001, 2900, '请根据患者坐位的情况，在下列选项中勾选一项符合的选项', 'RADIO', 1, 1, 1, null),
+       (290002, 2900, '请根据患者站位的情况，在下列选项中勾选一项符合的选项', 'RADIO', 2, 1, 1, null),
+       (290003, 2900, '请根据患者行走的情况，在下列选项中勾选一项符合的选项', 'RADIO', 3, 1, 1, null);
+
+insert into qas_option(id, questions_id, option_code, option_value, option_label, option_tip, option_sort, option_score,
+                       option_type, option_rule, created_by, updated_by)
+values (29000101, 290001, 'SIMPLE_THREE_STAGE_BALANCE_290001_29000101', '1', '一级：静态维持自身平衡3秒以上', '', 1, 0, 'SELECT', '{\"single\":true}', 1, 1),
+       (29000102, 290001, 'SIMPLE_THREE_STAGE_BALANCE_290001_29000102', '2', '二级：自动态维持平衡3秒以上', '', 2, 0, 'SELECT', '{\"single\":true}', 1, 1),
+       (29000103, 290001, 'SIMPLE_THREE_STAGE_BALANCE_290001_29000103', '3', '三级：轻外力作用下维持自身平衡', '', 3, 0, 'SELECT', '{\"single\":true}', 1, 1),
+
+       (29000201, 290002, 'SIMPLE_THREE_STAGE_BALANCE_290002_29000201', '1', '一级：静态维持自身平衡3秒以上', '', 1, 0, 'SELECT', '{\"single\":true}', 1, 1),
+       (29000202, 290002, 'SIMPLE_THREE_STAGE_BALANCE_290002_29000202', '2', '二级：自动态维持平衡3秒以上', '', 2, 0, 'SELECT', '{\"single\":true}', 1, 1),
+       (29000203, 290002, 'SIMPLE_THREE_STAGE_BALANCE_290002_29000203', '3', '三级：轻外力作用下维持自身平衡', '', 3, 0, 'SELECT', '{\"single\":true}', 1, 1),
+
+       (29000301, 290003, 'SIMPLE_THREE_STAGE_BALANCE_290003_29000301', '1', '一级：静态维持自身平衡3秒以上', '', 1, 0, 'SELECT', '{\"single\":true}', 1, 1),
+       (29000302, 290003, 'SIMPLE_THREE_STAGE_BALANCE_290003_29000302', '2', '二级：自动态维持平衡3秒以上 ', '', 2, 0, 'SELECT', '{\"single\":true}', 1, 1),
+       (29000303, 290003, 'SIMPLE_THREE_STAGE_BALANCE_290003_29000303', '3', '三级：轻外力作用下维持自身平衡', '', 3, 0, 'SELECT', '{\"single\":true}', 1, 1);

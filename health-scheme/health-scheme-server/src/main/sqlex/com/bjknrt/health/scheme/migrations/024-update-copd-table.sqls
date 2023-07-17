@@ -1,0 +1,16 @@
+update hs_copd_visit set follow_way = 'SELF' where follow_way is null;
+update hs_copd_visit set follow_date = now() where follow_date is null;
+update hs_copd_visit set life_sport_per_week = 0 where life_sport_per_week is null;
+update hs_copd_visit set life_sport_per_time = 0 where life_sport_per_time is null;
+update hs_copd_visit set life_salt_situation = 'LIGHT' where life_salt_situation is null;
+update hs_copd_visit set life_follow_medical_advice = 'GOOD' where life_follow_medical_advice is null;
+update hs_copd_visit set pulmonary_function = 0 where pulmonary_function is null;
+
+ALTER TABLE `hs_copd_visit`
+    MODIFY COLUMN `follow_way` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '随访方式. SELF. 患者自填. OUTPATIENT. 门诊; FAMILY. 家庭; PHONE. 电话;ONLINE.线上' AFTER `doctor_name`,
+    MODIFY COLUMN `follow_date` datetime(3) NOT NULL COMMENT '随访日期' AFTER `follow_way`,
+    MODIFY COLUMN `life_sport_per_week` tinyint UNSIGNED NOT NULL COMMENT '每周运动次数. 单位: 次' AFTER `recommend_alcohol_per`,
+    MODIFY COLUMN `life_sport_per_time` double UNSIGNED NOT NULL COMMENT '每次运动时间. 单位: 分钟' AFTER `life_sport_per_week`,
+    MODIFY COLUMN `life_salt_situation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '摄盐情况. LIGHT: 轻; MIDDLE: 中; DEEP: 重' AFTER `recommend_sport_per_time`,
+    MODIFY COLUMN `life_follow_medical_advice` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '遵医行为. GOOD: 良好; ORDINARY: 一般; BAD: 差' AFTER `life_salt_situation`,
+    MODIFY COLUMN `pulmonary_function` double UNSIGNED NOT NULL COMMENT '肺功能:%' AFTER `reactions_other`;

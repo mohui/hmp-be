@@ -1,0 +1,15 @@
+delete
+from upcs_health_service_activation_code
+where health_service_id = 2022090105;
+
+delete
+from upcs_patient_health_service
+where health_service_id = 2022090105;
+
+delete
+from upcs_health_service_item
+where health_service_id = 2022090105;
+
+delete
+from upcs_health_service
+where health_service_id = 2022090105;

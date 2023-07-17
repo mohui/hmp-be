@@ -1,0 +1,33 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+configurations:
+  - kustomize-config.yaml
+resources:
+  - ../../base
+namespace: stage
+images:
+  - name: base-image-template
+    newName: 192.168.3.201:8080/bjknrt/hmp/statistic-analysis-server
+    newTag: $(IMAGE_TAG)
+commonLabels:
+  app: statistic-analysis
+generatorOptions:
+  disableNameSuffixHash: true
+  labels:
+    type: generated
+  annotations:
+    node: generated
+configMapGenerator:
+  - name: statistic-analysis-stage-build-env
+    envs:
+      - ci.env
+vars:
+  - name: IMAGE_TAG
+    objref:
+      kind: ConfigMap
+      name: statistic-analysis-stage-build-env
+      apiVersion: v1
+    fieldref:
+      fieldpath: data.IMAGE_TAG
+patchesStrategicMerge:
+  - patch.yaml

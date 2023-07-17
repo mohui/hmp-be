@@ -1,0 +1,33 @@
+.health-indicator:init:
+  variables:
+    MODULE_NAME: health-indicator # 目录
+    IMAGE_NAME: 192.168.3.201:8082/bjknrt/${ROOT_MODULE}/${MODULE_NAME}-server
+    CONTAINER_NAME: ${ROOT_MODULE}-${MODULE_NAME}-server
+  before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - cd ${MODULE_NAME}
+
+health-indicator:test:
+  extends:
+    - .health-indicator:init
+  stage: test
+  tags:
+    - pve
+    - docker
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^standalone*/'
+      when: never
+    - if: '$CI_COMMIT_BRANCH'
+      changes:
+        - ${MODULE_NAME}/*.{kts,properties,yml}
+        - ${MODULE_NAME}/**/*
+  script:
+    - gradle test
+  cache:
+    paths:
+      - .gradle/wrapper
+      - .gradle/caches
+  artifacts:
+    when: always
+    reports:
+      junit: ${MODULE_NAME}/**/build/test-results/test/**/TEST-*.xml

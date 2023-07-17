@@ -1,0 +1,7 @@
+alter table dpm_patient_info
+    add column kn_township_code varchar(16)  null comment '乡镇编码';
+
+alter table dpm_patient_info
+    add column kn_region_address varchar(255)  null comment '行政区域地址';
+
+

@@ -1,0 +1,36 @@
+-- 增加测量时间
+ALTER TABLE `hi_body_height`
+    ADD COLUMN `kn_measure_at` DATETIME(3) NOT NULL DEFAULT current_timestamp(3) COMMENT '测量时间';
+
+ALTER TABLE `hi_body_weight`
+    ADD COLUMN `kn_measure_at` DATETIME(3) NOT NULL DEFAULT current_timestamp(3) COMMENT '测量时间';
+
+ALTER TABLE `hi_bmi`
+    ADD COLUMN `kn_measure_at` DATETIME(3) NOT NULL DEFAULT current_timestamp(3) COMMENT '测量时间';
+
+ALTER TABLE `hi_waistline`
+    ADD COLUMN `kn_measure_at` DATETIME(3) NOT NULL DEFAULT current_timestamp(3) COMMENT '测量时间';
+
+ALTER TABLE `hi_body_temperature`
+    ADD COLUMN `kn_measure_at` DATETIME(3) NOT NULL DEFAULT current_timestamp(3) COMMENT '测量时间';
+
+ALTER TABLE `hi_blood_pressure`
+    ADD COLUMN `kn_measure_at` DATETIME(3) NOT NULL DEFAULT current_timestamp(3) COMMENT '测量时间';
+
+ALTER TABLE `hi_blood_sugar`
+    ADD COLUMN `kn_measure_at` DATETIME(3) NOT NULL DEFAULT current_timestamp(3) COMMENT '测量时间';
+
+ALTER TABLE `hi_blood_lipids`
+    ADD COLUMN `kn_measure_at` DATETIME(3) NOT NULL DEFAULT current_timestamp(3) COMMENT '测量时间';
+
+ALTER TABLE `hi_heart_rate`
+    ADD COLUMN `kn_measure_at` DATETIME(3) NOT NULL DEFAULT current_timestamp(3) COMMENT '测量时间';
+
+ALTER TABLE `hi_pulse`
+    ADD COLUMN `kn_measure_at` DATETIME(3) NOT NULL DEFAULT current_timestamp(3) COMMENT '测量时间';
+
+ALTER TABLE `hi_smoke`
+    ADD COLUMN `kn_measure_at` DATETIME(3) NOT NULL DEFAULT current_timestamp(3) COMMENT '测量时间';
+
+ALTER TABLE `hi_drinking`
+    ADD COLUMN `kn_measure_at` DATETIME(3) NOT NULL DEFAULT current_timestamp(3) COMMENT '测量时间';

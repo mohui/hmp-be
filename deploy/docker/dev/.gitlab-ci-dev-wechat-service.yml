@@ -1,0 +1,55 @@
+dev:wechat-service:deploy:
+  extends:
+    - .wechat-service:init
+  image: docker:git
+  stage: deploy
+  tags:
+    - pve
+    - docker
+  variables:
+    IMAGE_TAG: dev-${CI_COMMIT_SHORT_SHA}
+    APP_PROFILE: dev
+  needs:
+    - job: dev:wechat-service:build
+      artifacts: false
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^dev*/'
+      changes:
+        - ${MODULE_NAME}/*.{kts,properties,yml}
+        - ${MODULE_NAME}/**/*
+  script:
+    - mkdir -p ~/.ssh
+    - echo "$REVIEW_SSH_ID_RSA" > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh -o StrictHostKeyChecking=no -p ${DEV_SSH_PORT} ${DEV_SSH_USER}@${DEV_SSH_HOST} "IMAGE_TAG=${IMAGE_TAG} APP_PROFILE=${APP_PROFILE} docker compose -f ~/app/docker-compose.yaml up -d ${CONTAINER_NAME}"
+  environment:
+    name: dev/${CONTAINER_NAME}
+    url: ${ENV_URI}
+    on_stop: dev:wechat-service:cleanup
+
+dev:wechat-service:cleanup:
+  extends:
+    - .wechat-service:init
+  image: docker:git
+  stage: cleanup
+  tags:
+    - pve
+    - docker
+  variables:
+    IMAGE_TAG: dev-${CI_COMMIT_SHORT_SHA}
+  needs:
+    - dev:wechat-service:deploy
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^dev*/'
+      changes:
+        - ${MODULE_NAME}/*.{kts,properties,yml}
+        - ${MODULE_NAME}/**/*
+      when: manual
+  script:
+    - mkdir -p ~/.ssh
+    - echo "$REVIEW_SSH_ID_RSA" > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh -o StrictHostKeyChecking=no -p ${DEV_SSH_PORT} ${DEV_SSH_USER}@${DEV_SSH_HOST} "docker compose -f ~/app/docker-compose.yaml rm -fsv ${CONTAINER_NAME}"
+  environment:
+    name: dev/${CONTAINER_NAME}
+    action: stop

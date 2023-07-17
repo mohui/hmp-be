@@ -1,0 +1,13 @@
+alter table dpm_patient_info
+    drop kn_medical_history;
+
+alter table dpm_patient_info
+    add is_pmh_essential_hypertension      tinyint(1) NULL COMMENT '既往病史-原发性高血压 （1-是，0-否）',
+    add is_pmh_type_two_diabetes           tinyint(1) NULL COMMENT '既往病史-2型糖尿病 （1-是，0-否）',
+    add is_pmh_cerebral_infarction         tinyint(1) NULL COMMENT '既往病史-缺血性脑卒中（脑梗死） （1-是，0-否）',
+    add is_pmh_coronary_heart_disease      tinyint(1) NULL COMMENT '既往病史-冠心病 （1-是，0-否）',
+    add is_pmh_copd                        tinyint(1) NULL COMMENT '既往病史-慢阻肺 （1-是，0-否）',
+    add is_pmh_dyslipidemia_hyperlipidemia tinyint(1) NULL COMMENT '既往病史-血脂异常（高脂血症) （1-是，0-否）',
+    add is_pmh_diabetic_nephropathy        tinyint(1) NULL COMMENT '既往病史-糖尿病肾病（1-是，0-否）',
+    add is_pmh_diabetic_retinopathy        tinyint(1) NULL COMMENT '既往病史-糖尿病视网膜病变（1-是，0-否）',
+    add is_pmh_diabetic_foot               tinyint(1) NULL COMMENT '既往病史-糖尿病足（1-是，0-否）';

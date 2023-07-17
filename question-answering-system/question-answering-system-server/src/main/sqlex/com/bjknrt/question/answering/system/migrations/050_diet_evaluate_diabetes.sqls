@@ -1,0 +1,51 @@
+INSERT INTO qas_examination_paper (id, examination_paper_title, examination_paper_desc,
+                                   examination_paper_tip, examination_paper_code,
+                                   examination_paper_reference, evaluation_time,
+                                   strategy_code, created_by, created_at, updated_by,
+                                   updated_at, is_del)
+VALUES (3600, '饮食评估', '', '', 'DIET_EVALUATE_DIABETES', '', '', 'DIET_EVALUATE_DIABETES',
+        1, current_timestamp(), 1, current_timestamp(), 0);
+
+insert into qas_questions(id, examination_paper_id, questions_title, questions_type, questions_sort, created_by,
+                          updated_by, questions_tip)
+values (360001, 3600, '您的饮食口味倾向于：', 'RADIO', 1, 1, 1, null),
+       (360002, 3600, '您爱吃粗粮吗？', 'RADIO', 2, 1, 1, null),
+       (360003, 3600, '您喝酒么？', 'RADIO', 3, 1, 1, null),
+       (360004, 3600, '您有吃零食的习惯吗？（可多选）', 'MULTIPLE_CHOICE', 4, 1, 1, null),
+       (360005, 3600, '您每天正常喝水的量是多少？ （以250ml水杯计算）', 'RADIO', 5, 1, 1, null),
+       (360006, 3600, '您每餐通常吃几分饱？', 'RADIO', 6, 1, 1, null),
+       (360007, 3600, '您是否有以下情况？', 'RADIO', 7, 1, 1, null);
+
+insert into qas_option(id, questions_id, option_code, option_value, option_label, option_tip, option_sort, option_score,
+                       option_type, option_rule, created_by, updated_by, is_auto_commit, forward_to)
+values
+       (36000101, 360001, 'DIET_EVALUATE_360001_1', 'a', '清淡（低油、低盐）', '', 1, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (36000102, 360001, 'DIET_EVALUATE_360001_2', 'b', '偏咸', '' , 2, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (36000103, 360001, 'DIET_EVALUATE_360001_3', 'c', '偏油腻', '' , 3, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (36000104, 360001, 'DIET_EVALUATE_360001_4', 'd', '偏甜', '' , 4, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+
+       (36000201, 360002, 'DIET_EVALUATE_360002_1', 'a', '不吃', '', 1, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (36000202, 360002, 'DIET_EVALUATE_360002_2', 'b', '偶尔吃（一周一次或少于一次）', '', 2, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (36000203, 360002, 'DIET_EVALUATE_360002_3', 'c', '经常吃（一周二次及以上）', '', 3, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+
+       (36000301, 360003, 'DIET_EVALUATE_360003_1', 'a', '基本不喝','', 1, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (36000302, 360003, 'DIET_EVALUATE_360003_2', 'b', '偶尔喝（一周一次或少于一次）','' , 2, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (36000303, 360003, 'DIET_EVALUATE_360003_3', 'c', '经常喝（一周二次及以上）','' , 3, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+
+       (36000401, 360004, 'DIET_EVALUATE_360004_1', 'a', '坚果类', '', 1, 0, 'SELECT', null, 1, 1, false, null),
+       (36000402, 360004, 'DIET_EVALUATE_360004_2', 'b', '膨化食品', '', 2, 0, 'SELECT', null, 1, 1, false, null),
+       (36000403, 360004, 'DIET_EVALUATE_360004_3', 'c', '糖果/甜糕点类', '', 3, 0, 'SELECT', null, 1, 1, false, null),
+       (36000404, 360004, 'DIET_EVALUATE_360004_4', 'd', '腌制食品', '', 4, 0, 'SELECT', null, 1, 1, false, null),
+       (36000405, 360004, 'DIET_EVALUATE_360004_5', 'e', '无', '', 5, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+
+       (36000501, 360005, 'DIET_EVALUATE_360005_1', 'a', '1700mL以上（7杯以上）', '', 1, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (36000502, 360005, 'DIET_EVALUATE_360005_2', 'b', '1500mL-1700mL（6杯——7杯）', '', 2, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (36000503, 360005, 'DIET_EVALUATE_360005_3', 'c', '小于1500mL（0杯——6杯）', '', 3, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+
+       (36000601, 360006, 'DIET_EVALUATE_360006_1', 'a', '10分饱', '', 1, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (36000602, 360006, 'DIET_EVALUATE_360006_2', 'b', '8-9分饱', '', 2, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (36000603, 360006, 'DIET_EVALUATE_360006_3', 'c', '5分饱', '', 3, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+
+       (36000701, 360007, 'DIET_EVALUATE_360007_1', 'a', '吃饭时间不规律', '', 1, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (36000702, 360007, 'DIET_EVALUATE_360007_2', 'b', '应酬多，在外吃饭次数多于在家吃饭次数', '', 2, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (36000703, 360007, 'DIET_EVALUATE_360007_3', 'c', '睡前进食夜宵的习惯', '', 3, 0, 'SELECT', '{"single":true}', 1, 1, false, null);

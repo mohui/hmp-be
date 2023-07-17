@@ -1,0 +1,10 @@
+import java.math.BigInteger
+
+# 获取7天内活跃的患者信息
+findSevenDayActivePatientIdsList(days:Integer, moduleName:String, actionName:String) {
+    select distinct ool.kn_created_by as patient_id
+    from opLog.ol_operator_log ool
+    where ool.kn_created_at >= DATE_SUB(now(), INTERVAL :days DAY)
+      and ool.kn_operator_model = :moduleName
+      and ool.kn_operator_action = :actionName
+}

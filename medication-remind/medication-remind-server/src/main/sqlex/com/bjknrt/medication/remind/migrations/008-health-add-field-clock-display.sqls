@@ -1,0 +1,14 @@
+-- 添加打卡后是否显示字段
+ALTER TABLE `mr_health_plan`
+    ADD COLUMN `is_clock_display` boolean NOT NULL DEFAULT TRUE COMMENT '打卡完成后是否显示' AFTER `kn_group`;
+
+update mr_health_plan
+set is_clock_display = false
+where kn_type in (
+                  'OFFLINE_HYPERTENSION',
+                  'OFFLINE_DIABETES',
+                  'OFFLINE_ACUTE_CORONARY_DISEASE',
+                  'OFFLINE_CEREBRAL_STROKE',
+                  'OFFLINE_COPD',
+                  'EXERCISE_PROGRAM_ADJUSTMENT_REMIND'
+    )

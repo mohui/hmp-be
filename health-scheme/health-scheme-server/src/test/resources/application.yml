@@ -1,0 +1,63 @@
+server:
+  port: 8080
+spring:
+  devtools:
+    add-properties: false
+  mvc:
+    servlet:
+      load-on-startup: 1
+  application:
+    name: @moduleName@
+  profiles:
+    active: dev-local
+  cloud:
+    nacos:
+      server-addr: 192.168.3.140:8848
+      config:
+        enabled: false
+        namespace: ${spring.profiles.active} # 命名空间：根据微服务分配，或者数据中心分配
+      discovery:
+        enabled: false
+        namespace: ${spring.profiles.active}
+  config:
+    import:
+      - optional:nacos:${spring.application.name}-${spring.profiles.active}.yaml
+
+
+
+---
+# 开发环境配置
+spring:
+  dgp:
+    enabled: false
+  config:
+    activate:
+      on-profile:
+        - dev-local
+    import:
+      - optional:classpath:/application-dev-local.yml
+  cloud:
+    nacos:
+      config:
+        enabled: false
+      discovery:
+        enabled: false
+
+---
+# 测试，生产
+spring:
+  config:
+    activate:
+      on-profile:
+        - test
+        - prod
+    import:
+      - optional:nacos:${spring.application.name}-other-config-${spring.profiles.active}.yaml
+
+#spring:
+#  config:
+#    import:
+#      - optional:nacos:test.yml  # 监听 DEFAULT_GROUP:test.yml
+#      - optional:nacos:test01.yml?group=group_01 # 覆盖默认 group，监听 group_01:test01.yml
+#      - optional:nacos:test02.yml?group=group_02&refreshEnabled=false # 不开启动态刷新
+#      - nacos:test03.yml # 在拉取nacos配置异常时会快速失败，会导致 spring 容器启动失败

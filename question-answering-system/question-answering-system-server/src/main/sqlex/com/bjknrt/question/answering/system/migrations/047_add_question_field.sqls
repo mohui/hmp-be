@@ -1,0 +1,14 @@
+-- 问题表新增是否可以多次提交题目
+ALTER TABLE qas_questions
+    ADD COLUMN `is_repeat_answer` boolean NOT NULL DEFAULT false COMMENT '是否重复答题' AFTER `match_fail_msg`;
+
+-- 结果表新增多次提交题目答案排序, 相同顺序为一组
+ALTER TABLE qas_questions_answer_result
+    ADD COLUMN `questions_answered_count` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '同一问题回答次数' AFTER `questions_id`;
+-- 删除联合唯一主键
+ALTER TABLE qas_questions_answer_result
+    DROP INDEX `questions_answer_record_id`;
+-- 新建联合唯一主键
+ALTER TABLE qas_questions_answer_result
+    ADD UNIQUE INDEX `questions_answer_record_id` (`questions_answer_record_id`, `questions_id`,
+                                                   `questions_answered_count`, `option_id`) USING BTREE;

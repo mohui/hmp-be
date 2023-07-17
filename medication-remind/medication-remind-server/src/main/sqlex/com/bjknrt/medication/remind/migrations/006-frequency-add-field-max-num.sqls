@@ -1,0 +1,10 @@
+-- 数据库Schema描述文件, 执行DDL操作
+ALTER TABLE `mr_frequency`
+    MODIFY COLUMN `kn_frequency_time` int NOT NULL COMMENT '频次时间' AFTER `kn_explain_id`,
+    MODIFY COLUMN `kn_frequency_time_unit` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '频次时间单位' AFTER `kn_frequency_time`,
+    MODIFY COLUMN `kn_frequency_num` int NOT NULL COMMENT '达标频次数量' AFTER `kn_frequency_time_unit`,
+    MODIFY COLUMN `kn_frequency_num_unit` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '频次数量单位' AFTER `kn_frequency_num`,
+    ADD COLUMN `kn_frequency_max_num` int NOT NULL COMMENT '最大完成频次数量' AFTER `kn_frequency_num_unit`;
+
+
+update mr_frequency set kn_frequency_max_num = IF(kn_frequency_time_unit = kn_frequency_num_unit, kn_frequency_time, kn_frequency_num)

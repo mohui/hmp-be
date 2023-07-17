@@ -1,0 +1,3 @@
+alter table hs_cerebral_stroke_visit
+    modify doctor_id bigint unsigned default null comment '随访医生id';
+

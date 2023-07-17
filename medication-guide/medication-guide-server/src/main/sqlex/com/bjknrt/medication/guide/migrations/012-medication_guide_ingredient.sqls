@@ -1,0 +1,18 @@
+CREATE TABLE IF NOT EXISTS medication_guide_ingredient
+(
+    kn_ingredient_id        bigint primary key COMMENT '主键',
+    kn_ingredient_name      varchar(100) not null COMMENT '成分名称',
+    kn_parent_ingredient_id bigint COMMENT '上级成分',
+    kn_class_flag           int COMMENT '是否分类'
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4 COMMENT ='用药指导-成分表';
+
+CREATE TABLE IF NOT EXISTS medication_guide_generic_ingredient
+(
+    kn_generic_ingredient_id bigint primary key COMMENT '主键',
+    kn_generic_id            bigint not null COMMENT '通用id',
+    kn_ingredient_id         bigint not null COMMENT '成分id'
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4 COMMENT ='用药指导-通用名成分表';

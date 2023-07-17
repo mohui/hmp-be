@@ -1,0 +1,28 @@
+-- tinyint->boolean,必须定义为is前缀
+ALTER TABLE `hs_cerebral_stroke_leave_hospital_visit`
+    CHANGE COLUMN `kn_lh_is_standard_lipid_lowering_treat` `is_standard_lipid_lowering_treat` tinyint(1) NOT NULL COMMENT '出院时情况-标准用药-是否标准降脂治疗（1-是，0-否）' AFTER `kn_lh_is_standard_medication`;
+
+ALTER TABLE `hs_cerebral_stroke_leave_hospital_visit`
+    CHANGE COLUMN `kn_lh_is_thrombolytic` `is_thrombolytic` tinyint(1) NOT NULL COMMENT '出院时情况-标准用药-是否溶栓或取栓（1-是，0-否）' AFTER `is_standard_lipid_lowering_treat`;
+
+ALTER TABLE `hs_cerebral_stroke_leave_hospital_visit`
+    CHANGE COLUMN `kn_lh_acute_stage_cerebral_infarction` `is_acute_stage_cerebral_infarction` tinyint(1) NOT NULL COMMENT '出院时情况-急性期脑梗死是否进展（1-是，0-否）' AFTER `is_thrombolytic`;
+
+ALTER TABLE `hs_cerebral_stroke_leave_hospital_visit`
+    CHANGE COLUMN `kn_lh_is_merge_serious_illness` `is_merge_serious_illness` tinyint(1) NOT NULL COMMENT '出院时情况-是否合并一下严重疾病：下肢静脉血栓、感染、心脏疾病、肿瘤、呼吸系统疾病，如哮喘、慢阻肺、呼吸衰竭、肺栓塞等、消化道出血等（1-是，0-否）' AFTER `is_acute_stage_cerebral_infarction`;
+
+ALTER TABLE `hs_cerebral_stroke_leave_hospital_visit`
+    CHANGE COLUMN `kn_lh_is_standard_high_risk_element_control` `is_standard_high_risk_element_control` tinyint(1) NOT NULL COMMENT '出院时情况-高危因素控制是否达标：高血压、糖代谢异常、血脂异常、心脏病、无症状性颈动脉粥样硬化、生活方式（1-是，0-否）' AFTER `is_merge_serious_illness`;
+
+ALTER TABLE `hs_cerebral_stroke_leave_hospital_visit`
+    CHANGE COLUMN `kn_dysfunction_sport_obstacle` `is_dysfunction_sport_obstacle` tinyint(1) NOT NULL COMMENT '功能障碍-运动障碍（1-是，0-否）' AFTER `kn_lh_eq5d_score`;
+
+ALTER TABLE `hs_cerebral_stroke_leave_hospital_visit`
+    CHANGE COLUMN `kn_dysfunction_cognition_obstacle` `is_dysfunction_cognition_obstacle` tinyint(1) NOT NULL COMMENT '功能障碍-认知障碍（1-是，0-否）' AFTER `is_dysfunction_sport_obstacle`;
+
+
+ALTER TABLE `hs_cerebral_stroke_leave_hospital_visit`
+    CHANGE COLUMN `kn_dysfunction_speech_obstacle` `is_dysfunction_speech_obstacle` tinyint(1) NOT NULL COMMENT '功能障碍-言语障碍（1-是，0-否）' AFTER `is_dysfunction_cognition_obstacle`;
+
+ALTER TABLE `hs_cerebral_stroke_leave_hospital_visit`
+    CHANGE COLUMN `kn_dysfunction_swallow_obstacle` `is_dysfunction_swallow_obstacle` tinyint(1) NOT NULL COMMENT '功能障碍-吞咽障碍（1-是，0-否）' AFTER `is_dysfunction_speech_obstacle`;

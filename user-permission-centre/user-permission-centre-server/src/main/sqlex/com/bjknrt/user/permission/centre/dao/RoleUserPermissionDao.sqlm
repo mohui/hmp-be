@@ -1,0 +1,208 @@
+# created on 2022/7/20, by wjy
+
+# method {
+#     select * from dual
+# }
+
+import java.math.BigInteger
+import java.time.LocalDateTime
+import java.time.LocalDate
+
+selectRoleWithUserPermissionNum*(name:String, createdName:String, status:Boolean, startAt:LocalDateTime, endAt:LocalDateTime) {
+    select count(distinct uro.kn_user_id)         as userNum,
+           count(distinct urp.kn_permission_code) as permissionNum,
+           ur.kn_id                               as id,
+           ur.kn_name                             as name,
+           ur.kn_code                             as code,
+           ur.kn_created_at                       as createdAt,
+           ur.is_used,
+           max(u.kn_name)                         as createdName
+    from upcs_role ur
+             left join upcs_user_role uro on uro.kn_role_id = ur.kn_id and uro.is_del = false
+             left join upcs_role_permission urp on ur.kn_id = urp.kn_role_id and urp.is_del = false
+             left join upcs_user u on ur.kn_created_by = u.kn_id and u.is_del = false
+    where ur.is_del = false
+      and ur.kn_code != 'SUPER_ADMIN'
+      and (:name is null or ur.kn_name like (:name))
+      and (:createdName is null or u.kn_name like (:createdName))
+      and (:status is null or ur.is_used = (:status))
+      and (:startAt is null or ur.kn_created_at >= (:startAt))
+      and (:endAt is null or ur.kn_created_at < (:endAt))
+    group by ur.kn_id
+}
+
+listPermissionByRoleIds(roleIds:BigInteger*) {
+    select urp.kn_role_id         as roleId,
+           urp.kn_permission_code as permissionCode
+    from upcs_role_permission urp
+    where urp.kn_role_id in (:roleIds)
+      and urp.is_del = false
+}
+
+# 只有超级管理员的情况, regionIds, orgIds 才有可能会都为null
+pageUserByRegionIdNotNull*(roleIds:BigInteger*, identityTags:String*, orgIds:BigInteger*, regionIds:BigInteger*, name:String,
+                           createdBy:String, createdAtStart:LocalDate, createdAtEnd:LocalDate) {
+    WITH recursive region_temp (kn_code, kn_name, kn_parent_code, kn_level_code)
+                       AS (SELECT ureg.kn_code,
+                                  ureg.kn_name,
+                                  ureg.kn_parent_code,
+                                  ureg.kn_level_code
+                           FROM upcs_region ureg
+                           WHERE (:regionIds is null or ureg.kn_code in (:regionIds)) and :regionIds is not null
+                           UNION ALL
+                           SELECT d1.kn_code,
+                                  d1.kn_name,
+                                  d1.kn_parent_code,
+                                  d1.kn_level_code
+                           FROM upcs_region d1,
+                                region_temp AS d2
+                           WHERE d1.kn_parent_code = d2.kn_code
+                             AND d1.kn_level_code <= 4)
+    select uu.*,
+           (select kn_name from upcs_user where kn_id = uu.kn_created_by) as createdName,
+           (select kn_name from upcs_user where kn_id = uu.kn_updated_by) as updatedName
+    from upcs_user uu
+    where uu.is_del = false
+      and (uu.kn_id in (select uuit.kn_user_id
+                            from upcs_user_identity_tag uuit
+                            where uuit.is_del = false
+                              and uuit.kn_identify_tag in ('ORG_ADMIN','REGION_ADMIN','DOCTOR','NURSE')))
+      and (:roleIds is null or (uu.kn_id in (select uur.kn_user_id
+                                             from upcs_user_role uur
+                                             where uur.is_del = false
+                                               and uur.kn_role_id in (:roleIds))))
+      and (:identityTags is null or (uu.kn_id in (select uuit.kn_user_id
+                                                  from upcs_user_identity_tag uuit
+                                                  where uuit.is_del = false
+                                                    and uuit.kn_identify_tag in (:identityTags))))
+      and (:createdBy is null or (uu.kn_created_by in (select uus.kn_id
+                                                       from upcs_user uus
+                                                       where uus.is_del = false
+                                                         and uus.kn_name like concat('%', :createdBy, '%'))))
+      and (:name is null or (uu.kn_name like concat('%', :name, '%')))
+      and (:createdAtStart is null or
+           (uu.kn_created_at >= :createdAtStart))
+      and (:createdAtEnd is null or
+           (uu.kn_created_at < :createdAtEnd))
+      and (
+            (:orgIds is null and :regionIds is null)
+            or (:orgIds is not null and uu.kn_id in (select uuo.kn_user_id
+                                                  from upcs_user_org uuo
+                                                  where uuo.is_del = false
+                                                    and uuo.kn_org_id in (:orgIds)))
+            or uu.kn_id in (select uure.kn_user_id
+                            from upcs_user_region uure
+                            where uure.is_del = false
+                              and uure.kn_region_code in
+                                  (select kn_code from region_temp))
+            or uu.kn_id in (select uuo.kn_user_id
+                            from upcs_user_org uuo,
+                                 upcs_org uo
+                            where uuo.is_del = false
+                              and uo.is_del = false
+                              and uuo.kn_org_id = uo.kn_id
+                              and uo.kn_region_code in (select kn_code from region_temp))
+        )
+
+    ORDER BY uu.kn_created_at DESC
+}
+
+pageUserByRegionIdIsNull*(roleIds:BigInteger*, identityTags:String*, orgIds:BigInteger*, name:String,
+                          createdBy:String, createdAtStart:LocalDate, createdAtEnd:LocalDate) {
+    select uu.*,
+           (select kn_name from upcs_user where kn_id = uu.kn_created_by) as createdName,
+           (select kn_name from upcs_user where kn_id = uu.kn_updated_by) as updatedName
+    from upcs_user uu
+    where uu.is_del = false
+      and (uu.kn_id in (select uuit.kn_user_id
+                            from upcs_user_identity_tag uuit
+                            where uuit.is_del = false
+                              and uuit.kn_identify_tag in ('ORG_ADMIN','REGION_ADMIN','DOCTOR','NURSE')))
+      and (:roleIds is null or (uu.kn_id in (select uur.kn_user_id
+                                             from upcs_user_role uur
+                                             where uur.is_del = false
+                                               and uur.kn_role_id in (:roleIds))))
+      and (:identityTags is null or (uu.kn_id in (select uuit.kn_user_id
+                                                  from upcs_user_identity_tag uuit
+                                                  where uuit.is_del = false
+                                                    and uuit.kn_identify_tag in (:identityTags))))
+      and (:createdBy is null or (uu.kn_created_by in (select uus.kn_id
+                                                       from upcs_user uus
+                                                       where uus.is_del = false
+                                                         and uus.kn_name like concat('%', :createdBy, '%'))))
+      and (:name is null or (uu.kn_name like concat('%', :name, '%')))
+      and (:createdAtStart is null or
+           (uu.kn_created_at >= :createdAtStart))
+      and (:createdAtEnd is null or
+           (uu.kn_created_at < :createdAtEnd))
+      and (:orgIds is null or (uu.kn_id in (select uuo.kn_user_id
+                                            from upcs_user_org uuo
+                                            where uuo.is_del = false
+                                              and uuo.kn_org_id in (:orgIds)))
+        )
+
+
+    ORDER BY uu.kn_created_at DESC
+}
+
+listPermissionByUserIds(userIds:BigInteger*) {
+    select urp.kn_role_id         as roleId,
+           uur.kn_user_id         as userId,
+           urp.kn_permission_code as permissionCode
+    from upcs_role_permission urp
+             inner join upcs_user_role uur on uur.kn_role_id = urp.kn_role_id and uur.is_del = false
+    where urp.is_del = false
+      and uur.kn_user_id in (:userIds)
+}
+
+# 过滤当前用户权限下的地区
+paramRegionFilteruserRegion(regionIds:BigInteger*, paramRegionIds:BigInteger*) {
+    WITH recursive region_temp (kn_code, kn_name, kn_parent_code, kn_level_code)
+                       AS (SELECT ureg.kn_code,
+                                  ureg.kn_name,
+                                  ureg.kn_parent_code,
+                                  ureg.kn_level_code
+                           FROM upcs_region ureg
+                           WHERE (:regionIds is null or ureg.kn_code in (:regionIds)) and :regionIds is not null
+                           UNION ALL
+                           SELECT d1.kn_code,
+                                  d1.kn_name,
+                                  d1.kn_parent_code,
+                                  d1.kn_level_code
+                           FROM upcs_region d1,
+                                region_temp AS d2
+                           WHERE d1.kn_parent_code = d2.kn_code
+                             AND d1.kn_level_code <= 4)
+    select kn_code, kn_name, kn_parent_code, kn_level_code
+    from region_temp
+    where (:paramRegionIds is null or kn_code in (:paramRegionIds))
+}
+
+# 过滤当前用户权限下的机构
+paramOrgFilterUserRegion(regionIds:BigInteger*, orgIds: BigInteger*, paramOrgIds:BigInteger*) {
+    WITH recursive region_temp (kn_code, kn_name, kn_parent_code, kn_level_code)
+                       AS (SELECT ureg.kn_code,
+                                  ureg.kn_name,
+                                  ureg.kn_parent_code,
+                                  ureg.kn_level_code
+                           FROM upcs_region ureg
+                           WHERE (:regionIds is null or ureg.kn_code in (:regionIds)) and :regionIds is not null
+                           UNION ALL
+                           SELECT d1.kn_code,
+                                  d1.kn_name,
+                                  d1.kn_parent_code,
+                                  d1.kn_level_code
+                           FROM upcs_region d1,
+                                region_temp AS d2
+                           WHERE d1.kn_parent_code = d2.kn_code
+                             AND d1.kn_level_code <= 4)
+        select org.kn_id, org.kn_name, org.kn_region_code
+        from upcs_org org
+        left join region_temp temp on org.kn_region_code = temp.kn_code
+        where is_del = 0
+        and (
+                (:regionIds is null or temp.kn_code is not null  ) or
+                (:orgIds is null or org.kn_id in (:orgIds))
+            )
+        and (:paramOrgIds is null or org.kn_id in (:paramOrgIds))
+}

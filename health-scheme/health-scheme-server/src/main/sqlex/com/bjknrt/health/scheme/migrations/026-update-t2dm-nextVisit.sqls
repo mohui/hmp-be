@@ -1,0 +1,3 @@
+-- 数据库Schema描述文件, 执行DDL操作
+ALTER TABLE `hs_t2dm_visit`
+    MODIFY COLUMN `next_visit` datetime(3) NULL COMMENT '下次随访日期' AFTER `referral_agencies`;

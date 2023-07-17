@@ -1,0 +1,2 @@
+ALTER TABLE `qas_questions_answer_result`
+    MODIFY COLUMN `option_value` varchar(255) NOT NULL COMMENT '选项结果' AFTER `option_code`;

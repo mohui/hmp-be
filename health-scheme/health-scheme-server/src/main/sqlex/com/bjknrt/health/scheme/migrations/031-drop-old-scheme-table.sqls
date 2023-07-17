@@ -1,0 +1,7 @@
+DROP TABLE `hs_current_health_scheme_info`;
+DROP TABLE `hs_health_scheme_info`;
+DROP TABLE `hs_drug_scheme`;
+DROP TABLE `hs_food_scheme`;
+DROP TABLE `hs_sport_scheme`;
+DROP TABLE `hs_clinic_scheme`;
+DROP TABLE `hs_other_scheme`;

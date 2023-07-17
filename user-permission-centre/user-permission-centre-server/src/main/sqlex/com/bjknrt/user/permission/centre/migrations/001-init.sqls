@@ -1,0 +1,122 @@
+/* --------------- 创建表 --------------- */
+# DROP TABLE IF EXISTS upcs_org;
+CREATE TABLE upcs_org
+(
+    kn_created_by bigint unsigned NULL     DEFAULT NULL COMMENT '创建人id',
+    kn_created_at DATETIME(3)     NOT NULL DEFAULT current_timestamp(3) COMMENT '创建时间',
+    kn_updated_by bigint unsigned NULL     DEFAULT NULL COMMENT '修改人id',
+    kn_updated_at DATETIME(3)     NOT NULL DEFAULT current_timestamp(3) on update current_timestamp(3) COMMENT '修改时间',
+    is_del        boolean         NOT NULL DEFAULT false COMMENT '是否删除',
+    kn_id         bigint unsigned NOT NULL COMMENT '主键',
+    kn_name       VARCHAR(64)     NULL     DEFAULT NULL COMMENT '名称',
+    kn_sort       INT             NOT NULL DEFAULT 100 COMMENT '排序',
+    PRIMARY KEY (kn_id)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci
+    COMMENT = '组织表';
+
+# DROP TABLE IF EXISTS upcs_user;
+CREATE TABLE upcs_user
+(
+    kn_created_by     bigint unsigned NULL     DEFAULT NULL COMMENT '创建人id',
+    kn_created_at     DATETIME(3)     NOT NULL DEFAULT current_timestamp(3) COMMENT '创建时间',
+    kn_updated_by     bigint unsigned NULL     DEFAULT NULL COMMENT '修改人id',
+    kn_updated_at     DATETIME(3)     NOT NULL DEFAULT current_timestamp(3) on update current_timestamp(3) COMMENT '修改时间',
+    is_del            boolean         NOT NULL DEFAULT false COMMENT '是否删除',
+    kn_id             bigint unsigned NOT NULL COMMENT '主键',
+    kn_login_name     VARCHAR(64)     NOT NULL COMMENT '登录名',
+    kn_login_password VARCHAR(256)    NOT NULL COMMENT '密码（微信绑定用户可能为空）',
+    is_enabled        boolean         NOT NULL DEFAULT true COMMENT '是否启用',
+    kn_name           VARCHAR(64)     NULL     DEFAULT NULL COMMENT '昵称',
+    kn_phone          VARCHAR(16)     NULL     DEFAULT NULL COMMENT '手机号',
+    kn_email          VARCHAR(256)    NULL     DEFAULT NULL COMMENT '邮箱',
+    kn_birthday       datetime        NULL     DEFAULT NULL COMMENT '出生日期',
+    kn_gender         VARCHAR(8)      NULL     DEFAULT NULL COMMENT '性别（MAN-男，WOMAN-女）',
+    kn_profile_pic    VARCHAR(1024)   NULL     DEFAULT NULL COMMENT '头像',
+    kn_id_card        VARCHAR(32)     NULL     DEFAULT NULL COMMENT '身份证号',
+    kn_extends        VARCHAR(1024)   NULL     DEFAULT NULL COMMENT '扩展数据',
+    PRIMARY KEY (kn_id)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci
+    COMMENT = '用户表';
+#  索引
+CREATE INDEX idx_login_name ON upcs_user (kn_login_name);
+CREATE INDEX idx_phone ON upcs_user (kn_phone);
+
+# DROP TABLE IF EXISTS upcs_role;
+CREATE TABLE upcs_role
+(
+    kn_created_by bigint unsigned NULL     DEFAULT NULL COMMENT '创建人id',
+    kn_created_at DATETIME(3)     NOT NULL DEFAULT current_timestamp(3) COMMENT '创建时间',
+    kn_updated_by bigint unsigned NULL     DEFAULT NULL COMMENT '修改人id',
+    kn_updated_at DATETIME(3)     NOT NULL DEFAULT current_timestamp(3) on update current_timestamp(3) COMMENT '修改时间',
+    is_del        boolean         NOT NULL DEFAULT false COMMENT '是否删除',
+    kn_id         bigint unsigned NOT NULL COMMENT '主键',
+    kn_name       VARCHAR(64)     NOT NULL DEFAULT '' COMMENT '名称',
+    kn_code       VARCHAR(64)     NOT NULL DEFAULT '' COMMENT '角色编码',
+    PRIMARY KEY (kn_id)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci
+    COMMENT = '角色表';
+
+# DROP TABLE IF EXISTS upcs_user_role_org;
+CREATE TABLE upcs_user_role_org
+(
+    kn_created_by bigint unsigned NULL     DEFAULT NULL COMMENT '创建人id',
+    kn_created_at DATETIME(3)     NOT NULL DEFAULT current_timestamp(3) COMMENT '创建时间',
+    kn_updated_by bigint unsigned NULL     DEFAULT NULL COMMENT '修改人id',
+    kn_updated_at DATETIME(3)     NOT NULL DEFAULT current_timestamp(3) on update current_timestamp(3) COMMENT '修改时间',
+    is_del        boolean         NOT NULL DEFAULT false COMMENT '是否删除',
+    kn_id         bigint unsigned NOT NULL COMMENT '唯一标识',
+    kn_user_id    bigint unsigned NULL     DEFAULT NULL COMMENT '用户id',
+    kn_role_id    bigint unsigned NULL     DEFAULT NULL COMMENT '角色id',
+    kn_org_id     bigint unsigned NULL     DEFAULT NULL COMMENT '组织id',
+    PRIMARY KEY (kn_id)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci
+    COMMENT = '用户角色组织表';
+
+CREATE INDEX idx_user_id ON upcs_user_role_org (kn_user_id);
+CREATE INDEX idx_role_id ON upcs_user_role_org (kn_role_id);
+CREATE INDEX idx_org_id ON upcs_user_role_org (kn_org_id);
+
+# DROP TABLE IF EXISTS upcs_permission;
+CREATE TABLE upcs_permission
+(
+    kn_created_by bigint unsigned NULL     DEFAULT NULL COMMENT '创建人id',
+    kn_created_at DATETIME(3)     NOT NULL DEFAULT current_timestamp(3) COMMENT '创建时间',
+    kn_updated_by bigint unsigned NULL     DEFAULT NULL COMMENT '修改人id',
+    kn_updated_at DATETIME(3)     NOT NULL DEFAULT current_timestamp(3) on update current_timestamp(3) COMMENT '修改时间',
+    is_del        boolean         NOT NULL DEFAULT false COMMENT '是否删除',
+    kn_id         bigint unsigned NOT NULL COMMENT '主键',
+    kn_name       VARCHAR(64)     NOT NULL DEFAULT '' COMMENT '名称',
+    kn_code       VARCHAR(64)     NOT NULL DEFAULT '' COMMENT '权限编码',
+    kn_type       VARCHAR(64)     NOT NULL DEFAULT 'PAGE' COMMENT '类别（页面PAGE，URL，接口API）',
+    PRIMARY KEY (kn_id)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci
+    COMMENT = '权限表';
+
+# DROP TABLE IF EXISTS upcs_role_permission;
+CREATE TABLE upcs_role_permission
+(
+    kn_created_by    bigint unsigned NULL     DEFAULT NULL COMMENT '创建人id',
+    kn_created_at    DATETIME(3)     NOT NULL DEFAULT current_timestamp(3) COMMENT '创建时间',
+    kn_updated_by    bigint unsigned NULL     DEFAULT NULL COMMENT '修改人id',
+    kn_updated_at    DATETIME(3)     NOT NULL DEFAULT current_timestamp(3) on update current_timestamp(3) COMMENT '修改时间',
+    is_del           boolean         NOT NULL DEFAULT false COMMENT '是否删除',
+    kn_id            bigint unsigned NOT NULL COMMENT '主键',
+    kn_role_id       bigint unsigned NOT NULL COMMENT '角色id',
+    kn_permission_id bigint unsigned NOT NULL COMMENT '权限id',
+    PRIMARY KEY (kn_id)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci
+    COMMENT = '角色权限表';
+
+CREATE INDEX idx_role_id ON upcs_role_permission (kn_role_id);

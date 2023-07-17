@@ -1,0 +1,10 @@
+INSERT INTO upcs_role (kn_created_by, kn_updated_by, kn_id, kn_name, kn_code)
+VALUES (0, 0, 0, '超级管理员', 'SUPER_ADMIN'),
+       (0, 0, 1, '机构管理员', 'ADMIN'),
+       (0, 0, 2, '医生', 'DOCTOR');
+
+-- 超级管理员用户
+INSERT INTO upcs_user (kn_created_by, kn_updated_by, kn_id, kn_login_name, kn_login_password, is_enabled, kn_name)
+VALUES (0, 0, 0, 'admin', '$2a$04$pvsUnnWV4K1EjpW3g5VVT.WplbTPsSai12ze8UmIt7d8EV6hYQXau', 1, '超级管理员');
+INSERT INTO upcs_user_role_org (kn_created_by, kn_updated_by, kn_id, kn_user_id, kn_role_id, kn_org_id)
+VALUES (0, 0, 0, 0, 0, 0);

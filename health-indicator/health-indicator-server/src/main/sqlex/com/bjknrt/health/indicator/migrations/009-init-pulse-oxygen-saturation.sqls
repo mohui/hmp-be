@@ -1,0 +1,14 @@
+-- 脉搏氧饱和度
+create table hi_pulse_oximetry
+(
+    kn_created_by     bigint unsigned        NULL     DEFAULT NULL COMMENT '创建人id',
+    kn_created_at     DATETIME(3)            NOT NULL DEFAULT current_timestamp(3) COMMENT '创建时间',
+    kn_id             bigint unsigned        NOT NULL COMMENT '主键',
+    kn_patient_id     bigint unsigned        NOT NULL COMMENT '病人id',
+    kn_pulse_oximetry decimal(6, 4) unsigned NOT NULL COMMENT '脉搏氧饱和度',
+    from_tag          varchar(64)            NOT NULL COMMENT '来源标识（PATIENT_SELF：患者本身，DOCTOR_VISIT：医生随访）',
+    kn_measure_at     DATETIME(3)            NOT NULL DEFAULT current_timestamp(3) COMMENT '测量时间'
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci
+    COMMENT = '脉搏氧饱和度指标表';

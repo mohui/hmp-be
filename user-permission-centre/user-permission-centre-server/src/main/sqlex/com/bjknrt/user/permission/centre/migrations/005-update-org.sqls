@@ -1,0 +1,8 @@
+alter table upcs_org
+    add column kn_admin_division_code bigint unsigned not null comment '行政区域编码';
+
+alter table upcs_org
+    add column kn_org_level varchar(50) not null comment '组织级别(基层卫生院 substrate_hygiene_hospital,社区卫生服务中心 community_service_center,乡镇医院	towns_hospital,乡镇	towns,乡镇民营医院 towns_private_hospital,乡镇卫生院	towns_hygiene_hospital,县域医院	county_hospital,市级医疗机构	city_medical_institution,市级综合医院	city_composite_hospital,一级	level_one,一级综合医院	level_one_composite_hospital,一级专科医院	level_one_specialty_hospital,一级甲等	level_one_frist,一级乙等	level_one_second,二级	level_two,二级医院	level_two_hospital,二级综合医院	level_two_composite_hospital,二级专科医院	level_two_specialty_hospital,二级甲等	level_two_frist,二级乙等	level_two_second,三级	level_three,三级医院	level_three_hospital,三级综合医院	level_three_composite_hospital,三级专科医院	level_three_specialty_hospital,三级甲等	level_three_frist,三级乙等	level_three_second)';
+
+alter table upcs_org
+    add column kn_parent_id bigint unsigned default null comment '父节点';

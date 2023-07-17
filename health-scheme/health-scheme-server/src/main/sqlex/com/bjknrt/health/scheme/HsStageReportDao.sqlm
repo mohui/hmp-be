@@ -1,0 +1,21 @@
+import java.math.BigInteger
+
+findReportPage*(patientId:BigInteger, stageReportType:String) {
+    select hsr.id,
+           hsr.health_scheme_management_info_id,
+           hsr.patient_id,
+           hsr.patient_name,
+           hsr.report_name,
+           hsr.report_score,
+           hsr.report_start_datetime,
+           hsr.report_end_datetime,
+           hsr.created_by,
+           hsr.created_at,
+           hsr.fail_msg,
+           hsr.age,
+           hsr.stage_report_type
+    from hs_stage_report hsr
+    where hsr.patient_id = :patientId
+      and (:stageReportType is null or hsr.stage_report_type = :stageReportType)
+      order by hsr.created_at desc
+}

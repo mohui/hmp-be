@@ -1,0 +1,269 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: hmp-server-vs
+spec:
+  gateways:
+    - hmp-server-gateway
+  http:
+    - corsPolicy:
+        allowOrigins:
+          - regex: "(https?://.*bjknrt.com)|(http://127.0.0.1:.*)|(http://localhost:.*)"
+        allowHeaders:
+          - "Content-Type"
+          - "Token"
+        exposeHeaders:
+          - "Token"
+          - "Kato-Exception"
+        maxAge: "24h"
+      match:
+        - uri:
+            prefix: "/user-permission-centre-server"
+      rewrite:
+        uri: " "
+      route:
+        - destination:
+            host: user-permission-centre
+            port:
+              number: 8080
+    - corsPolicy:
+        allowOrigins:
+          - regex: "(https?://.*bjknrt.com)|(http://127.0.0.1:.*)|(http://localhost:.*)"
+        allowHeaders:
+          - "Content-Type"
+          - "Token"
+        exposeHeaders:
+          - "Token"
+          - "Kato-Exception"
+        maxAge: "24h"
+      match:
+        - uri:
+            prefix: "/operation-log-server"
+      rewrite:
+        uri: " "
+      route:
+        - destination:
+            host: operation-log
+            port:
+              number: 8080
+    - corsPolicy:
+        allowOrigins:
+          - regex: "(https?://.*bjknrt.com)|(http://127.0.0.1:.*)|(http://localhost:.*)"
+        allowHeaders:
+          - "Content-Type"
+          - "Token"
+        exposeHeaders:
+          - "Token"
+          - "Kato-Exception"
+        maxAge: "24h"
+      match:
+        - uri:
+            prefix: "/message-board-server"
+      rewrite:
+        uri: " "
+      route:
+        - destination:
+            host: message-board
+            port:
+              number: 8080
+    - corsPolicy:
+        allowOrigins:
+          - regex: "(https?://.*bjknrt.com)|(http://127.0.0.1:.*)|(http://localhost:.*)"
+        allowHeaders:
+          - "Content-Type"
+          - "Token"
+        exposeHeaders:
+          - "Token"
+          - "Kato-Exception"
+        maxAge: "24h"
+      match:
+        - uri:
+            prefix: "/article-service-server"
+      rewrite:
+        uri: " "
+      route:
+        - destination:
+            host: article-service
+            port:
+              number: 8080
+    - corsPolicy:
+        allowOrigins:
+          - regex: "(https?://.*bjknrt.com)|(http://127.0.0.1:.*)|(http://localhost:.*)"
+        allowHeaders:
+          - "Content-Type"
+          - "Token"
+        exposeHeaders:
+          - "Token"
+          - "Kato-Exception"
+        maxAge: "24h"
+      match:
+        - uri:
+            prefix: "/health-scheme-server"
+      rewrite:
+        uri: " "
+      route:
+        - destination:
+            host: health-scheme
+            port:
+              number: 8080
+    - corsPolicy:
+        allowOrigins:
+          - regex: "(https?://.*bjknrt.com)|(http://127.0.0.1:.*)|(http://localhost:.*)"
+        allowHeaders:
+          - "Content-Type"
+          - "Token"
+        exposeHeaders:
+          - "Token"
+          - "Kato-Exception"
+        maxAge: "24h"
+      match:
+        - uri:
+            prefix: "/medication-remind-server"
+      rewrite:
+        uri: " "
+      route:
+        - destination:
+            host: medication-remind
+            port:
+              number: 8080
+    - corsPolicy:
+        allowOrigins:
+          - regex: "(https?://.*bjknrt.com)|(http://127.0.0.1:.*)|(http://localhost:.*)"
+        allowHeaders:
+          - "Content-Type"
+          - "Token"
+        exposeHeaders:
+          - "Token"
+          - "Kato-Exception"
+        maxAge: "24h"
+      match:
+        - uri:
+            prefix: "/medication-guide-server"
+      rewrite:
+        uri: " "
+      route:
+        - destination:
+            host: medication-guide
+            port:
+              number: 8080
+    - corsPolicy:
+        allowOrigins:
+          - regex: "(https?://.*bjknrt.com)|(http://127.0.0.1:.*)|(http://localhost:.*)"
+        allowHeaders:
+          - "Content-Type"
+          - "Token"
+        exposeHeaders:
+          - "Token"
+          - "Kato-Exception"
+        maxAge: "24h"
+      match:
+        - uri:
+            prefix: "/wechat-service-server"
+      rewrite:
+        uri: " "
+      route:
+        - destination:
+            host: wechat-service
+            port:
+              number: 8080
+    - corsPolicy:
+        allowOrigins:
+          - regex: "(https?://.*bjknrt.com)|(http://127.0.0.1:.*)|(http://localhost:.*)"
+        allowHeaders:
+          - "Content-Type"
+          - "Token"
+        exposeHeaders:
+          - "Token"
+          - "Kato-Exception"
+        maxAge: "24h"
+      match:
+        - uri:
+            prefix: "/doctor-patient-management-server"
+      rewrite:
+        uri: " "
+      route:
+        - destination:
+            host: doctor-patient-management
+            port:
+              number: 8080
+    - corsPolicy:
+        allowOrigins:
+          - regex: "(https?://.*bjknrt.com)|(http://127.0.0.1:.*)|(http://localhost:.*)"
+        allowHeaders:
+          - "Content-Type"
+          - "Token"
+        exposeHeaders:
+          - "Token"
+          - "Kato-Exception"
+        maxAge: "24h"
+      match:
+        - uri:
+            prefix: "/health-indicator-server"
+      rewrite:
+        uri: " "
+      route:
+        - destination:
+            host: health-indicator
+            port:
+              number: 8080
+    - corsPolicy:
+        allowOrigins:
+          - regex: "(https?://.*bjknrt.com)|(http://127.0.0.1:.*)|(http://localhost:.*)"
+        allowHeaders:
+          - "Content-Type"
+          - "Token"
+        exposeHeaders:
+          - "Token"
+          - "Kato-Exception"
+        maxAge: "24h"
+      match:
+        - uri:
+            prefix: "/question-answering-system-server"
+      rewrite:
+        uri: " "
+      route:
+        - destination:
+            host: question-answering-system
+            port:
+              number: 8080
+    - corsPolicy:
+        allowOrigins:
+          - regex: "(https?://.*bjknrt.com)|(http://127.0.0.1:.*)|(http://localhost:.*)"
+        allowHeaders:
+          - "Content-Type"
+          - "Token"
+        exposeHeaders:
+          - "Token"
+          - "Kato-Exception"
+        maxAge: "24h"
+      match:
+        - uri:
+            prefix: "/statistic-analysis-server"
+      rewrite:
+        uri: " "
+      route:
+        - destination:
+            host: statistic-analysis
+            port:
+              number: 8080
+    - corsPolicy:
+        allowOrigins:
+          - regex: "(https?://.*bjknrt.com)|(http://127.0.0.1:.*)|(http://localhost:.*)"
+        allowHeaders:
+          - "Content-Type"
+          - "Token"
+        exposeHeaders:
+          - "Token"
+          - "Kato-Exception"
+        maxAge: "24h"
+      match:
+        - uri:
+            prefix: "/unifs-web-server"
+      rewrite:
+        uri: " "
+      route:
+        - destination:
+            host: unifs-web
+            port:
+              number: 8080

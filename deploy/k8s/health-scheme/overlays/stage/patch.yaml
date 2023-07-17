@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: health-scheme
+spec:
+  replicas: 2
+  template:
+    spec:
+      containers:
+        - name: health-scheme
+          env:
+            - name: APP_PROFILE
+              value: test
+            - name: NACOS_SERVER_ADDR
+              value: 192.168.3.140:8848,192.168.3.141:8848,192.168.3.142:8848

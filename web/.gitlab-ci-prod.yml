@@ -1,0 +1,17 @@
+prod:web:build:
+  extends:
+    - .web:init
+  stage: build
+  tags:
+    - pve
+    - shell
+  variables:
+    DEV_IMAGE_TAG: dev-${CI_COMMIT_SHORT_SHA}
+    IMAGE_TAG: prod-${CI_COMMIT_SHORT_SHA}
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^standalone*/'
+      when: manual
+  script:
+    - docker pull ${IMAGE_NAME}:${DEV_IMAGE_TAG}
+    - docker image tag ${IMAGE_NAME}:${DEV_IMAGE_TAG} ${IMAGE_NAME}:${IMAGE_TAG}
+    - docker push ${IMAGE_NAME}:${IMAGE_TAG}

@@ -1,0 +1,27 @@
+-- create on 2022/8/16, by knrt
+
+-- 数据库Schema描述文件, 执行DDL操作
+alter table `hi_blood_lipids`
+    add column `from_tag` varchar(64) not null comment '来源标识（PATIENT_SELF：患者本身，DOCTOR_VISIT：医生随访），后续会进行补充';
+alter table `hi_blood_pressure`
+    add column `from_tag` varchar(64) not null comment '来源标识（PATIENT_SELF：患者本身，DOCTOR_VISIT：医生随访），后续会进行补充';
+alter table `hi_blood_sugar`
+    add column `from_tag` varchar(64) not null comment '来源标识（PATIENT_SELF：患者本身，DOCTOR_VISIT：医生随访），后续会进行补充';
+alter table `hi_bmi`
+    add column `from_tag` varchar(64) not null comment '来源标识（PATIENT_SELF：患者本身，DOCTOR_VISIT：医生随访），后续会进行补充';
+alter table `hi_body_height`
+    add column `from_tag` varchar(64) not null comment '来源标识（PATIENT_SELF：患者本身，DOCTOR_VISIT：医生随访），后续会进行补充';
+alter table `hi_body_temperature`
+    add column `from_tag` varchar(64) not null comment '来源标识（PATIENT_SELF：患者本身，DOCTOR_VISIT：医生随访），后续会进行补充';
+alter table `hi_body_weight`
+    add column `from_tag` varchar(64) not null comment '来源标识（PATIENT_SELF：患者本身，DOCTOR_VISIT：医生随访），后续会进行补充';
+alter table `hi_drinking`
+    add column `from_tag` varchar(64) not null comment '来源标识（PATIENT_SELF：患者本身，DOCTOR_VISIT：医生随访），后续会进行补充';
+alter table `hi_heart_rate`
+    add column `from_tag` varchar(64) not null comment '来源标识（PATIENT_SELF：患者本身，DOCTOR_VISIT：医生随访），后续会进行补充';
+alter table `hi_pulse`
+    add column `from_tag` varchar(64) not null comment '来源标识（PATIENT_SELF：患者本身，DOCTOR_VISIT：医生随访），后续会进行补充';
+alter table `hi_smoke`
+    add column `from_tag` varchar(64) not null comment '来源标识（PATIENT_SELF：患者本身，DOCTOR_VISIT：医生随访），后续会进行补充';
+alter table `hi_waistline`
+    add column `from_tag` varchar(64) not null comment '来源标识（PATIENT_SELF：患者本身，DOCTOR_VISIT：医生随访），后续会进行补充';

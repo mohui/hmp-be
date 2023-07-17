@@ -1,0 +1,146 @@
+# methodName() {
+#     select * from dual
+# }
+#import cn.hutool.core.date.DateTime
+#
+import java.math.BigInteger
+import java.time.LocalDateTime
+
+healthPlanFrequencyList(patientId:BigInteger) {
+    select plan.kn_id,
+           plan.kn_patient_id,
+           plan.kn_name,
+           plan.kn_sub_name,
+           plan.kn_desc,
+           plan.kn_type,
+           plan.kn_time,
+           plan.is_monday,
+           plan.is_tuesday,
+           plan.is_wednesday,
+           plan.is_thursday,
+           plan.is_friday,
+           plan.is_saturday,
+           plan.is_sunday,
+           plan.is_used,
+           plan.kn_cycle_start_time,
+           plan.kn_cycle_end_time,
+           plan.kn_created_at,
+           plan.kn_created_by,
+           plan.kn_updated_at,
+           plan.kn_updated_by,
+           plan.external_key,
+           frequency.kn_id                  frequencyId,
+           frequency.kn_explain_id          frequencyExplainId,
+           frequency.kn_frequency_time      frequencyTime,
+           frequency.kn_frequency_time_unit frequencyTimeUnit,
+           frequency.kn_frequency_num       frequencyNum,
+           frequency.kn_frequency_num_unit  frequencyNumUnit,
+           frequency.kn_created_at          frequencyCreatedAt
+    from mr_health_plan plan
+             left join mr_frequency frequency on plan.kn_id = frequency.kn_health_plan_id
+    WHERE plan.kn_patient_id = :patientId
+      and plan.is_used = true
+      and plan.is_del = false
+}
+
+# 健康计划今天打卡列表
+healthPlanTodayClockList(patientId:BigInteger, startTime:LocalDateTime, endTime:LocalDateTime, currentTime:LocalDateTime) {
+    select plan.kn_id,
+           plan.kn_patient_id,
+           plan.kn_name,
+           plan.kn_sub_name,
+           plan.kn_desc,
+           plan.kn_type,
+           plan.kn_time,
+           plan.is_monday,
+           plan.is_tuesday,
+           plan.is_wednesday,
+           plan.is_thursday,
+           plan.is_friday,
+           plan.is_saturday,
+           plan.is_sunday,
+           plan.is_used,
+           plan.kn_cycle_start_time,
+           plan.kn_cycle_end_time,
+           plan.kn_created_by,
+           plan.kn_updated_by,
+           plan.kn_updated_at,
+           plan.kn_created_at,
+           plan.external_key,
+           plan.kn_group,
+           plan.is_clock_display,
+           clockIn.count
+    from mr_health_plan plan
+             left join (select health.kn_id, count(clock.kn_health_plan_id) count
+                        from mr_health_plan health
+                                 left join mr_clock_in clock on health.kn_id = clock.kn_health_plan_id
+                            and clock.kn_clock_at >= :startTime
+                            and clock.kn_clock_at < :endTime
+                        where health.kn_patient_id = :patientId
+                          and health.is_del = false
+                        group by health.kn_id) clockIn on plan.kn_id = clockIn.kn_id
+    WHERE plan.kn_patient_id = :patientId
+      and plan.is_del = false
+      and plan.kn_cycle_start_time <= :currentTime
+      and (plan.kn_cycle_end_time is null or plan.kn_cycle_end_time > :currentTime)
+      and ((plan.kn_type = 'DRUG' and plan.is_used = true) or plan.kn_type != 'DRUG')
+      and plan.kn_display_time <= :currentTime
+}
+
+clockInHistorySql(patientId:BigInteger, startTime:LocalDateTime, endTime:LocalDateTime) {
+    select plan.kn_id,
+           plan.kn_name,
+           clock.kn_clock_at
+    from mr_health_plan plan
+             left join mr_clock_in clock on plan.kn_id = clock.kn_health_plan_id
+    WHERE plan.kn_patient_id = :patientId
+      and plan.is_del = false
+      and plan.kn_cycle_start_time <= :startTime
+      and (plan.kn_cycle_end_time is null or plan.kn_cycle_end_time >= :endTime)
+      and clock.kn_clock_at >= :startTime
+      and clock.kn_clock_at < :endTime
+}
+
+# 健康计划线下随访 测量计划(血压、空腹血糖、餐前血糖、餐后2小时血糖、脉搏氧饱和度)
+healthPlanList(patientId:BigInteger*, currentTime:LocalDateTime, typeList:String*) {
+    select plan.kn_id,
+           plan.kn_patient_id,
+           plan.kn_name,
+           plan.kn_sub_name,
+           plan.kn_desc,
+           plan.kn_type,
+           plan.kn_time,
+           plan.is_monday,
+           plan.is_tuesday,
+           plan.is_wednesday,
+           plan.is_thursday,
+           plan.is_friday,
+           plan.is_saturday,
+           plan.is_sunday,
+           plan.is_used,
+           plan.kn_cycle_start_time,
+           plan.kn_cycle_end_time,
+           plan.kn_created_by,
+           plan.kn_updated_by,
+           plan.kn_updated_at,
+           plan.kn_created_at,
+           plan.external_key,
+           plan.kn_group,
+           plan.is_clock_display,
+           plan.kn_display_time
+    from mr_health_plan plan
+    WHERE kn_patient_id in (:patientId)
+      and plan.kn_type in (:typeList)
+      and plan.is_used = true
+      and plan.is_del = false
+      AND plan.kn_cycle_start_time <= :currentTime
+      and (plan.kn_cycle_end_time is null or plan.kn_cycle_end_time > :currentTime)
+      and plan.kn_display_time <= :currentTime
+}
+
+pagePatientIds*() {
+    select distinct kn_patient_id
+    from mr_health_plan
+    where is_del = false
+      and is_used = true
+}

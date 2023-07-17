@@ -1,0 +1,6 @@
+alter table dpm_doctor_patient
+    drop kn_message_status;
+
+alter table dpm_doctor_patient
+    drop kn_message_num;
+

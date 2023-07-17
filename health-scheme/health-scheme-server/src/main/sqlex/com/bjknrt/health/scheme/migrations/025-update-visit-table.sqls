@@ -1,0 +1,49 @@
+-- 脑卒中患者随访表添加随访方式和随访时间
+ALTER TABLE `hs_cerebral_stroke_visit`
+    ADD COLUMN `patient_name` varchar(50) NOT NULL COMMENT '患者名称' AFTER `patient_id`;
+
+ALTER TABLE `hs_cerebral_stroke_visit`
+    ADD COLUMN `doctor_name` varchar(50) NULL COMMENT '医生名称' AFTER `doctor_id`;
+
+ALTER TABLE `hs_cerebral_stroke_visit`
+    ADD COLUMN `follow_way` varchar(255) NOT NULL COMMENT '随访方式. SELF. 患者自填. OUTPATIENT. 门诊; FAMILY. 家庭; PHONE. 电话;ONLINE.线上' AFTER `doctor_name`;
+
+ALTER TABLE `hs_cerebral_stroke_visit`
+    ADD COLUMN `follow_date` datetime NOT NULL COMMENT '随访时间' AFTER `follow_way`;
+
+
+-- 脑卒中出院随访表添加随访时间, 修改 随访方式字段
+ALTER TABLE `hs_cerebral_stroke_leave_hospital_visit`
+    CHANGE COLUMN `kn_visit_way` `follow_way` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '随访方式（OUTPATIENT:门诊，FAMILY:家庭，PHONE:电话，ONLINE:线上）' AFTER `kn_doctor_id`;
+
+ALTER TABLE `hs_cerebral_stroke_leave_hospital_visit`
+    CHANGE COLUMN `kn_patient_id` `patient_id` bigint UNSIGNED NOT NULL COMMENT '患者ID' AFTER `created_at`;
+
+ALTER TABLE `hs_cerebral_stroke_leave_hospital_visit`
+    CHANGE COLUMN `kn_patient_name` `patient_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '患者姓名' AFTER `patient_id`;
+
+ALTER TABLE `hs_cerebral_stroke_leave_hospital_visit`
+    CHANGE COLUMN `kn_doctor_id` `doctor_id` bigint UNSIGNED NOT NULL COMMENT '随访医生ID' AFTER `patient_name`;
+
+
+ALTER TABLE `hs_cerebral_stroke_leave_hospital_visit`
+    ADD COLUMN `doctor_name` varchar(50) NULL COMMENT '医生名称' AFTER `doctor_id`;
+
+ALTER TABLE `hs_cerebral_stroke_leave_hospital_visit`
+    ADD COLUMN `follow_date` datetime NOT NULL COMMENT '随访日期' AFTER `follow_way`;
+
+-- 高血压随访表 随访日期 改为必填
+update hs_htn_visit set follow_date = now() where follow_date is null;
+
+ALTER TABLE `hs_htn_visit`
+    MODIFY COLUMN `follow_date` datetime(3) NOT NULL COMMENT '随访日期' AFTER `follow_way`;
+
+-- 糖尿病随访表 随访日期 改为必填
+update hs_t2dm_visit set follow_date = now() where follow_date is null;
+ALTER TABLE `hs_t2dm_visit`
+    MODIFY COLUMN `follow_date` datetime(3) NOT NULL COMMENT '随访日期' AFTER `follow_way`;
+
+-- 冠心病随访表 随访日期 改为必填
+update hs_acute_coronary_visit set follow_date = now() where follow_date is null;
+ALTER TABLE `hs_acute_coronary_visit`
+    MODIFY COLUMN `follow_date` datetime(3) NOT NULL COMMENT '随访日期' AFTER `follow_way`;

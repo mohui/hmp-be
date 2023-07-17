@@ -1,0 +1,363 @@
+import java.math.BigInteger
+
+findHospitalSelfAndChildren(id:BigInteger) {
+    select kn_id, kn_name, kn_region_code
+    from upcs.upcs_org
+    where :id is not null
+      and (kn_id = :id)
+    order by kn_id
+}
+#每个年龄段每个性别对应的五病个有多少人
+selectAgeGenderOfChronicDiseasePopulation(
+regionCode:BigInteger,
+tagValue:String,
+hospitalIds:BigInteger*,
+hypertensionTag:String,
+diabetesTag:String,
+acuteCoronaryDiseaseTag:String,
+cerebralStrokeTag:String,
+copdTag:String
+) {
+    -- 查找当前区域与所有下级区域
+    with recursive recursion(code, name, parent, level) as (select kn_code, kn_name, kn_parent_code, kn_level_code
+                                                            from upcs.upcs_region
+                                                            where kn_code = :regionCode
+                                                            union all
+                                                            select d1.kn_code, d1.kn_name, d1.kn_parent_code, d1.kn_level_code
+                                                            from upcs.upcs_region d1,
+                                                                 recursion d2
+                                                            where d1.kn_parent_code = d2.code)
+    select ageRange,
+           kn_gender             as gender,
+           count(distinct kn_id) as patientCount
+    from (select patient.kn_id,
+                 patient.kn_gender,
+                 case
+                     when timestampdiff(year, patient.kn_birthday, now()) < 18 then 18
+                     when timestampdiff(year, patient.kn_birthday, now()) < 45 then 44
+                     when timestampdiff(year, patient.kn_birthday, now()) < 60 then 59
+                     when timestampdiff(year, patient.kn_birthday, now()) < 80 then 79
+                     else 80 end as ageRange
+          from dpm.dpm_doctor_info d
+                   INNER JOIN dpm.dpm_doctor_patient dp on dp.kn_doctor_id = d.kn_id
+                   INNER JOIN dpm.dpm_patient_info patient
+                              on patient.kn_id = dp.kn_patient_id and patient.kn_del = FALSE
+                   LEFT JOIN upcs.upcs_user_region region on region.kn_user_id = d.kn_id and region.is_del = FALSE
+                   LEFT JOIN upcs.upcs_user_org org on org.kn_user_id = d.kn_id and org.is_del = FALSE
+                   LEFT JOIN upcs.upcs_org uo on uo.kn_id = org.kn_org_id and uo.is_del = FALSE and
+                                                 (:hospitalIds is null or uo.kn_id in (:hospitalIds))
+                   left join recursion r on r.code = COALESCE(uo.kn_region_code, region.kn_region_code)
+          where d.kn_del = FALSE
+            and ((:hospitalIds is not null and uo.kn_id is not null) or
+                 (:regionCode is not null and r.code is not null) or
+                 (:hospitalIds is null and :regionCode is null))
+            and (
+                  ((:hypertensionTag is null) OR
+                   (patient.kn_hypertension_disease_tag = :tagValue))
+                  AND
+                  ((:diabetesTag is null) OR
+                   (patient.kn_diabetes_disease_tag = :tagValue))
+                  AND
+                  ((:acuteCoronaryDiseaseTag is null) OR
+                   (patient.kn_acute_coronary_disease_tag = :tagValue))
+                  AND
+                  ((:cerebralStrokeTag is null) OR
+                   (patient.kn_cerebral_stroke_disease_tag = :tagValue))
+                  AND
+                  ((:copdTag is null) OR (patient.kn_copd_disease_tag = :tagValue))
+              )) a
+    group by ageRange, kn_gender
+    order by ageRange, kn_gender
+}
+#获取疾病对应男女的人数
+diseaseGenderList(
+regionCode:BigInteger,
+patientType:String,
+hospitalIds:BigInteger*,
+hypertensionTag:String,
+diabetesTag:String,
+acuteCoronaryDiseaseTag:String,
+cerebralStrokeTag:String,
+copdTag:String
+) {
+    -- 查找当前区域与所有下级区域
+    with recursive
+        recursion(code, name, parent, level) as (select kn_code, kn_name, kn_parent_code, kn_level_code
+                                                 from upcs.upcs_region
+                                                 where kn_code = :regionCode
+                                                 union all
+                                                 select d1.kn_code, d1.kn_name, d1.kn_parent_code, d1.kn_level_code
+                                                 from upcs.upcs_region d1,
+                                                      recursion d2
+                                                 where d1.kn_parent_code = d2.code),
+        dmp_patient_info as (select patient.kn_id,
+                                    patient.kn_gender,
+                                    kn_copd_disease_tag,
+                                    kn_acute_coronary_disease_tag,
+                                    kn_hypertension_disease_tag,
+                                    kn_cerebral_stroke_disease_tag,
+                                    kn_diabetes_disease_tag
+                             from dpm.dpm_doctor_info d
+                                      INNER JOIN dpm.dpm_doctor_patient dp on dp.kn_doctor_id = d.kn_id
+                                      INNER JOIN dpm.dpm_patient_info patient
+                                                 on patient.kn_id = dp.kn_patient_id and patient.kn_del = FALSE
+                                      LEFT JOIN upcs.upcs_user_region region
+                                                on region.kn_user_id = d.kn_id and region.is_del = FALSE
+                                      LEFT JOIN upcs.upcs_user_org org
+                                                on org.kn_user_id = d.kn_id and org.is_del = FALSE
+                                      LEFT JOIN upcs.upcs_org uo on uo.kn_id = org.kn_org_id and uo.is_del = FALSE and
+                                                                    (:hospitalIds is null or uo.kn_id in (:hospitalIds))
+                                      left join recursion r
+                                                on r.code = COALESCE(uo.kn_region_code, region.kn_region_code)
+                             where d.kn_del = FALSE
+                               and ((:hospitalIds is not null and uo.kn_id is not null) or
+                                    (:regionCode is not null and r.code is not null)  or
+                                    (:hospitalIds is null and :regionCode is null))
+                               and (
+                                     ((:hypertensionTag is null) OR
+                                      (patient.kn_hypertension_disease_tag = :patientType))
+                                     AND
+                                     ((:diabetesTag is null) OR
+                                      (patient.kn_diabetes_disease_tag = :patientType))
+                                     AND
+                                     ((:acuteCoronaryDiseaseTag is null) OR
+                                      (patient.kn_acute_coronary_disease_tag = :patientType))
+                                     AND
+                                     ((:cerebralStrokeTag is null) OR
+                                      (patient.kn_cerebral_stroke_disease_tag = :patientType))
+                                     AND
+                                     ((:copdTag is null) OR (patient.kn_copd_disease_tag = :patientType))
+                                 ))
+    select kn_gender                                                                as gender,
+           sum(if(ifnull(kn_hypertension_disease_tag, '') = :patientType, 1, 0))    as hypertension_disease_count,
+           sum(if(ifnull(kn_diabetes_disease_tag, '') = :patientType, 1, 0))        as diabetes_disease_count,
+           sum(if(ifnull(kn_acute_coronary_disease_tag, '') = :patientType, 1, 0))  as acute_coronary_disease_count,
+           sum(if(ifnull(kn_cerebral_stroke_disease_tag, '') = :patientType, 1, 0)) as cerebral_stroke_disease_count,
+           sum(if(ifnull(kn_copd_disease_tag, '') = :patientType, 1, 0))            as copd_disease_count
+    from dmp_patient_info
+    group by gender
+}
+
+chronicCrowdList(regionCode:BigInteger, hospitalIds:BigInteger*) {
+    -- 查找当前区域与所有下级区域
+    with recursive
+        recursion(code, name, parent, level) as (select kn_code, kn_name, kn_parent_code, kn_level_code
+                                                 from upcs.upcs_region
+                                                 where kn_code = :regionCode
+                                                 union all
+                                                 select d1.kn_code, d1.kn_name, d1.kn_parent_code, d1.kn_level_code
+                                                 from upcs.upcs_region d1,
+                                                      recursion d2
+                                                 where d1.kn_parent_code = d2.code),
+        dmp_patient_info as (select patient.kn_id,
+                                    kn_copd_disease_tag,
+                                    kn_acute_coronary_disease_tag,
+                                    kn_hypertension_disease_tag,
+                                    kn_cerebral_stroke_disease_tag,
+                                    kn_diabetes_disease_tag
+                             from dpm.dpm_doctor_info d
+                                      INNER JOIN dpm.dpm_doctor_patient dp on dp.kn_doctor_id = d.kn_id
+                                      INNER JOIN dpm.dpm_patient_info patient
+                                                 on patient.kn_id = dp.kn_patient_id and patient.kn_del = FALSE
+                                      LEFT JOIN upcs.upcs_user_region region
+                                                on region.kn_user_id = d.kn_id and region.is_del = FALSE
+                                      LEFT JOIN upcs.upcs_user_org org
+                                                on org.kn_user_id = d.kn_id and org.is_del = FALSE
+                                      LEFT JOIN upcs.upcs_org uo on uo.kn_id = org.kn_org_id and uo.is_del = FALSE and
+                                                                    (:hospitalIds is null or uo.kn_id in (:hospitalIds))
+                                      left join recursion r
+                                                on r.code = COALESCE(uo.kn_region_code, region.kn_region_code)
+                             where d.kn_del = FALSE
+                               and ((:hospitalIds is not null and uo.kn_id is not null) or
+                                    (:regionCode is not null and r.code is not null)  or
+                                    (:hospitalIds is null and :regionCode is null)))
+    select 'COPD'                                              as disease,
+           kn_copd_disease_tag                                 as tag,
+           sum(if(ifnull(kn_copd_disease_tag, '') = '', 0, 1)) as count
+    from dmp_patient_info
+    where ifnull(kn_copd_disease_tag, '') != ''
+    group by tag
+    union all
+    select 'CEREBRAL_STROKE'                                              as disease,
+           kn_cerebral_stroke_disease_tag                                 as tag,
+           sum(if(ifnull(kn_cerebral_stroke_disease_tag, '') = '', 0, 1)) as count
+    from dmp_patient_info
+    where ifnull(kn_cerebral_stroke_disease_tag, '') != ''
+    group by tag
+    union all
+    select 'ACUTE_CORONARY_DISEASE'                                      as disease,
+           kn_acute_coronary_disease_tag                                 as tag,
+           sum(if(ifnull(kn_acute_coronary_disease_tag, '') = '', 0, 1)) as count
+    from dmp_patient_info
+    where ifnull(kn_acute_coronary_disease_tag, '') != ''
+    group by tag
+    union all
+    select 'DIABETES'                                              as disease,
+           kn_diabetes_disease_tag                                 as tag,
+           sum(if(ifnull(kn_diabetes_disease_tag, '') = '', 0, 1)) as count
+    from dmp_patient_info
+    where ifnull(kn_diabetes_disease_tag, '') != ''
+    group by tag
+    union all
+    select 'HYPERTENSION'                                              as disease,
+           kn_hypertension_disease_tag                                 as tag,
+           sum(if(ifnull(kn_hypertension_disease_tag, '') = '', 0, 1)) as count
+    from dmp_patient_info
+    where ifnull(kn_hypertension_disease_tag, '') != ''
+    group by tag
+}
+
+#获取首页指标汇总数据
+findHomeSummaryTitle(
+regionCode:BigInteger,
+ids:BigInteger*,
+tagValue:String,
+hypertensionTag:String,
+diabetesTag:String,
+acuteCoronaryDiseaseTag:String,
+cerebralStrokeTag:String,
+copdTag:String
+) {
+    -- 查找当前区域与所有下级区域
+    with recursive
+        recursion(code, name, parent, level) as (select kn_code, kn_name, kn_parent_code, kn_level_code
+                                                 from upcs.upcs_region
+                                                 where kn_code = :regionCode
+                                                 union all
+                                                 select d1.kn_code, d1.kn_name, d1.kn_parent_code, d1.kn_level_code
+                                                 from upcs.upcs_region d1,
+                                                      recursion d2
+                                                 where d1.kn_parent_code = d2.code),
+        dmp_patient_info as (select patient.kn_id
+                             from dpm.dpm_doctor_info d
+                                      INNER JOIN dpm.dpm_doctor_patient dp on dp.kn_doctor_id = d.kn_id
+                                      INNER JOIN dpm.dpm_patient_info patient
+                                                 on patient.kn_id = dp.kn_patient_id and patient.kn_del = FALSE
+                                      LEFT JOIN upcs.upcs_user_region region
+                                                on region.kn_user_id = d.kn_id and region.is_del = FALSE
+                                      LEFT JOIN upcs.upcs_user_org org
+                                                on org.kn_user_id = d.kn_id and org.is_del = FALSE
+                                      LEFT JOIN upcs.upcs_org uo on uo.kn_id = org.kn_org_id and uo.is_del = FALSE and
+                                                                    (:ids is null or uo.kn_id in (:ids))
+                                      left join recursion r
+                                                on r.code = COALESCE(uo.kn_region_code, region.kn_region_code)
+                             where d.kn_del = FALSE
+                               and ((:ids is not null and uo.kn_id is not null) or
+                                    (:regionCode is not null and r.code is not null)  or
+                                    (:ids is null and :regionCode is null))
+                               and (
+                                     ((:hypertensionTag is null) OR
+                                      (patient.kn_hypertension_disease_tag = :tagValue))
+                                     AND
+                                     ((:diabetesTag is null) OR
+                                      (patient.kn_diabetes_disease_tag = :tagValue))
+                                     AND
+                                     ((:acuteCoronaryDiseaseTag is null) OR
+                                      (patient.kn_acute_coronary_disease_tag = :tagValue))
+                                     AND
+                                     ((:cerebralStrokeTag is null) OR
+                                      (patient.kn_cerebral_stroke_disease_tag = :tagValue))
+                                     AND
+                                     ((:copdTag is null) OR (patient.kn_copd_disease_tag = :tagValue))
+                                 ))
+    select count(dpi.kn_id)                                              as count,           -- 患者数
+           sum(case when ps.patient_id is not null then 1 else 0 end)    as services_number, -- 服务包订阅人数
+           sum(case when qassR.patient_id is not null then 1 else 0 end) as five_disease     -- 五病评估数
+    from dmp_patient_info dpi
+             left join (select distinct patient_id
+                        from upcs.upcs_patient_health_service
+                        where (expire_date is null or expire_date >= now())
+                          -- 基础与疼痛不计数
+                          and health_service_id not in (2022090101, 2022090104)) ps on ps.patient_id = dpi.kn_id
+             left join (select distinct answer_by as patient_id
+                        from qass.qas_questions_answer_record
+                        where examination_paper_code = 'FIVE_DISEASE'
+                          and timestampdiff(day, created_at, now()) <= 30) qassR on qassR.patient_id = dpi.kn_id
+}
+#获取日活
+findHomeSummaryTitle_DAU(
+regionCode:BigInteger,
+ids:BigInteger*,
+hypertensionTag:String,
+diabetesTag:String,
+acuteCoronaryDiseaseTag:String,
+cerebralStrokeTag:String,
+copdTag:String
+) {
+    -- 查找当前区域与所有下级区域
+    with recursive
+        recursion(code, name, parent, level) as (select kn_code, kn_name, kn_parent_code, kn_level_code
+                                                 from upcs.upcs_region
+                                                 where kn_code = :regionCode
+                                                 union all
+                                                 select d1.kn_code, d1.kn_name, d1.kn_parent_code, d1.kn_level_code
+                                                 from upcs.upcs_region d1,
+                                                      recursion d2
+                                                 where d1.kn_parent_code = d2.code),
+        dmp_patient_info as (select patient.kn_id
+                             from dpm.dpm_doctor_info d
+                                      INNER JOIN dpm.dpm_doctor_patient dp on dp.kn_doctor_id = d.kn_id
+                                      INNER JOIN dpm.dpm_patient_info patient
+                                                 on patient.kn_id = dp.kn_patient_id and patient.kn_del = FALSE
+                                      LEFT JOIN upcs.upcs_user_region region
+                                                on region.kn_user_id = d.kn_id and region.is_del = FALSE
+                                      LEFT JOIN upcs.upcs_user_org org
+                                                on org.kn_user_id = d.kn_id and org.is_del = FALSE
+                                      LEFT JOIN upcs.upcs_org uo on uo.kn_id = org.kn_org_id and uo.is_del = FALSE and
+                                                                    (:ids is null or uo.kn_id in (:ids))
+                                      left join recursion r
+                                                on r.code = COALESCE(uo.kn_region_code, region.kn_region_code)
+                             where d.kn_del = FALSE
+                               and ((:ids is not null and uo.kn_id is not null) or
+                                    (:regionCode is not null and r.code is not null) or
+                                    (:ids is null and :regionCode is null))
+                               and (
+                                     ((:hypertensionTag is null) OR
+                                      (patient.kn_hypertension_disease_tag = 'EXISTS'))
+                                     AND
+                                     ((:diabetesTag is null) OR
+                                      (patient.kn_diabetes_disease_tag = 'EXISTS'))
+                                     AND
+                                     ((:acuteCoronaryDiseaseTag is null) OR
+                                      (patient.kn_acute_coronary_disease_tag = 'EXISTS'))
+                                     AND
+                                     ((:cerebralStrokeTag is null) OR
+                                      (patient.kn_cerebral_stroke_disease_tag = 'EXISTS'))
+                                     AND
+                                     ((:copdTag is null) OR (patient.kn_copd_disease_tag = 'EXISTS'))
+                                 ))
+    select count(dpi.kn_id) as count
+    from dmp_patient_info dpi
+             inner join(select distinct kn_created_by as patient_id
+                        from opLog.ol_operator_log
+                        where to_days(kn_created_at) = to_days(now())
+                          and kn_operator_action = '记录日活'
+                          and kn_operator_model = '患者端服务') log on log.patient_id = dpi.kn_id
+}
+#获取医务人数
+findHomeSummaryTitle_Staff(regionCode:BigInteger, ids:BigInteger*) {
+    -- 查找当前区域与所有下级区域
+    with recursive recursion(code, name, parent, level) as (select kn_code, kn_name, kn_parent_code, kn_level_code
+                                                            from upcs.upcs_region
+                                                            where kn_code = :regionCode
+                                                            union all
+                                                            select d1.kn_code, d1.kn_name, d1.kn_parent_code, d1.kn_level_code
+                                                            from upcs.upcs_region d1,
+                                                                 recursion d2
+                                                            where d1.kn_parent_code = d2.code)
+    select count(doctor.kn_id) as medical_staff_number
+    from dpm.dpm_doctor_info doctor
+             left join upcs.upcs_user_org org on org.kn_user_id = doctor.kn_id and org.is_del = FALSE
+             left join upcs.upcs_org o
+                       on o.kn_id = org.kn_org_id and
+                          (:ids is null or o.kn_id in (:ids))
+             left join upcs.upcs_user_region region on region.kn_user_id = doctor.kn_id and region.is_del = FALSE
+             left join recursion r on r.code = COALESCE(o.kn_region_code, region.kn_region_code)
+    where doctor.kn_del = 0
+      and (
+        -- 只设置了机构id时，锁定机构数据
+            (:ids is not null and o.kn_id is not null) or
+            -- 设置了行政区域时，需确保关联关系存在
+            (:regionCode is not null and r.code is not null) or
+            (:ids is null and :regionCode is null))
+}

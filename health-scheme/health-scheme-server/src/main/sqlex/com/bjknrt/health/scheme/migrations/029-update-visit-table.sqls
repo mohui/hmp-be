@@ -1,0 +1,39 @@
+-- 服药依从性为无需服药, 药物不良反应不可选  所以药物不良反应改为可空
+
+-- 高血压 有无药物不良反应 改为可空
+ALTER TABLE `hs_htn_visit`
+    MODIFY COLUMN `is_adr` tinyint(1) NULL COMMENT '有无药物不良反应' AFTER `drug_compliance`;
+
+-- 糖尿病 有无药物不良反应 改为可空
+ALTER TABLE `hs_t2dm_visit`
+    MODIFY COLUMN `is_adr` tinyint(1) NULL COMMENT '有无药物不良反应' AFTER `drug_compliance`;
+
+-- 慢阻肺 有无药物不良反应 改为可空
+ALTER TABLE `hs_copd_visit`
+    MODIFY COLUMN `is_reactions_pains` tinyint(1) NULL COMMENT '心跳过快或心慌' AFTER `drug_compliance`;
+ALTER TABLE `hs_copd_visit`
+    MODIFY COLUMN `is_reactions_convulsion` tinyint(1) NULL COMMENT '手颤或其他抽搐' AFTER `is_reactions_pains`;
+ALTER TABLE `hs_copd_visit`
+    MODIFY COLUMN `is_reactions_dizziness_headache` tinyint(1) NULL COMMENT '头痛头晕' AFTER `is_reactions_convulsion`;
+ALTER TABLE `hs_copd_visit`
+    MODIFY COLUMN `is_reactions_nausea_vomiting` tinyint(1) NULL COMMENT '恶心呕吐' AFTER `is_reactions_dizziness_headache`;
+ALTER TABLE `hs_copd_visit`
+    MODIFY COLUMN `is_reactions_none` tinyint(1) NULL COMMENT '无以上症状' AFTER `is_reactions_nausea_vomiting`;
+
+-- 冠心病 有无药物不良反应 改为可空;
+ALTER TABLE `hs_acute_coronary_visit`
+    MODIFY COLUMN `is_drug_none` tinyint(1) NULL COMMENT '有无药物不良反应' AFTER `abbreviations_about_examination`;
+ALTER TABLE `hs_acute_coronary_visit`
+    MODIFY COLUMN `is_drug_myalgia` tinyint(1) NULL COMMENT '肌肉痛' AFTER `is_drug_none`;
+ALTER TABLE `hs_acute_coronary_visit`
+    MODIFY COLUMN `is_drug_muscle_weakness` tinyint(1) NULL COMMENT '肌肉无力' AFTER `is_drug_myalgia`;
+ALTER TABLE `hs_acute_coronary_visit`
+    MODIFY COLUMN `is_drug_skin_yellowness` tinyint(1) NULL COMMENT '眼白或皮肤发黄' AFTER `is_drug_muscle_weakness`;
+ALTER TABLE `hs_acute_coronary_visit`
+    MODIFY COLUMN `is_bleed_none` tinyint(1) NULL COMMENT '无' AFTER `drug_other`;
+ALTER TABLE `hs_acute_coronary_visit`
+    MODIFY COLUMN `is_bleed_nose` tinyint(1) NULL COMMENT '鼻出血' AFTER `is_bleed_none`;
+ALTER TABLE `hs_acute_coronary_visit`
+    MODIFY COLUMN `is_bleed_gums` tinyint(1) NULL COMMENT '牙龈出血' AFTER `is_bleed_nose`;
+ALTER TABLE `hs_acute_coronary_visit`
+    MODIFY COLUMN `is_bleed_shit` tinyint(1) NULL COMMENT '多次黑褐色大便' AFTER `is_bleed_gums`;

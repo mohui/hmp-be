@@ -1,0 +1,52 @@
+# 运动评估
+INSERT INTO qas_examination_paper (id, examination_paper_title, examination_paper_desc,
+                                   examination_paper_tip, examination_paper_code,
+                                   examination_paper_reference, evaluation_time,
+                                   strategy_code, created_by, created_at, updated_by,
+                                   updated_at, is_del)
+VALUES (600, '饮食习惯评估',
+        '该评估表单可用来评估患者的饮食习惯是否健康，针对患者的选择对其饮食习惯进行打分，满分为10分，分数越低说明患者的饮食习惯越不健康，并会对患者不良的饮食习惯给出相应的建议',
+        '', 'EatingHabitsAssessment', '', '', 'EHA', 1, '2022-08-09 10:30:19.021', 1, '2022-08-09 10:46:19.910', 0);
+
+insert into qas_questions(id, examination_paper_id, questions_title, questions_type, questions_sort, created_by,
+                          updated_by, questions_tip)
+values (601, 600, '您的饮食口味倾向于：', 'MULTIPLE_CHOICE', 1, 1, 1, null),
+       (602, 600, '您吃豆制品的情况：', 'RADIO', 2, 1, 1, null),
+       (603, 600, '您喝牛奶的情况：', 'RADIO', 3, 1, 1, null),
+       (604, 600, '您的零食偏爱：', 'MULTIPLE_CHOICE', 4, 1, 1, null),
+       (605, 600, '您每天正常喝水的量是多少？', 'RADIO', 5, 1, 1, '（以250ml水杯计算）'),
+       (606, 600, '您是否有以下情况：', 'MULTIPLE_CHOICE', 6, 1, 1, null);
+insert into qas_option(id, questions_id, option_code, option_value, option_label, option_tip, option_sort, option_score,
+                       option_type, option_rule, created_by, updated_by)
+values (60101, 601, 'eha_1_a', 'a', '清淡', '', 1, 0, 'SELECT', null, 1, 1),
+       (60102, 601, 'eha_1_b', 'b', '偏咸', '', 2, 1, 'SELECT', null, 1, 1),
+       (60103, 601, 'eha_1_c', 'c', '咸淡适中', '', 3, 0, 'SELECT', null, 1, 1),
+       (60104, 601, 'eha_1_d', 'd', '偏油腻', '', 4, 1, 'SELECT', null, 1, 1),
+       (60105, 601, 'eha_1_e', 'e', '其他', '', 5, 0, 'SELECT', null, 1, 1),
+       (60201, 602, 'eha_2_a', 'a', '天天吃', '', 1, 0, 'SELECT', '{\"single\":true}', 1, 1),
+       (60202, 602, 'eha_2_b', 'b', '每周三次以上', '', 2, 0, 'SELECT', '{\"single\":true}', 1, 1),
+       (60203, 602, 'eha_2_c', 'c', '每周两次以下', '', 3, 1, 'SELECT', '{\"single\":true}', 1, 1),
+       (60204, 602, 'eha_2_d', 'd', '基本不吃', '', 4, 1, 'SELECT', '{\"single\":true}', 1, 1),
+       (60301, 603, 'eha_3_a', 'a', '天天喝', '', 1, 0, 'SELECT', '{\"single\":true}', 1, 1),
+       (60302, 603, 'eha_3_b', 'b', '每周三次以上', '', 2, 0, 'SELECT', '{\"single\":true}', 1, 1),
+       (60303, 603, 'eha_3_c', 'c', '每周两次以下', '', 3, 1, 'SELECT', '{\"single\":true}', 1, 1),
+       (60304, 603, 'eha_3_d', 'd', '基本不喝', '', 4, 1, 'SELECT', '{\"single\":true}', 1, 1),
+       (60401, 604, 'eha_4_a', 'a', '坚果类', '', 1, 0, 'SELECT', null, 1, 1),
+       (60402, 604, 'eha_4_b', 'b', '膨化食品', '', 2, 1, 'SELECT', null, 1, 1),
+       (60403, 604, 'eha_4_c', 'c', '糖果类', '', 3, 1, 'SELECT', null, 1, 1),
+       (60404, 604, 'eha_4_d', 'd', '腌制食品', '', 4, 1, 'SELECT', null, 1, 1),
+       (60405, 604, 'eha_4_e', 'e', '无', '', 5, 0, 'SELECT', null, 1, 1),
+       (60501, 605, 'eha_5_a', 'a', '2500ml', '（10杯以上）', 1, 0, 'SELECT', '{\"single\":true}', 1, 1),
+       (60502, 605, 'eha_5_b', 'b', '1800ml-2500ml', '（7杯-10杯）', 2, 0, 'SELECT', '{\"single\":true}', 1, 1),
+       (60503, 605, 'eha_5_c', 'c', '1500ml-1700ml', '（6杯-7杯）', 3, 0, 'SELECT', '{\"single\":true}', 1, 1),
+       (60504, 605, 'eha_5_d', 'd', '1000ml-1500ml', '（4杯-6杯）', 4, 1, 'SELECT', '{\"single\":true}', 1, 1),
+       (60505, 605, 'eha_5_e', 'e', '小于1000ml', '（0-4杯）', 5, 1, 'SELECT', '{\"single\":true}', 1, 1),
+       (60601, 606, 'eha_6_a', 'a', '吃饭时间不规律', '', 1, 1, 'SELECT', null, 1, 1),
+       (60602, 606, 'eha_6_b', 'b', '应酬多，在外吃饭次数多于在家吃饭次数', '', 2, 1, 'SELECT', null, 1, 1),
+       (60603, 606, 'eha_6_c', 'c', '睡前进食夜宵的习惯', '（除了糖尿病患者）', 3, 1, 'SELECT', null, 1, 1),
+       (60604, 606, 'eha_6_d', 'd', '无', '', 4, 0, 'SELECT', null, 1, 1);
+
+
+INSERT INTO qas_interpretation_of_results (id, examination_paper_id, min_value, max_value, results_tag, results_msg,
+                                           created_by, created_at, updated_by, updated_at, is_del)
+VALUES (699, 600, 0.00, 10.00, '', '', 1, '2022-08-05 12:12:50.018', 1, '2022-08-05 12:12:50.018', 0);

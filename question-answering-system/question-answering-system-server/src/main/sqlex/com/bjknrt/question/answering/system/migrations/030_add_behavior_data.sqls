@@ -1,0 +1,39 @@
+-- 自定义行为习惯随访问卷的策略code
+update qas_examination_paper
+set strategy_code = 'BEHAVIOR'
+where id = 1400;
+
+-- 录入行为随访的题目
+insert into qas_questions(id, examination_paper_id, questions_title, questions_type, questions_sort, created_by,
+                          updated_by, questions_tip)
+values (140001, 1400, '您当前的身体质量指数（BMI）情况', 'FILL_IN_THE_BLANK', 1, 1, 1, null),
+       (140002, 1400, '您当前的腰围是多少（cm）？', 'SHORT_ANSWER', 2, 1, 1, null),
+       (140003, 1400, '本阶段%s您是否有入睡困难、早醒、多梦等现象？', 'RADIO', 3, 1, 1, null),
+       (140004, 1400, '本阶段%s您是否有情绪低落、食欲降低、兴趣减退等情况？', 'RADIO', 4, 1, 1, null),
+       (140005, 1400, '本阶段%s您是否经常焦虑？（如担忧发生不好的事情）', 'RADIO', 5, 1, 1, null),
+       (140006, 1400, '本阶段%s您的工作压力是否较大？', 'RADIO', 6, 1, 1, null);
+
+
+-- 录入行为随访的选项
+insert into qas_option(id, questions_id, option_code, option_value, option_label, option_tip, option_sort, option_score,
+                       option_type, option_rule, created_by, updated_by, is_auto_commit, forward_to)
+values (14000101, 140001, 'BEHAVIOR_140001_1', '', '身高(cm)', '', 1, null, 'INPUT', '{\"required\":true,\"isNumber\":true,\"notZero\":true}', 1, 1, false, null),
+       (14000102, 140001, 'BEHAVIOR_140001_2', '', '体重(kg)', '', 2, null, 'INPUT', '{\"required\":true,\"isNumber\":true,\"notZero\":true}', 1, 1, false, null),
+
+       (14000201, 140002, 'BEHAVIOR_140002_1', '', '', '', 1, null, 'INPUT', null, 1, 1, false, null),
+
+       (14000301, 140003, 'BEHAVIOR_140003_1', 'A', '无', '', 1, 2, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (14000302, 140003, 'BEHAVIOR_140003_2', 'B', '偶尔', '', 2, 1, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (14000303, 140003, 'BEHAVIOR_140003_3', 'C', '经常', '', 3, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+
+       (14000401, 140004, 'BEHAVIOR_140004_1', 'A', '无', '', 1, 2, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (14000402, 140004, 'BEHAVIOR_140004_2', 'B', '偶尔', '', 2, 1, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (14000403, 140004, 'BEHAVIOR_140004_3', 'C', '经常', '', 3, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+
+       (14000501, 140005, 'BEHAVIOR_140005_1', 'A', '无', '', 1, 2, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (14000502, 140005, 'BEHAVIOR_140005_2', 'B', '偶尔', '', 2, 1, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (14000503, 140005, 'BEHAVIOR_140005_3', 'C', '经常', '', 3, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+
+       (14000601, 140006, 'BEHAVIOR_140006_1', 'A', '无', '', 1, 2, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (14000602, 140006, 'BEHAVIOR_140006_2', 'B', '偶尔', '', 2, 1, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (14000603, 140006, 'BEHAVIOR_140006_3', 'C', '经常', '', 3, 0, 'SELECT', '{"single":true}', 1, 1, false, null);

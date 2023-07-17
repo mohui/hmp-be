@@ -1,0 +1,31 @@
+-- 添加 unionid 字段
+alter table kn_wechat_user
+    add column kn_unionid varchar(255) null comment '微信 unionid' after kn_user;
+
+-- 创建 推送消息记录表
+create table kn_wechat_message_log
+(
+    kn_id         bigint unsigned primary key comment '主键',
+    kn_message    varchar(255) comment '消息内容',
+    kn_status     tinyint unsigned not null default 0 comment '消息状态. 0: 发送失败; 1: 待发送; 2: 已发送',
+    kn_created_at datetime(3)      not null default current_timestamp(3) comment '创建时间',
+    kn_updatedAt  datetime(3)      not null default current_timestamp(3) on update current_timestamp(3) comment '更新时间'
+) engine = InnoDB
+  character set = utf8mb4
+  collate = utf8mb4_bin
+    comment ='推送消息记录表';
+
+-- 创建 微信用户关注事件记录表
+create table kn_wechat_subscribe_log
+(
+    kn_id         bigint unsigned primary key comment '主键',
+    kn_unionid    varchar(255)     not null comment '微信 unionid',
+    kn_event      varchar(255)     not null comment '事件. subscribe: 订阅; unsubscribe:取消订阅',
+    kn_event_at   datetime(3)      not null comment '事件时间',
+    kn_status     tinyint unsigned not null default 0 comment '消费状态. 0: 未消费; 1: 已消费',
+    kn_created_at datetime(3)      not null default current_timestamp(3) comment '创建时间',
+    kn_updatedAt  datetime(3)      not null default current_timestamp(3) on update current_timestamp(3) comment '更新时间'
+) engine = InnoDB
+  character set = utf8mb4
+  collate = utf8mb4_bin
+    comment ='微信用户关注事件记录表';

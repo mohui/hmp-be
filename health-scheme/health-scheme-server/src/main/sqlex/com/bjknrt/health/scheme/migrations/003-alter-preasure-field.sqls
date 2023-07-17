@@ -1,0 +1,61 @@
+-- 数据库Schema描述文件, 执行DDL操作
+
+UPDATE `hs_acute_coronary_visit`
+SET `signs_sbp` = 0
+WHERE `signs_sbp` IS NULL;
+
+UPDATE `hs_acute_coronary_visit`
+SET `signs_dbp` = 0
+WHERE `signs_dbp` IS NULL;
+
+UPDATE `hs_cerebral_stroke_visit`
+SET `signs_sbp` = 0
+WHERE `signs_sbp` IS NULL;
+
+UPDATE `hs_cerebral_stroke_visit`
+SET `signs_dbp` = 0
+WHERE `signs_dbp` IS NULL;
+
+UPDATE `hs_copd_visit`
+SET `signs_sbp` = 0
+WHERE `signs_sbp` IS NULL;
+
+UPDATE `hs_copd_visit`
+SET `signs_dbp` = 0
+WHERE `signs_dbp` IS NULL;
+
+UPDATE `hs_htn_visit`
+SET `signs_sbp` = 0
+WHERE `signs_sbp` IS NULL;
+
+UPDATE `hs_htn_visit`
+SET `signs_dbp` = 0
+WHERE `signs_dbp` IS NULL;
+
+UPDATE `hs_t2dm_visit`
+SET `signs_sbp` = 0
+WHERE `signs_sbp` IS NULL;
+
+UPDATE `hs_t2dm_visit`
+SET `signs_dbp` = 0
+WHERE `signs_dbp` IS NULL;
+
+ALTER TABLE `hs_acute_coronary_visit`
+    MODIFY COLUMN `signs_sbp` double UNSIGNED NOT NULL COMMENT '血压 - 收缩压. 单位: mmHg' AFTER `symptom_other`,
+    MODIFY COLUMN `signs_dbp` double UNSIGNED NOT NULL COMMENT '血压 - 舒张压. 单位: mmHg' AFTER `signs_sbp`;
+
+ALTER TABLE `hs_cerebral_stroke_visit`
+    MODIFY COLUMN `signs_sbp` double UNSIGNED NOT NULL COMMENT '血压 - 收缩压. 单位: mmHg' AFTER `symptom_other`,
+    MODIFY COLUMN `signs_dbp` double UNSIGNED NOT NULL COMMENT '血压 - 舒张压. 单位: mmHg' AFTER `signs_sbp`;
+
+ALTER TABLE `hs_copd_visit`
+    MODIFY COLUMN `signs_sbp` double UNSIGNED NOT NULL COMMENT '血压 - 收缩压. 单位: mmHg' AFTER `symptom_other`,
+    MODIFY COLUMN `signs_dbp` double UNSIGNED NOT NULL COMMENT '血压 - 舒张压. 单位: mmHg' AFTER `signs_sbp`;
+
+ALTER TABLE `hs_htn_visit`
+    MODIFY COLUMN `signs_sbp` double UNSIGNED NOT NULL COMMENT '血压 - 收缩压. 单位: mmHg' AFTER `symptom_other`,
+    MODIFY COLUMN `signs_dbp` double UNSIGNED NOT NULL COMMENT '血压 - 舒张压. 单位: mmHg' AFTER `signs_sbp`;
+
+ALTER TABLE `hs_t2dm_visit`
+    MODIFY COLUMN `signs_sbp` double UNSIGNED NOT NULL COMMENT '血压 - 收缩压. 单位: mmHg' AFTER `symptom_other`,
+    MODIFY COLUMN `signs_dbp` double UNSIGNED NOT NULL COMMENT '血压 - 舒张压. 单位: mmHg' AFTER `signs_sbp`;

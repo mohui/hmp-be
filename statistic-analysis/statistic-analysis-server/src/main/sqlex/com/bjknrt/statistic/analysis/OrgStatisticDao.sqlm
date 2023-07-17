@@ -1,0 +1,72 @@
+import java.math.BigInteger
+
+getOrgHospitalPatientNum(
+id:BigInteger,
+tagValue:String,
+hypertensionTag:String,
+diabetesTag:String,
+acuteCoronaryDiseaseTag:String,
+cerebralStrokeTag:String,
+copdTag:String
+) {
+
+    SELECT r.kn_id,
+           r.kn_name,
+           r.kn_region_code,
+           count(DISTINCT t.kn_patient_id) num
+    FROM upcs.upcs_org r
+             LEFT JOIN (SELECT d.kn_hospital_id,
+                               dp.kn_patient_id
+                        FROM dpm.dpm_doctor_info d
+                                 LEFT JOIN dpm.dpm_doctor_patient dp ON dp.kn_doctor_id = d.kn_id
+                                 INNER JOIN dpm.dpm_patient_info patient on dp.kn_patient_id = patient.kn_id
+                        WHERE d.kn_del = FALSE
+                          and patient.kn_del = FALSE
+                          AND (
+                                ((:hypertensionTag is null) OR (patient.kn_hypertension_disease_tag = :tagValue))
+                                AND ((:diabetesTag is null) OR (patient.kn_diabetes_disease_tag = :tagValue))
+                                AND ((:acuteCoronaryDiseaseTag is null) OR
+                                     (patient.kn_acute_coronary_disease_tag = :tagValue))
+                                AND
+                                ((:cerebralStrokeTag is null) OR (patient.kn_cerebral_stroke_disease_tag = :tagValue))
+                                AND ((:copdTag is null) OR (patient.kn_copd_disease_tag = :tagValue))
+                            )) t ON r.kn_id = t.kn_hospital_id
+    GROUP BY r.kn_id,
+             r.kn_name,
+             r.kn_region_code
+    ORDER BY num DESC,
+             kn_id ASC
+}
+
+getOrgHospitalDoctorPatientNum(
+id:BigInteger,
+tagValue:String,
+hypertensionTag:String,
+diabetesTag:String,
+acuteCoronaryDiseaseTag:String,
+cerebralStrokeTag:String,
+copdTag:String
+) {
+    SELECT d.kn_id,
+           d.kn_name,
+           d.kn_doctor_level,
+           count(DISTINCT dp.kn_patient_id) num
+    FROM dpm.dpm_doctor_info d
+             LEFT JOIN dpm.dpm_doctor_patient dp ON dp.kn_doctor_id = d.kn_id
+             INNER JOIN dpm.dpm_patient_info patient on dp.kn_patient_id = patient.kn_id
+    WHERE d.kn_del = FALSE
+      AND (:id IS NULL OR d.kn_hospital_id = :id)
+      AND patient.kn_del = FALSE
+      AND (
+            ((:hypertensionTag is null) OR (patient.kn_hypertension_disease_tag = :tagValue))
+            AND ((:diabetesTag is null) OR (patient.kn_diabetes_disease_tag = :tagValue))
+            AND ((:acuteCoronaryDiseaseTag is null) OR (patient.kn_acute_coronary_disease_tag = :tagValue))
+            AND ((:cerebralStrokeTag is null) OR (patient.kn_cerebral_stroke_disease_tag = :tagValue))
+            AND ((:copdTag is null) OR (patient.kn_copd_disease_tag = :tagValue))
+        )
+    GROUP BY d.kn_id,
+             d.kn_name,
+             d.kn_doctor_level
+    ORDER BY num DESC,
+             kn_id ASC
+}

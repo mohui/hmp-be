@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS medication_guide_monograph_image
+(
+    kn_monograph_image_id   BIGINT       NOT NULL PRIMARY KEY COMMENT '说明书图片id',
+    kn_monograph_id         BIGINT       NOT NULL COMMENT '说明书id',
+    kn_monograph_image      LONGBLOB     NOT NULL COMMENT '图片内容',
+    kn_monograph_image_name VARCHAR(200) NOT NULL COMMENT '图片名称'
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4 COMMENT ='用药指导-药品说明书图片';

@@ -1,0 +1,258 @@
+package com.bjknrt.medication.remind.vo
+
+import java.util.Objects
+import com.fasterxml.jackson.annotation.JsonValue
+import com.fasterxml.jackson.annotation.JsonProperty
+import javax.validation.constraints.DecimalMax
+import javax.validation.constraints.DecimalMin
+import javax.validation.constraints.Email
+import javax.validation.constraints.Max
+import javax.validation.constraints.Min
+import javax.validation.constraints.NotNull
+import javax.validation.constraints.Pattern
+import javax.validation.constraints.Size
+import javax.validation.Valid
+
+/**
+* 健康计划类型
+* Values: DRUG,BLOOD_PRESSURE_MEASUREMENT,SCIENCE_POPULARIZATION_PLAN,EXERCISE_PROGRAM,EXERCISE_PROGRAM_NOT_EVALUATED,EXERCISE_PROGRAM_ADJUSTMENT_REMIND,FASTING_BLOOD_GLUCOSE,BEFORE_MEAL_BLOOD_GLUCOSE,MEAL_TWO_HOUR_RANDOM_BLOOD_GLUCOSE,DIET_PLAN,BEHAVIOR_VISIT,DIABETES_BEHAVIOR_VISIT,HYPERTENSION_VISIT,ONLINE_DIABETES,ONLINE_ACUTE_CORONARY_DISEASE,ONLINE_CEREBRAL_STROKE,ONLINE_COPD,OFFLINE_HYPERTENSION,OFFLINE_DIABETES,OFFLINE_ACUTE_CORONARY_DISEASE,OFFLINE_CEREBRAL_STROKE,OFFLINE_COPD,CEREBRAL_STROKE,CEREBRAL_STROKE_BEHAVIOR_VISIT,LEAVE_HOSPITAL_VISIT,REHABILITATION_TRAINING_REMIND,REHABILITATION_TRAINING_ROUTINE,REHABILITATION_TRAINING_INTELLIGENT,MRS,BARTHEL,EQ_5_D,REMINDER_VIEW_REPORT,ACUTE_CORONARY_DISEASE_BEHAVIOR_VISIT,COPD_BEHAVIOR_VISIT,INFLUENZA_VACCINATION,PNEUMOCOCCAL_VACCINATION,PULSE_OXYGEN_SATURATION_PLAN,PULMONARY_FUNCTION_EXAMINATION_PLAN,RESPIRATORY_DEPARTMENT_EXAMINATION,ZUNG_SELF_RATING_ANXIETY_SCALE,ZUNG_SELF_RATING_DEPRESSION_SCALE,HYPERTENSION_DRUG_PROGRAM_NOT_EVALUATED,DIABETES_DRUG_PROGRAM_NOT_EVALUATED,HYPERTENSION_DRUG_PROGRAM,DIABETES_DRUG_PROGRAM,DIET_NOT_EVALUATED_HYPERTENSION,DIET_NOT_EVALUATED_DIABETES
+*/
+enum class HealthPlanType(val value: kotlin.String) {
+
+    /**
+     * 药品
+     */
+    @JsonProperty("DRUG") DRUG("DRUG"),
+    
+    /**
+     * 测血压
+     */
+    @JsonProperty("BLOOD_PRESSURE_MEASUREMENT") BLOOD_PRESSURE_MEASUREMENT("BLOOD_PRESSURE_MEASUREMENT"),
+    
+    /**
+     * 科普计划
+     */
+    @JsonProperty("SCIENCE_POPULARIZATION_PLAN") SCIENCE_POPULARIZATION_PLAN("SCIENCE_POPULARIZATION_PLAN"),
+    
+    /**
+     * 运动方案
+     */
+    @JsonProperty("EXERCISE_PROGRAM") EXERCISE_PROGRAM("EXERCISE_PROGRAM"),
+    
+    /**
+     * 未进行评估(运动计划)
+     */
+    @JsonProperty("EXERCISE_PROGRAM_NOT_EVALUATED") EXERCISE_PROGRAM_NOT_EVALUATED("EXERCISE_PROGRAM_NOT_EVALUATED"),
+    
+    /**
+     * 运动调整提醒(运动计划)
+     */
+    @JsonProperty("EXERCISE_PROGRAM_ADJUSTMENT_REMIND") EXERCISE_PROGRAM_ADJUSTMENT_REMIND("EXERCISE_PROGRAM_ADJUSTMENT_REMIND"),
+    
+    /**
+     * 空腹血糖
+     */
+    @JsonProperty("FASTING_BLOOD_GLUCOSE") FASTING_BLOOD_GLUCOSE("FASTING_BLOOD_GLUCOSE"),
+    
+    /**
+     * 餐前血糖
+     */
+    @JsonProperty("BEFORE_MEAL_BLOOD_GLUCOSE") BEFORE_MEAL_BLOOD_GLUCOSE("BEFORE_MEAL_BLOOD_GLUCOSE"),
+    
+    /**
+     * 餐后2h/随机血糖
+     */
+    @JsonProperty("MEAL_TWO_HOUR_RANDOM_BLOOD_GLUCOSE") MEAL_TWO_HOUR_RANDOM_BLOOD_GLUCOSE("MEAL_TWO_HOUR_RANDOM_BLOOD_GLUCOSE"),
+    
+    /**
+     * 饮食计划
+     */
+    @JsonProperty("DIET_PLAN") DIET_PLAN("DIET_PLAN"),
+    
+    /**
+     * 行为习惯随访(线上随访)
+     */
+    @JsonProperty("BEHAVIOR_VISIT") BEHAVIOR_VISIT("BEHAVIOR_VISIT"),
+    
+    /**
+     * 糖尿病行为习惯随访
+     */
+    @JsonProperty("DIABETES_BEHAVIOR_VISIT") DIABETES_BEHAVIOR_VISIT("DIABETES_BEHAVIOR_VISIT"),
+    
+    /**
+     * 高血压随访(线上随访)
+     */
+    @JsonProperty("HYPERTENSION_VISIT") HYPERTENSION_VISIT("HYPERTENSION_VISIT"),
+    
+    /**
+     * 糖尿病(线上随访)
+     */
+    @JsonProperty("ONLINE_DIABETES") ONLINE_DIABETES("ONLINE_DIABETES"),
+    
+    /**
+     * 冠心病(线上随访)
+     */
+    @JsonProperty("ONLINE_ACUTE_CORONARY_DISEASE") ONLINE_ACUTE_CORONARY_DISEASE("ONLINE_ACUTE_CORONARY_DISEASE"),
+    
+    /**
+     * 脑卒中(线上随访)
+     */
+    @JsonProperty("ONLINE_CEREBRAL_STROKE") ONLINE_CEREBRAL_STROKE("ONLINE_CEREBRAL_STROKE"),
+    
+    /**
+     * 慢阻肺(线上随访)
+     */
+    @JsonProperty("ONLINE_COPD") ONLINE_COPD("ONLINE_COPD"),
+    
+    /**
+     * 高血压(线下随访)
+     */
+    @JsonProperty("OFFLINE_HYPERTENSION") OFFLINE_HYPERTENSION("OFFLINE_HYPERTENSION"),
+    
+    /**
+     * 糖尿病(线下随访)
+     */
+    @JsonProperty("OFFLINE_DIABETES") OFFLINE_DIABETES("OFFLINE_DIABETES"),
+    
+    /**
+     * 冠心病(线下随访)
+     */
+    @JsonProperty("OFFLINE_ACUTE_CORONARY_DISEASE") OFFLINE_ACUTE_CORONARY_DISEASE("OFFLINE_ACUTE_CORONARY_DISEASE"),
+    
+    /**
+     * 脑卒中(线下随访)
+     */
+    @JsonProperty("OFFLINE_CEREBRAL_STROKE") OFFLINE_CEREBRAL_STROKE("OFFLINE_CEREBRAL_STROKE"),
+    
+    /**
+     * 慢阻肺(线下随访)
+     */
+    @JsonProperty("OFFLINE_COPD") OFFLINE_COPD("OFFLINE_COPD"),
+    
+    /**
+     * 脑卒中
+     */
+    @JsonProperty("CEREBRAL_STROKE") CEREBRAL_STROKE("CEREBRAL_STROKE"),
+    
+    /**
+     * 脑卒中行为习惯
+     */
+    @JsonProperty("CEREBRAL_STROKE_BEHAVIOR_VISIT") CEREBRAL_STROKE_BEHAVIOR_VISIT("CEREBRAL_STROKE_BEHAVIOR_VISIT"),
+    
+    /**
+     * 出院随访
+     */
+    @JsonProperty("LEAVE_HOSPITAL_VISIT") LEAVE_HOSPITAL_VISIT("LEAVE_HOSPITAL_VISIT"),
+    
+    /**
+     * 提醒康复训练
+     */
+    @JsonProperty("REHABILITATION_TRAINING_REMIND") REHABILITATION_TRAINING_REMIND("REHABILITATION_TRAINING_REMIND"),
+    
+    /**
+     * 康复训练-常规训练 
+     */
+    @JsonProperty("REHABILITATION_TRAINING_ROUTINE") REHABILITATION_TRAINING_ROUTINE("REHABILITATION_TRAINING_ROUTINE"),
+    
+    /**
+     * 康复训练-智能训练
+     */
+    @JsonProperty("REHABILITATION_TRAINING_INTELLIGENT") REHABILITATION_TRAINING_INTELLIGENT("REHABILITATION_TRAINING_INTELLIGENT"),
+    
+    /**
+     * mRS
+     */
+    @JsonProperty("MRS") MRS("MRS"),
+    
+    /**
+     * Barthel
+     */
+    @JsonProperty("BARTHEL") BARTHEL("BARTHEL"),
+    
+    /**
+     * EQ-5D
+     */
+    @JsonProperty("EQ_5D") EQ_5_D("EQ_5D"),
+    
+    /**
+     * 提醒查看报告
+     */
+    @JsonProperty("REMINDER_VIEW_REPORT") REMINDER_VIEW_REPORT("REMINDER_VIEW_REPORT"),
+    
+    /**
+     * 冠心病行为习惯随访
+     */
+    @JsonProperty("ACUTE_CORONARY_DISEASE_BEHAVIOR_VISIT") ACUTE_CORONARY_DISEASE_BEHAVIOR_VISIT("ACUTE_CORONARY_DISEASE_BEHAVIOR_VISIT"),
+    
+    /**
+     * 慢阻肺行为习惯随访
+     */
+    @JsonProperty("COPD_BEHAVIOR_VISIT") COPD_BEHAVIOR_VISIT("COPD_BEHAVIOR_VISIT"),
+    
+    /**
+     * 接种流感疫苗
+     */
+    @JsonProperty("INFLUENZA_VACCINATION") INFLUENZA_VACCINATION("INFLUENZA_VACCINATION"),
+    
+    /**
+     * 接种肺炎球菌疫苗
+     */
+    @JsonProperty("PNEUMOCOCCAL_VACCINATION") PNEUMOCOCCAL_VACCINATION("PNEUMOCOCCAL_VACCINATION"),
+    
+    /**
+     * 脉搏氧饱和度计划
+     */
+    @JsonProperty("PULSE_OXYGEN_SATURATION_PLAN") PULSE_OXYGEN_SATURATION_PLAN("PULSE_OXYGEN_SATURATION_PLAN"),
+    
+    /**
+     * 肺功能检查计划
+     */
+    @JsonProperty("PULMONARY_FUNCTION_EXAMINATION_PLAN") PULMONARY_FUNCTION_EXAMINATION_PLAN("PULMONARY_FUNCTION_EXAMINATION_PLAN"),
+    
+    /**
+     * 呼吸科体检
+     */
+    @JsonProperty("RESPIRATORY_DEPARTMENT_EXAMINATION") RESPIRATORY_DEPARTMENT_EXAMINATION("RESPIRATORY_DEPARTMENT_EXAMINATION"),
+    
+    /**
+     * Zung氏焦虑自评量表
+     */
+    @JsonProperty("ZUNG_SELF_RATING_ANXIETY_SCALE") ZUNG_SELF_RATING_ANXIETY_SCALE("ZUNG_SELF_RATING_ANXIETY_SCALE"),
+    
+    /**
+     * Zung氏抑郁自评量表
+     */
+    @JsonProperty("ZUNG_SELF_RATING_DEPRESSION_SCALE") ZUNG_SELF_RATING_DEPRESSION_SCALE("ZUNG_SELF_RATING_DEPRESSION_SCALE"),
+    
+    /**
+     * 未进行用药评估(高血压)
+     */
+    @JsonProperty("HYPERTENSION_DRUG_PROGRAM_NOT_EVALUATED") HYPERTENSION_DRUG_PROGRAM_NOT_EVALUATED("HYPERTENSION_DRUG_PROGRAM_NOT_EVALUATED"),
+    
+    /**
+     * 未进行用药评估(糖尿病)
+     */
+    @JsonProperty("DIABETES_DRUG_PROGRAM_NOT_EVALUATED") DIABETES_DRUG_PROGRAM_NOT_EVALUATED("DIABETES_DRUG_PROGRAM_NOT_EVALUATED"),
+    
+    /**
+     * 高血压用药计划
+     */
+    @JsonProperty("HYPERTENSION_DRUG_PROGRAM") HYPERTENSION_DRUG_PROGRAM("HYPERTENSION_DRUG_PROGRAM"),
+    
+    /**
+     * 糖尿病用药计划
+     */
+    @JsonProperty("DIABETES_DRUG_PROGRAM") DIABETES_DRUG_PROGRAM("DIABETES_DRUG_PROGRAM"),
+    
+    /**
+     * 未进行评估(饮食)-高血压
+     */
+    @JsonProperty("DIET_NOT_EVALUATED_HYPERTENSION") DIET_NOT_EVALUATED_HYPERTENSION("DIET_NOT_EVALUATED_HYPERTENSION"),
+    
+    /**
+     * 未进行评估(饮食)-糖尿病
+     */
+    @JsonProperty("DIET_NOT_EVALUATED_DIABETES") DIET_NOT_EVALUATED_DIABETES("DIET_NOT_EVALUATED_DIABETES")
+    
+}
+

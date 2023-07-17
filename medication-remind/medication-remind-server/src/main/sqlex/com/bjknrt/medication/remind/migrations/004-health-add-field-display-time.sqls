@@ -1,0 +1,6 @@
+-- 数据库Schema描述文件, 执行DDL操作
+ALTER TABLE `mr_health_plan`
+    ADD COLUMN `kn_display_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '显示时间: 时间之后的显示' AFTER `kn_updated_at`;
+
+update mr_health_plan
+set kn_display_time = IFNULL(kn_cycle_start_time, kn_created_at);

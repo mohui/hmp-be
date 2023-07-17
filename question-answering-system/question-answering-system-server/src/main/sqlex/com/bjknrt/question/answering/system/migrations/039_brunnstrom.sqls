@@ -1,0 +1,61 @@
+INSERT INTO qas_examination_paper (id, examination_paper_title, examination_paper_desc,
+                                   examination_paper_tip, examination_paper_code,
+                                   examination_paper_reference, evaluation_time,
+                                   strategy_code, created_by, created_at, updated_by,
+                                   updated_at, is_del)
+VALUES (2700, 'Brunnstrom偏瘫运动功能评估','Brunnstrom偏瘫运动功能评估表是由瑞典物理治疗师Signe Brunnstrom在20世纪70年代创立的一套脑病损伤后运动障碍的治疗方法，可评估上下肢、手功能在卒中后恢复过程的变化等级。',
+        null, 'BRUNNSTROM', '张玉梅,宋鲁平.康复评定常用量表(第二版)[M].北京:科学技术文献出版社,2019：14-15.', '', 'BRUNNSTROM',
+        1, current_timestamp(), 1, current_timestamp(), 0);
+
+insert into qas_questions(id, examination_paper_id, questions_title, questions_type, questions_sort, created_by,
+                          updated_by, questions_tip)
+values (270001, 2700, '请根据患者身体左上肢的情况，在下列选项中勾选一项符合的选项', 'RADIO', 1, 1, 1, null),
+       (270002, 2700, '请根据患者身体右上肢的情况，在下列选项中勾选一项符合的选项', 'RADIO', 2, 1, 1, null),
+       (270003, 2700, '请根据患者身体左手的情况，在下列选项中勾选一项符合的选项', 'RADIO', 3, 1, 1, null),
+       (270004, 2700, '请根据患者身体右手的情况，在下列选项中勾选一项符合的选项', 'RADIO', 4, 1, 1, null),
+       (270005, 2700, '请根据患者身体左下肢的情况，在下列选项中勾选一项符合的选项', 'RADIO', 5, 1, 1, null),
+       (270006, 2700, '请根据患者身体右下肢的情况，在下列选项中勾选一项符合的选项', 'RADIO', 6, 1, 1, null);
+
+insert into qas_option(id, questions_id, option_code, option_value, option_label, option_tip, option_sort, option_score,
+                       option_type, option_rule, created_by, updated_by)
+values (27000101, 270001, 'BRUNNSTROM_270001_27000101', '1', 'I : 无任何运动', '', 1, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000102, 270001, 'BRUNNSTROM_270001_27000102', '2', 'II : 仅出现协同运动模式', '', 2, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000103, 270001, 'BRUNNSTROM_270001_27000103', '3', 'III : 可随意发起共同运动', '', 3, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000104, 270001, 'BRUNNSTROM_270001_27000104', '4', 'IV : 手臂可触及腰骶部；肘伸直的情况下，肩可前屈90度；肩0度，肘屈90度的条件下，前臂可旋前、旋后', '', 4, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000105, 270001, 'BRUNNSTROM_270001_27000105', '5', 'V : 肘伸直，肩可外展90度；肘伸直，前臂中立位，上肢可举过头；肘伸直，肩前屈30~90度时，前臂可旋前旋后', '', 5, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000106, 270001, 'BRUNNSTROM_270001_27000106', '6', 'VI：运动协调近于正常，指鼻无明显辨距不良，但速度比健侧慢', '', 6, null, 'SELECT', '{\"single\":true}', 1, 1),
+
+       (27000201, 270002, 'BRUNNSTROM_270002_27000201', '1', 'I : 无任何运动', '', 1, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000202, 270002, 'BRUNNSTROM_270002_27000202', '2', 'II : 仅出现协同运动模式', '', 2, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000203, 270002, 'BRUNNSTROM_270002_27000203', '3', 'III : 可随意发起共同运动', '', 3, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000204, 270002, 'BRUNNSTROM_270002_27000204', '4', 'IV : 手臂可触及腰骶部；肘伸直的情况下，肩可前屈90度；肩0度，肘屈90度的条件下，前臂可旋前、旋后', '', 4, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000205, 270002, 'BRUNNSTROM_270002_27000205', '5', 'V : 肘伸直，肩可外展90度；肘伸直，前臂中立位，上肢可举过头；肘伸直，肩前屈30~90度时，前臂可旋前旋后', '', 5, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000206, 270002, 'BRUNNSTROM_270002_27000206', '6', 'VI：运动协调近于正常，指鼻无明显辨距不良，但速度比健侧慢', '', 6, null, 'SELECT', '{\"single\":true}', 1, 1),
+
+       (27000301, 270003, 'BRUNNSTROM_270003_27000301', '1', 'I : 无任何运动', '', 1, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000302, 270003, 'BRUNNSTROM_270003_27000302', '2', 'II : 仅有极细微的屈曲', '', 2, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000303, 270003, 'BRUNNSTROM_270003_27000303', '3', 'III : 可有勾状抓握，但不能伸指', '', 3, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000304, 270003, 'BRUNNSTROM_270003_27000304', '4', 'IV : 能侧捏及松开拇指，手指有半随意的小范围伸展', '', 4, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000305, 270003, 'BRUNNSTROM_270003_27000305', '5', 'V : 可作球状和圆柱状抓握，手指同时伸展，但不能单独伸展', '', 5, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000306, 270003, 'BRUNNSTROM_270003_27000306', '6', 'VI：所有抓握均能完成，但速度和准确性比健侧差', '', 6, null, 'SELECT', '{\"single\":true}', 1, 1),
+
+       (27000401, 270004, 'BRUNNSTROM_270004_27000401', '1', 'I : 无任何运动', '', 1, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000402, 270004, 'BRUNNSTROM_270004_27000402', '2', 'II : 仅有极细微的屈曲', '', 2, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000403, 270004, 'BRUNNSTROM_270004_27000403', '3', 'III : 可有勾状抓握，但不能伸指', '', 3, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000404, 270004, 'BRUNNSTROM_270004_27000404', '4', 'IV : 能侧捏及松开拇指，手指有半随意的小范围伸展', '', 4, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000405, 270004, 'BRUNNSTROM_270004_27000405', '5', 'V : 可作球状和圆柱状抓握，手指同时伸展，但不能单独伸展', '', 5, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000406, 270004, 'BRUNNSTROM_270004_27000406', '6', 'VI：所有抓握均能完成，但速度和准确性比健侧差', '', 6, null, 'SELECT', '{\"single\":true}', 1, 1),
+
+       (27000501, 270005, 'BRUNNSTROM_270005_27000501', '1', 'I : 无任何运动', '', 1, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000502, 270005, 'BRUNNSTROM_270005_27000502', '2', 'II : 仅有极少的随意运动', '', 2, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000503, 270005, 'BRUNNSTROM_270005_27000503', '3', 'III : 坐位或站立位，有髋、膝、踝的协同性屈曲', '', 3, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000504, 270005, 'BRUNNSTROM_270005_27000504', '4', 'IV : 坐位，可屈膝90度以上，足可向后滑动坐位，在足根不离地的情况下踝能背屈', '', 4, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000505, 270005, 'BRUNNSTROM_270005_27000505', '5', 'V : 健腿站，伸膝下，踝可背屈健腿站，病腿可先屈膝，后伸髋', '', 5, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000506, 270005, 'BRUNNSTROM_270005_27000506', '6', 'VI：坐位下伸直膝可内外旋下肢，合并足内外翻；站立位下可使髋外展到抬起该侧骨盆所能达到的范围', '', 6, null, 'SELECT', '{\"single\":true}', 1, 1),
+
+       (27000601, 270006, 'BRUNNSTROM_270006_27000601', '1', 'I : 无任何运动', '', 1, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000602, 270006, 'BRUNNSTROM_270006_27000602', '2', 'II : 仅有极少的随意运动', '', 2, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000603, 270006, 'BRUNNSTROM_270006_27000603', '3', 'III : 坐位或站立位，有髋、膝、踝的协同性屈曲', '', 3, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000604, 270006, 'BRUNNSTROM_270006_27000604', '4', 'IV : 坐位，可屈膝90度以上，足可向后滑动坐位，在足根不离地的情况下踝能背屈', '', 4, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000605, 270006, 'BRUNNSTROM_270006_27000605', '5', 'V : 健腿站，伸膝下，踝可背屈健腿站，病腿可先屈膝，后伸髋', '', 5, null, 'SELECT', '{\"single\":true}', 1, 1),
+       (27000606, 270006, 'BRUNNSTROM_270006_27000606', '6', 'VI：坐位下伸直膝可内外旋下肢，合并足内外翻；站立位下可使髋外展到抬起该侧骨盆所能达到的范围', '', 6, null, 'SELECT', '{\"single\":true}', 1, 1);

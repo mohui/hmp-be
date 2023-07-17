@@ -1,0 +1,6 @@
+alter table `hs_copd_visit`
+    modify `recommend_cigarettes_per` tinyint(3) unsigned DEFAULT null COMMENT '建议日吸烟量';
+
+alter table `hs_copd_visit`
+    modify `recommend_alcohol_per` double unsigned DEFAULT null COMMENT '建议饮酒量';
+

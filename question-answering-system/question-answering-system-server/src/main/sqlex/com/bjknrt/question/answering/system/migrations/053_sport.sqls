@@ -1,0 +1,41 @@
+# 更新运动评估问卷
+
+delete
+from qas_option
+where questions_id in (150002, 150003, 150004);
+
+delete
+from qas_questions
+where id in (150002, 150003, 150004);
+
+
+insert into qas_questions(id, examination_paper_id, questions_title, questions_type, questions_sort, created_by,
+                          updated_by, questions_tip)
+values (150002, 1500, '请选择您希望进行的有氧运动（每周5次，每次30分钟）', 'MULTIPLE_CHOICE', 3, 1, 1, null),
+       (150003, 1500, '请选择您希望进行的抗阻运动（每周5次，每次30分钟）', 'MULTIPLE_CHOICE', 4, 1, 1, null);
+
+insert into qas_option(id, questions_id, option_code, option_value, option_label, option_tip, option_sort, option_score,
+                       option_type, option_rule, created_by, updated_by, is_auto_commit, forward_to)
+values (15000201, 150002, 'SPORT_150002_01', '1', '步行', '', 1, null, 'SELECT', null, 1, 1, false, null),
+       (15000202, 150002, 'SPORT_150002_02', '2', '慢跑', '', 2, null, 'SELECT', null, 1, 1, false, null),
+       (15000203, 150002, 'SPORT_150002_03', '3', '骑自行车 ', '', 3, null, 'SELECT', null, 1, 1, false, null),
+       (15000204, 150002, 'SPORT_150002_04', '4', '球类（乒乓球、羽毛球、网球、足球、篮球、排球）', '', 4, null, 'SELECT', null, 1, 1, false, null),
+       (15000205, 150002, 'SPORT_150002_05', '5', '健身操 ', '', 5, null, 'SELECT', null, 1, 1, false, null),
+       (15000206, 150002, 'SPORT_150002_06', '6', '游泳', '', 6, null, 'SELECT', null, 1, 1, false, null),
+       (15000207, 150002, 'SPORT_150002_07', '7', '太极拳', '', 7, null, 'SELECT', null, 1, 1, false, null),
+       (15000208, 150002, 'SPORT_150002_08', '8', '八段锦', '', 8, null, 'SELECT', null, 1, 1, false, null),
+       (15000209, 150002, 'SPORT_150002_09', '9', '广场舞', '', 9, null, 'SELECT', null, 1, 1, false, null),
+       (15000210, 150002, 'SPORT_150002_10', '10', '呼啦圈', '', 10, null, 'SELECT', null, 1, 1, false, null),
+       (15000211, 150002, 'SPORT_150002_11', '11', '瑜伽', '', 11, null, 'SELECT', null, 1, 1, false, null),
+       (15000212, 150002, 'SPORT_150002_12', '12', '跳绳', '', 12, null, 'SELECT', null, 1, 1, false, null),
+       (15000213, 150002, 'SPORT_150002_13', '13', '踢键子', '', 13, null, 'SELECT', null, 1, 1, false, null),
+       (15000214, 150002, 'SPORT_150002_14', '14', '广播体操', '', 14, null, 'SELECT', null, 1, 1, false, null),
+       (15000215, 150002, 'SPORT_150002_15', '15', '以上都不希望', '', 15, null, 'SELECT', '{\"single\":true}', 1, 1, false, null),
+
+       (15000301, 150003, 'SPORT_150003_01', '1', '拉力绳', '', 1, null, 'SELECT', null, 1, 1, false, null),
+       (15000302, 150003, 'SPORT_150003_02', '2', '弹力带', '', 2, null, 'SELECT', null, 1, 1, false, null),
+       (15000303, 150003, 'SPORT_150003_03', '3', '俯卧撑', '', 3, null, 'SELECT', null, 1, 1, false, null),
+       (15000304, 150003, 'SPORT_150003_04', '4', '仰卧起坐', '', 4, null, 'SELECT', null, 1, 1, false, null),
+       (15000305, 150003, 'SPORT_150003_05', '5', '平板支撑', '', 5, null, 'SELECT', null, 1, 1, false, null),
+       (15000306, 150003, 'SPORT_150003_06', '6', '哑铃', '', 6, null, 'SELECT', null, 1, 1, false, null),
+       (15000307, 150003, 'SPORT_150003_07', '7', '以上都不希望', '', 7, null, 'SELECT', '{\"single\":true}', 1, 1, false, null);

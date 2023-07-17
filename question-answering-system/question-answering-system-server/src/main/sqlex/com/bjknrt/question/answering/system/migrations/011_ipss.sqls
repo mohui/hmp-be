@@ -1,0 +1,220 @@
+INSERT INTO qas_examination_paper (id, examination_paper_title, examination_paper_desc,
+                                   examination_paper_tip, examination_paper_code,
+                                   examination_paper_reference, evaluation_time,
+                                   strategy_code, created_by, created_at, updated_by,
+                                   updated_at, is_del)
+VALUES (900, '国际前列腺症状评分表（IPSS）',
+        'IPSS量表是用来帮助评估您排尿病症的严重程度的工具。是目前国际公认的判断前列腺增生患者症状严重程度的最佳手段。IPSS作为对患者初诊的基本检查方法，对确定后续处理有明确的指导意义。可初步判断是否需要药物、手术干预或仅需观察等待。同时作为对治疗后疗效评价的重要指征，以IPSS评分表来评价前列腺增生症的治疗效果，更加具体和客观。请根据您的情况回答以下7个问题。',
+        '', 'IPSS',
+        'Barry MJ,Fowler FJ Jr,O''Leary MP,et al. The American Urological Association symptom index for benign prostatic hyperplasia. The Measurement Committee of the American Urological Association. J Urol.1992 Nov;148(5): 1549-57; discussion 1564. PubMed ID:1279218',
+        '', 'DEFAULT', 1, '2022-08-05 12:12:50.042', 1, '2022-10-26 10:09:51.623', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (901, 900, '过去的一个月里，您是否有尿不尽的感觉？', '', NULL, 'RADIO', 1, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (9011, 901, 'IPSS_1_1', '1', '无 ', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9012, 901, 'IPSS_1_2', '2', '低于每五次中有一次', '', 2, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9013, 901, 'IPSS_1_3', '3', '低于每两次中有一次 ', '', 3, 2.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9014, 901, 'IPSS_1_4', '4', '大约每两次中有一次', '', 4, 3.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9015, 901, 'IPSS_1_5', '5', '高于每两次中有一次', '', 5, 4.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9016, 901, 'IPSS_1_6', '6', '总是', '', 6, 5.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (902, 900, '过去的一个月里，您是否需要在2个小时内多次去卫生间？', '', NULL, 'RADIO', 2, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (9021, 902, 'IPSS_2_1', '1', '无 ', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9022, 902, 'IPSS_2_2', '2', '低于每五次中有一次', '', 2, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9023, 902, 'IPSS_2_3', '3', '低于每两次中有一次 ', '', 3, 2.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9024, 902, 'IPSS_2_4', '4', '大约每两次中有一次', '', 4, 3.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9025, 902, 'IPSS_2_5', '5', '高于每两次中有一次', '', 5, 4.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9026, 902, 'IPSS_2_6', '6', '总是', '', 2, 6.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (903, 900, '过去的一个月里，您是否会有间断性排尿？', '', NULL, 'RADIO', 3, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (9031, 903, 'IPSS_3_1', '1', '无 ', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9032, 903, 'IPSS_3_2', '2', '低于每五次中有一次', '', 2, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9033, 903, 'IPSS_3_3', '3', '低于每两次中有一次 ', '', 3, 2.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9034, 903, 'IPSS_3_4', '4', '大约每两次中有一次', '', 4, 3.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9035, 903, 'IPSS_3_5', '5', '高于每两次中有一次', '', 5, 4.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9036, 903, 'IPSS_3_6', '6', '总是', '', 6, 5.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (904, 900, '过去的一个月里，您是否有排尿不能等待的现象？', '', NULL, 'RADIO', 4, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (9041, 904, 'IPSS_4_1', '1', '无 ', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9042, 904, 'IPSS_4_2', '2', '低于每五次中有一次', '', 2, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9043, 904, 'IPSS_4_3', '3', '低于每两次中有一次 ', '', 3, 2.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9044, 904, 'IPSS_4_4', '4', '大约每两次中有一次', '', 4, 3.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9045, 904, 'IPSS_4_5', '5', '高于每两次中有一次', '', 5, 4.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9046, 904, 'IPSS_4_6', '6', '总是', '', 6, 5.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (905, 900, '过去的一个月里，您是否有排尿无力或者尿线变细的现象？', '', NULL, 'RADIO', 5, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (9051, 905, 'IPSS_5_1', '1', '无 ', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9052, 905, 'IPSS_5_2', '2', '低于每五次中有一次', '', 2, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9053, 905, 'IPSS_5_3', '3', '低于每两次中有一次 ', '', 3, 2.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9054, 905, 'IPSS_5_4', '4', '大约每两次中有一次', '', 4, 3.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9055, 905, 'IPSS_5_5', '5', '高于每两次中有一次', '', 5, 4.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9056, 905, 'IPSS_5_6', '6', '总是', '', 6, 5.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (906, 900, '过去的一个月里，您是否需要用力才能开始排尿？', '', NULL, 'RADIO', 6, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (9061, 906, 'IPSS_6_1', '1', '无 ', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9062, 906, 'IPSS_6_2', '2', '低于每五次中有一次', '', 2, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9063, 906, 'IPSS_6_3', '3', '低于每两次中有一次 ', '', 3, 2.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9064, 906, 'IPSS_6_4', '4', '大约每两次中有一次', '', 4, 3.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9065, 906, 'IPSS_6_5', '5', '高于每两次中有一次', '', 5, 4.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9066, 906, 'IPSS_6_6', '6', '总是', '', 6, 5.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (907, 900, '过去的一个月里，睡觉后您平均起床排尿的次数是多少？', '', NULL, 'RADIO', 6, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type,
+                        option_rule,
+                        is_dynamic, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (9071, 907, 'IPSS_7_1', '1', '无 ', '', 1, 0.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9072, 907, 'IPSS_7_2', '2', '一次', '', 2, 1.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9073, 907, 'IPSS_7_3', '3', '两次 ', '', 3, 2.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9074, 907, 'IPSS_7_4', '4', '三次', '', 4, 3.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9075, 907, 'IPSS_7_5', '5', '四次', '', 5, 4.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0),
+       (9076, 907, 'IPSS_7_6', '6', '五次或医生', '', 6, 5.00, 'SELECT',
+        '{\"single\":true}',
+        0, 1, '2022-08-08 09:56:59.064', 1, '2022-08-08 09:56:59.064', 0);
+
+
+
+INSERT INTO qas_interpretation_of_results (id, examination_paper_id, min_value,
+                                           max_value, results_tag, results_msg,
+                                           created_by, created_at, updated_by,
+                                           updated_at, is_del)
+VALUES (999, 900, 0.00, 7.00, '轻微前列腺症状', '',
+        1, '2022-08-05 12:12:50.018', 1, '2022-08-05 12:12:50.018', 0),
+       (998, 900, 8.00, 19.00, '中度前列腺症状', '',
+        1, '2022-08-05 12:12:50.018', 1, '2022-08-05 12:12:50.018', 0),
+       (997, 900, 20.00, 35.00, '严重前列腺症状', '',
+        1, '2022-08-05 12:12:50.018', 1, '2022-08-05 12:12:50.018', 0);

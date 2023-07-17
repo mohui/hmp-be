@@ -1,0 +1,724 @@
+-- create on 2022/8/8, by knrt
+
+INSERT INTO qas_examination_paper (id, examination_paper_title, examination_paper_desc,
+                                   examination_paper_tip, examination_paper_code,
+                                   examination_paper_reference, evaluation_time,
+                                   strategy_code, created_by, created_at, updated_by,
+                                   updated_at, is_del)
+VALUES (100, '匹兹堡睡眠评估量表',
+        '兹堡睡眠质量指数（Pittsburgh sleep quality index, PSQI）是美国匹兹堡大学精神科医生Buysse博士等人于1989年编制的。该量表适用于睡眠障碍患者、精神障碍患者评价睡眠质量，同时也适用于一般人睡眠质量的评估。',
+        '下面一些问题是关于您最近一个月的睡眠状况，这仅仅与您的睡眠习惯有关。请选择或填写最符合您近一个月白天和晚上实际情况的选项，并尽可能地做精确回答。其中划有横杠的部分是需要自己填写。',
+        'PITTSBURGH', '[1] 汪向东. 心理卫生评定量表手册(增订版)[M]. 北京：中国心理卫生杂志出版社，1999：120-122.
+[2] 张玉梅,宋鲁平.康复评定常用量表(第二版)[M].北京:科学技术文献出版社,2019:431-434.', '',
+        'PITTSBURGH', 1, '2022-08-08 10:37:40', 1, '2022-10-26 10:09:51.743', 0);
+
+
+INSERT INTO `qas_questions`(`id`, `examination_paper_id`, `questions_title`, `questions_group_title`, `questions_tip`,
+                            `questions_type`, `questions_sort`, `created_by`, `created_at`, `updated_by`, `updated_at`,
+                            `is_del`)
+VALUES (101, 100, '在最近一个月中，您晚上上床睡觉通常是________点钟(24H)', NULL, NULL, 'FILL_IN_THE_BLANK', 1, 1,
+        '2022-08-08 06:45:56.546',
+        1, '2022-08-08 07:01:31.779', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1011, 101, 'ONE', '', '', '', 1, 0.00, 'INPUT', '{\"required\":true,\"isNumber\":true,\"min\":0,\"max\":23}', 0, 1, '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+
+
+INSERT INTO `qas_questions`(`id`, `examination_paper_id`, `questions_title`, `questions_group_title`, `questions_tip`,
+                            `questions_type`, `questions_sort`, `created_by`, `created_at`, `updated_by`, `updated_at`,
+                            `is_del`)
+VALUES (102, 100, '在最近一个月中，您每晚通常要多长时间才能入睡（从上床到入睡）', NULL, NULL, 'RADIO', 2, 1,
+        '2022-08-08 06:49:08.891', 1,
+        '2022-08-08 06:55:11.564', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1021, 102, 'TWO_FIFTEEN_MINUTE', 'A', '＜15分钟', '', 2, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1022, 102, 'TWO_THIRTY_MINUTE', 'B', '16~30分钟', '', 3, 1.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1023, 102, 'TWO_SIXTY_MINUTE', 'C', '31~60分钟', '', 4, 2.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1024, 102, 'TWO_THAN_SIXTY_MINUTE', 'D', '＞60分钟', '', 5, 3.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560',
+        1, '2022-08-08 09:25:05.388', 0);
+
+
+INSERT INTO `qas_questions`(`id`, `examination_paper_id`, `questions_title`, `questions_group_title`, `questions_tip`,
+                            `questions_type`, `questions_sort`, `created_by`, `created_at`, `updated_by`, `updated_at`,
+                            `is_del`)
+VALUES (103, 100, '在最近一个月中，您每天早上通常________点钟起床（24H）', NULL, NULL, 'FILL_IN_THE_BLANK', 3, 1,
+        '2022-08-08 06:51:13.834',
+        1, '2022-08-08 07:01:33.408', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1031, 103, 'THREE', '', '', '', 6, 0.00, 'INPUT', '{\"required\":true,\"isNumber\":true,\"min\":0,\"max\":23}', 0, 1, '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+
+
+INSERT INTO `qas_questions`(`id`, `examination_paper_id`, `questions_title`, `questions_group_title`, `questions_tip`,
+                            `questions_type`, `questions_sort`, `created_by`, `created_at`, `updated_by`, `updated_at`,
+                            `is_del`)
+VALUES (104, 100, '在最近一个月中，您每晚实际睡眠的时间为_________小时（注意不等同于卧床时间，可以有小数）', NULL, NULL,
+        'FILL_IN_THE_BLANK', 4, 1,
+        '2022-08-08 07:00:54.921', 1, '2022-08-08 07:01:29.905', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1041, 104, 'FOUR', '', '', '', 7, 0.00, 'INPUT', '{\"required\":true,\"isNumber\":true}', 0, 1, '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+
+
+INSERT INTO `qas_questions`(`id`, `examination_paper_id`, `questions_title`, `questions_group_title`, `questions_tip`,
+                            `questions_type`, `questions_sort`, `created_by`, `created_at`, `updated_by`, `updated_at`,
+                            `is_del`)
+VALUES (105, 100, 'A．不能在30分钟内入睡：', '在最近一个月中，您是否因下列情况影响睡眠而烦恼，并描述其程度：', NULL, 'RADIO',
+        5, 1, '2022-08-08 07:03:24.511', 1,
+        '2022-08-08 07:03:24.511', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1051, 105, 'FIVE_A_NONE', 'A', '无', '', 8, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1052, 105, 'FIVE_A_ONE_NIGHT', 'B', '＜1次/周', '', 9, 1.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560',
+        1, '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1053, 105, 'FIVE_A_TWO_NIGHT', 'C', '1~2次/周 ', '', 10, 2.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1054, 105, 'FIVE_A_THREE_NIGHT', 'D', '≥3次/周', '', 11, 3.00, 'SELECT', '{\"single\":true}',
+        0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:25:05.388', 0);
+
+
+INSERT INTO `qas_questions`(`id`, `examination_paper_id`, `questions_title`, `questions_group_title`, `questions_tip`,
+                            `questions_type`, `questions_sort`, `created_by`, `created_at`, `updated_by`, `updated_at`,
+                            `is_del`)
+VALUES (106, 100, 'B．在晚上睡眠过程中醒来或早醒（凌晨醒后不容易再次入睡）：',
+        '在最近一个月中，您是否因下列情况影响睡眠而烦恼，并描述其程度：', NULL, 'RADIO', 6, 1,
+        '2022-08-08 07:04:42.250', 1, '2022-08-08 07:06:23.524', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1061, 106, 'FIVE_B_NONE', 'A', '无', '', 12, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1062, 106, 'FIVE_B_ONE_NIGHT', 'B', '＜1次/周', '', 13, 1.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560',
+        1, '2022-08-08 09:29:24.679', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1063, 106, 'FIVE_B_TWO_NIGHT', 'C', '1~2次/周', '', 14, 2.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:29:24.759', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1064, 106, 'FIVE_B_THREE_NIGHT', 'D', '≥3次/周', '', 15, 3.00, 'SELECT', '{\"single\":true}',
+        0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:29:24.850', 0);
+
+
+INSERT INTO `qas_questions`(`id`, `examination_paper_id`, `questions_title`, `questions_group_title`, `questions_tip`,
+                            `questions_type`, `questions_sort`, `created_by`, `created_at`, `updated_by`, `updated_at`,
+                            `is_del`)
+VALUES (107, 100, 'C．晚上起床上洗手间：', '在最近一个月中，您是否因下列情况影响睡眠而烦恼，并描述其程度：', NULL, 'RADIO',
+        7, 1, '2022-08-08 07:05:14.032', 1,
+        '2022-08-08 07:06:18.394', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1071, 107, 'FIVE_C_NONE', 'A', '无', '', 16, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1072, 107, 'FIVE_C_ONE_NIGHT', 'B', '＜1次/周', '', 17, 1.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560',
+        1, '2022-08-08 09:29:30.579', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1073, 107, 'FIVE_C_TWO_NIGHT', 'C', '1~2次/周', '', 18, 2.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:29:30.670', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1074, 107, 'FIVE_C_THREE_NIGHT', 'D', '≥3次/周', '', 19, 3.00, 'SELECT', '{\"single\":true}',
+        0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:29:30.762', 0);
+
+
+INSERT INTO `qas_questions`(`id`, `examination_paper_id`, `questions_title`, `questions_group_title`, `questions_tip`,
+                            `questions_type`, `questions_sort`, `created_by`, `created_at`, `updated_by`, `updated_at`,
+                            `is_del`)
+VALUES (108, 100, 'D．晚上睡觉时呼吸不畅：', '在最近一个月中，您是否因下列情况影响睡眠而烦恼，并描述其程度：', NULL,
+        'RADIO', 8, 1, '2022-08-08 07:05:39.103',
+        1, '2022-08-08 07:06:27.497', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1081, 108, 'FIVE_D_NONE', 'A', '无', '', 20, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1082, 108, 'FIVE_D_ONE_NIGHT', 'B', '＜1次/周', '', 21, 1.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560',
+        1, '2022-08-08 09:29:34.709', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1083, 108, 'FIVE_D_TWO_NIGHT', 'C', '1~2次/周', '', 22, 2.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:29:34.801', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1084, 108, 'FIVE_D_THREE_NIGHT', 'D', '≥3次/周', '', 23, 3.00, 'SELECT', '{\"single\":true}',
+        0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:29:34.881', 0);
+
+
+INSERT INTO `qas_questions`(`id`, `examination_paper_id`, `questions_title`, `questions_group_title`, `questions_tip`,
+                            `questions_type`, `questions_sort`, `created_by`, `created_at`, `updated_by`, `updated_at`,
+                            `is_del`)
+VALUES (109, 100, 'E．晚上睡觉出现咳嗽或鼾声大：', '在最近一个月中，您是否因下列情况影响睡眠而烦恼，并描述其程度：', NULL,
+        'RADIO', 9, 1, '2022-08-08 07:06:06.507',
+        1, '2022-08-08 07:06:46.480', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1091, 109, 'FIVE_E_NONE', 'A', '无', '', 24, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1092, 109, 'FIVE_E_ONE_NIGHT', 'B', '＜1次/周', '', 25, 1.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560',
+        1, '2022-08-08 09:29:39.091', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1093, 109, 'FIVE_E_TWO_NIGHT', 'C', '1~2次/周', '', 26, 2.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:29:39.169', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1094, 109, 'FIVE_E_THREE_NIGHT', 'D', '≥3次/周', '', 27, 3.00, 'SELECT', '{\"single\":true}',
+        0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:29:39.247', 0);
+
+
+INSERT INTO `qas_questions`(`id`, `examination_paper_id`, `questions_title`, `questions_group_title`, `questions_tip`,
+                            `questions_type`, `questions_sort`, `created_by`, `created_at`, `updated_by`, `updated_at`,
+                            `is_del`)
+VALUES (110, 100, 'F．晚上睡觉感到寒冷：', '在最近一个月中，您是否因下列情况影响睡眠而烦恼，并描述其程度：', NULL, 'RADIO',
+        10, 1, '2022-08-08 07:07:24.922', 1,
+        '2022-08-08 07:07:24.922', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1101, 110, 'FIVE_F_NONE', 'A', '无', '', 28, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1102, 110, 'FIVE_F_ONE_NIGHT', 'B', '＜1次/周', '', 29, 1.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560',
+        1, '2022-08-08 09:29:42.458', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1103, 110, 'FIVE_F_TWO_NIGHT', 'C', '1~2次/周', '', 30, 2.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:29:42.537', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1104, 110, 'FIVE_F_THREE_NIGHT', 'D', '≥3次/周', '', 31, 3.00, 'SELECT', '{\"single\":true}',
+        0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:29:42.615', 0);
+
+
+INSERT INTO `qas_questions`(`id`, `examination_paper_id`, `questions_title`, `questions_group_title`, `questions_tip`,
+                            `questions_type`, `questions_sort`, `created_by`, `created_at`, `updated_by`, `updated_at`,
+                            `is_del`)
+VALUES (111, 100, 'G．晚上睡觉感到太热：', '在最近一个月中，您是否因下列情况影响睡眠而烦恼，并描述其程度：', NULL, 'RADIO',
+        11, 1, '2022-08-08 07:07:55.818', 1,
+        '2022-08-08 07:07:55.818', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1111, 111, 'FIVE_G_NONE', 'A', '无', '', 32, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1112, 111, 'FIVE_G_ONE_NIGHT', 'B', '＜1次/周', '', 33, 1.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560',
+        1, '2022-08-08 09:29:46.668', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1113, 111, 'FIVE_G_TWO_NIGHT', 'C', '1~2次/周', '', 34, 2.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:29:46.750', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1114, 111, 'FIVE_G_THREE_NIGHT', 'D', '≥3次/周', '', 35, 3.00, 'SELECT', '{\"single\":true}',
+        0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:29:46.822', 0);
+
+
+INSERT INTO `qas_questions`(`id`, `examination_paper_id`, `questions_title`, `questions_group_title`, `questions_tip`,
+                            `questions_type`, `questions_sort`, `created_by`, `created_at`, `updated_by`, `updated_at`,
+                            `is_del`)
+VALUES (112, 100, 'H．晚上睡觉做恶梦：', '在最近一个月中，您是否因下列情况影响睡眠而烦恼，并描述其程度：', NULL, 'RADIO', 12,
+        1, '2022-08-08 07:08:29.179', 1,
+        '2022-08-08 07:08:29.179', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1121, 112, 'FIVE_H_NONE', 'A', '无', '', 36, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1122, 112, 'FIVE_H_ONE_NIGHT', 'B', '＜1次/周', '', 37, 1.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560',
+        1, '2022-08-08 09:29:49.886', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1123, 112, 'FIVE_H_TWO_NIGHT', 'C', '1~2次/周', '', 38, 2.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:29:49.979', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1124, 112, 'FIVE_H_THREE_NIGHT', 'D', '≥3次/周', '', 39, 3.00, 'SELECT', '{\"single\":true}',
+        0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:29:50.058', 0);
+
+
+INSERT INTO `qas_questions`(`id`, `examination_paper_id`, `questions_title`, `questions_group_title`, `questions_tip`,
+                            `questions_type`, `questions_sort`, `created_by`, `created_at`, `updated_by`, `updated_at`,
+                            `is_del`)
+VALUES (113, 100, 'I．晚上睡觉身上出现疼痛不适：', '在最近一个月中，您是否因下列情况影响睡眠而烦恼，并描述其程度：', NULL,
+        'RADIO', 13, 1, '2022-08-08 07:09:23.971',
+        1, '2022-08-08 07:09:23.971', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1131, 113, 'FIVE_I_NONE', 'A', '无', '', 40, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1132, 113, 'FIVE_I_ONE_NIGHT', 'B', '＜1次/周', '', 41, 1.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560',
+        1, '2022-08-08 09:29:53.239', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1133, 113, 'FIVE_I_TWO_NIGHT', 'C', '1~2次/周', '', 42, 2.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:29:53.317', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1134, 113, 'FIVE_I_THREE_NIGHT', 'D', '≥3次/周', '', 43, 3.00, 'SELECT', '{\"single\":true}',
+        0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:29:53.407', 0);
+
+INSERT INTO `qas_questions`(`id`, `examination_paper_id`, `questions_title`, `questions_group_title`, `questions_tip`,
+                            `questions_type`, `questions_sort`, `created_by`, `created_at`, `updated_by`, `updated_at`,
+                            `is_del`)
+VALUES (114, 100, 'J．其他影响睡眠的事情，如果有，请具体描述',
+        '在最近一个月中，您是否因下列情况影响睡眠而烦恼，并描述其程度：', NULL, 'RADIO', 14, 1,
+        '2022-08-08 07:10:24.820', 1, '2022-08-08 07:10:24.820', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1141, 114, 'FIVE_J_NONE', 'A', '无', '', 44, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1142, 114, 'FIVE_J_ONE_NIGHT', 'B', '＜1次/周', '', 45, 1.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560',
+        1, '2022-08-08 09:30:03.133', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1143, 114, 'FIVE_J_TWO_NIGHT', 'C', '1~2次/周', '', 46, 2.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:30:03.225', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1144, 114, 'FIVE_J_THREE_NIGHT', 'D', '≥3次/周', '', 47, 3.00, 'SELECT', '{\"single\":true}',
+        0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:30:03.302', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1145, 114, 'FIVE_J_FOUR_NIGHT', '', '具体描述：', '', 48, 0, 'INPUT', null,
+        0, 1,   '2022-08-08 07:38:12.560', 1, '2022-08-08 09:30:03.302', 0);
+
+
+INSERT INTO `qas_questions`(`id`, `examination_paper_id`, `questions_title`, `questions_group_title`, `questions_tip`,
+                            `questions_type`, `questions_sort`, `created_by`, `created_at`, `updated_by`, `updated_at`,
+                            `is_del`)
+VALUES (115, 100, '在最近一个月中，总的来说，您认为自己的睡眠质量：', NULL, NULL, 'RADIO', 15, 1,
+        '2022-08-08 07:11:05.824', 1,
+        '2022-08-08 07:11:05.824', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1151, 115, 'SIX_BETTER', 'A', '很好', '', 48, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1152, 115, 'SIX_GOOD', 'B', '较好', '', 49, 1.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1153, 115, 'SIX_BAD', 'C', '较差', '', 50, 2.00, 'SELECT', '{\"single\":true}', 0, 1, '2022-08-08 07:38:12.560',
+        1,
+        '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1154, 115, 'SIX_WORSE', 'D', '很差', '', 51, 3.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+
+
+INSERT INTO `qas_questions`(`id`, `examination_paper_id`, `questions_title`, `questions_group_title`, `questions_tip`,
+                            `questions_type`, `questions_sort`, `created_by`, `created_at`, `updated_by`, `updated_at`,
+                            `is_del`)
+VALUES (116, 100, '在最近一个月中，您是否要服药物（包括医院和药店购买的药物）才能入睡：', NULL, NULL, 'RADIO', 16, 1,
+        '2022-08-08 07:11:29.933', 1,
+        '2022-08-08 07:11:29.933', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1161, 116, 'SEVEN_NONE', 'A', '无', '', 52, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1162, 116, 'SEVEN_ONE_NIGHT', 'B', '＜1次/周 ', '', 53, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560',
+        1, '2022-08-08 09:27:59.368', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1163, 116, 'SEVEN_TWO_NIGHT', 'C', '1~2次/周', '', 54, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560',
+        1, '2022-08-08 09:27:59.457', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1164, 116, 'SEVEN_THREE_NIGHT', 'D', '≥3次/周', '', 55, 0.00, 'SELECT', '{\"single\":true}', 0,
+        1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:27:59.550', 0);
+
+INSERT INTO `qas_questions`(`id`, `examination_paper_id`, `questions_title`, `questions_group_title`, `questions_tip`,
+                            `questions_type`, `questions_sort`, `created_by`, `created_at`, `updated_by`, `updated_at`,
+                            `is_del`)
+VALUES (117, 100, '在最近一个月中，您是否在开车、吃饭、或参加社会活动时时常感到困倦：', NULL, NULL, 'RADIO', 17, 1,
+        '2022-08-08 07:11:49.985', 1,
+        '2022-08-08 07:11:49.985', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1171, 117, 'EIGHT_NONE', 'A', '无', '', 56, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1172, 117, 'EIGHT_ONE_NIGHT', 'B', '＜1次/周', '', 57, 1.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560',
+        1, '2022-08-08 09:30:15.602', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1173, 117, 'EIGHT_TWO_NIGHT', 'C', '1~2次/周', '', 58, 2.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560',
+        1, '2022-08-08 09:30:15.680', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1174, 117, 'EIGHT_THREE_NIGHT', 'D', '≥3次/周', '', 59, 3.00, 'SELECT', '{\"single\":true}', 0,
+        1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:30:15.756', 0);
+
+INSERT INTO `qas_questions`(`id`, `examination_paper_id`, `questions_title`, `questions_group_title`, `questions_tip`,
+                            `questions_type`, `questions_sort`, `created_by`, `created_at`, `updated_by`, `updated_at`,
+                            `is_del`)
+VALUES (118, 100, '在最近一个月中，您在积极完成事情上是否感到精力不足： ', NULL, NULL, 'RADIO', 18, 1,
+        '2022-08-08 07:12:07.492', 1,
+        '2022-08-08 07:12:07.492', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1181, 118, 'NINE_NONE', 'A', '没有', '', 60, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1182, 118, 'NINE_ONE_NIGHT', 'B', '偶尔有', '', 61, 1.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560',
+        1, '2022-08-08 09:30:19.163', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1183, 118, 'NINE_TWO_NIGHT', 'C', '有时有', '', 62, 2.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560',
+        1, '2022-08-08 09:30:19.257', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1184, 118, 'NINE_THREE_NIGHT', 'D', '经常有 ', '', 63, 3.00, 'SELECT', '{\"single\":true}', 0,
+        1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:30:19.349', 0);
+
+
+INSERT INTO `qas_questions`(`id`, `examination_paper_id`, `questions_title`, `questions_group_title`, `questions_tip`,
+                            `questions_type`, `questions_sort`, `created_by`, `created_at`, `updated_by`, `updated_at`,
+                            `is_del`)
+VALUES (119, 100, '您是否与人同睡一床，或有室友：', NULL, NULL, 'RADIO', 19, 1, '2022-08-08 07:12:33.858', 1,
+        '2022-08-08 07:12:33.858',
+        0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1191, 119, 'TEN_NONE', 'A', '没有', '', 64, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1192, 119, 'TEN_OTHER_ROOM', 'B', '同伴或室友在另一房间', '', 65, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560',
+        1, '2022-08-08 09:28:00.438', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1193, 119, 'TEN_SAME_ROOM', 'C', '同伴在同一房间但不同床', '', 66, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560',
+        1, '2022-08-08 09:28:00.529', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1194, 119, 'TEN_SAME_BED', 'D', '同伴在同一床上', '', 67, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560',
+        1, '2022-08-08 09:28:00.623', 0);
+
+INSERT INTO `qas_questions`(`id`, `examination_paper_id`, `questions_title`, `questions_group_title`, `questions_tip`,
+                            `questions_type`, `questions_sort`, `created_by`, `created_at`, `updated_by`, `updated_at`,
+                            `is_del`)
+VALUES (120, 100, '在您睡觉时，有无打鼾声', NULL, NULL, 'RADIO', 20, 1, '2022-08-08 07:13:17.264', 1,
+        '2022-08-08 07:13:17.264',
+        0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1201, 120, 'ELEVEN_NONE', 'A', '过去一个月没有', '', 68, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1202, 120, 'ELEVEN_ONE_NIGHT', 'B', '每周平均不足一个晚上', '', 69, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560',
+        1, '2022-08-08 09:28:00.796', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1203, 120, 'ELEVEN_TWO_NIGHT', 'C', '每周平均有一或两个晚上', '', 70, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:28:00.892', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1204, 120, 'ELEVEN_THREE_NIGHT', 'D', '每周有平均三个或更多晚上', '', 71, 0.00, 'SELECT', '{\"single\":true}',
+        0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:28:00.975', 0);
+
+INSERT INTO `qas_questions`(`id`, `examination_paper_id`, `questions_title`, `questions_group_title`, `questions_tip`,
+                            `questions_type`, `questions_sort`, `created_by`, `created_at`, `updated_by`, `updated_at`,
+                            `is_del`)
+VALUES (121, 100, '在您睡觉时，呼吸之间有没有长时间停顿：', NULL, NULL, 'RADIO', 21, 1, '2022-08-08 07:13:53.364', 1,
+        '2022-08-08 07:13:53.364', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1211, 121, 'TWELVE_NONE', 'A', '过去一个月没有', '', 72, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1212, 121, 'TWELVE_ONE_NIGHT', 'B', '每周平均不足一个晚上', '', 73, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560',
+        1, '2022-08-08 09:28:01.142', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1213, 121, 'TWELVE_TWO_NIGHT', 'C', '每周平均有一或两个晚上', '', 74, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:28:01.242', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1214, 121, 'TWELVE_THREE_NIGHT', 'D', '每周有平均三个或更多晚上', '', 75, 0.00, 'SELECT', '{\"single\":true}',
+        0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:28:01.345', 0);
+
+INSERT INTO `qas_questions`(`id`, `examination_paper_id`, `questions_title`, `questions_group_title`, `questions_tip`,
+                            `questions_type`, `questions_sort`, `created_by`, `created_at`, `updated_by`, `updated_at`,
+                            `is_del`)
+VALUES (122, 100, '在您睡觉时，您的腿是否有抽动或痉挛：', NULL, NULL, 'RADIO', 22, 1, '2022-08-08 07:14:11.432', 1,
+        '2022-08-08 07:14:11.432', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1221, 122, 'THIRTEEN_NONE', 'A', '过去一个月没有', '', 76, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1222, 122, 'THIRTEEN_ONE_NIGHT', 'B', '每周平均不足一个晚上', '', 77, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:28:01.501', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1223, 122, 'THIRTEEN_TWO_NIGHT', 'C', '每周平均有一或两个晚上', '', 78, 0.00, 'SELECT', '{\"single\":true}', 0,
+        1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:28:01.594', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1224, 122, 'THIRTEEN_THREE_NIGHT', 'D', '每周有平均三个或更多晚上', '', 79, 0.00, 'SELECT', '{\"single\":true}',
+        0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:28:01.670', 0);
+
+INSERT INTO `qas_questions`(`id`, `examination_paper_id`, `questions_title`, `questions_group_title`, `questions_tip`,
+                            `questions_type`, `questions_sort`, `created_by`, `created_at`, `updated_by`, `updated_at`,
+                            `is_del`)
+VALUES (123, 100, '在您睡觉时，是否出现不能辨认方向或混乱状态：', NULL, NULL, 'RADIO', 23, 1, '2022-08-08 07:14:27.564',
+        1,
+        '2022-08-08 07:14:27.564', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1231, 123, 'FOURTEEN_NONE', 'A', '过去一个月没有', '', 80, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1232, 123, 'FOURTEEN_ONE_NIGHT', 'B', '每周平均不足一个晚上', '', 81, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:28:01.809', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1233, 123, 'FOURTEEN_TWO_NIGHT', 'C', '每周平均有一或两个晚上', '', 82, 0.00, 'SELECT', '{\"single\":true}', 0,
+        1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:28:01.903', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1234, 123, 'FOURTEEN_THREE_NIGHT', 'D', '每周有平均三个或更多晚上', '', 83, 0.00, 'SELECT', '{\"single\":true}',
+        0, 1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:28:02.001', 0);
+
+INSERT INTO `qas_questions`(`id`, `examination_paper_id`, `questions_title`, `questions_group_title`, `questions_tip`,
+                            `questions_type`, `questions_sort`, `created_by`, `created_at`, `updated_by`, `updated_at`,
+                            `is_del`)
+VALUES (124, 100, '在您睡觉时，是否有其他睡觉不安宁的情况，如果有，请具体描述', NULL, NULL, 'RADIO',
+        24, 1, '2022-08-08 07:15:07.345',
+        1, '2022-08-08 07:15:07.345', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1241, 124, 'FIFTH_NONE', 'A', '过去一个月没有', '', 84, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560', 1,
+        '2022-08-08 09:25:05.388', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1242, 124, 'FIFTH_ONE_NIGHT', 'B', '每周平均不足一个晚上', '', 85, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560',
+        1, '2022-08-08 09:28:02.151', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1243, 124, 'FIFTH_TWO_NIGHT', 'C', '每周平均有一或两个晚上', '', 86, 0.00, 'SELECT', '{\"single\":true}', 0, 1,
+        '2022-08-08 07:38:12.560',
+        1, '2022-08-08 09:28:02.229', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1244, 124, 'FIFTH_THREE_NIGHT', 'D', '每周有平均三个或更多晚上', '', 87, 0.00, 'SELECT', '{\"single\":true}', 0,
+        1,
+        '2022-08-08 07:38:12.560', 1, '2022-08-08 09:28:02.307', 0);
+INSERT INTO `qas_option`(`id`, `questions_id`, `option_code`, `option_value`, `option_label`, `option_tip`,
+                         `option_sort`, `option_score`, `option_type`, `option_rule`, `is_dynamic`, `created_by`,
+                         `created_at`, `updated_by`, `updated_at`, `is_del`)
+VALUES (1245, 124, 'FIFTH_FOUR_NIGHT', '', '具体描述：', '', 88, 0, 'INPUT', null,
+        0, 1,   '2022-08-08 07:38:12.560', 1, '2022-08-08 09:30:03.302', 0);
+
+
+INSERT INTO qas_interpretation_of_results (id, examination_paper_id, min_value,
+                                           max_value, results_tag, results_msg,
+                                           created_by, created_at, updated_by,
+                                           updated_at, is_del)
+VALUES (199, 100, 0.00, 5.00, '睡眠质量很好', '',
+        1, '2022-08-05 12:12:50.018', 1, '2022-08-05 12:12:50.018', 0),
+       (198, 100, 6.00, 10.00, '睡眠质量较好', '',
+        1, '2022-08-05 12:12:50.018', 1, '2022-08-05 12:12:50.018', 0),
+       (197, 100, 11.00, 15.00, '睡眠质量一般', '',
+        1, '2022-08-05 12:12:50.018', 1, '2022-08-05 12:12:50.018', 0),
+       (196, 100, 16.00, 21.00, '睡眠质量差', '',
+        1, '2022-08-05 12:12:50.018', 1, '2022-08-05 12:12:50.018', 0);

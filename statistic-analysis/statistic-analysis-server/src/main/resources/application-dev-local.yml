@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    url: jdbc:p6spy:mysql://localhost:3306/user_permission_centre
+    username: root
+    password: root
+    druid:
+      min-idle: 3
+      max-active: 10
+      pool-prepared-statements: true
+      max-open-prepared-statements: 5
+      max-pool-prepared-statement-per-connection-size: 5
+      share-prepared-statements: true
+      filter:
+        slf4j:
+          enabled: true
+          statement-log-enabled: true
+          statement-executable-sql-log-enable: true
+          result-set-log-enabled: true
+  cloud:
+    nacos:
+      config:
+        enabled: false
+      discovery:
+        enabled: false
+
+logging:
+  level:
+    web: debug
+    me: debug
+    com:
+      bjknrt: debug

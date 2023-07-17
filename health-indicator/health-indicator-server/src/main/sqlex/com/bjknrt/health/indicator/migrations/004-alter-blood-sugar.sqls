@@ -1,0 +1,2 @@
+-- 数据库Schema描述文件, 执行DDL操作
+ALTER TABLE `hi_blood_sugar` ADD COLUMN `kn_after_meal_blood_sugar` DOUBLE UNSIGNED NULL COMMENT '餐后2个小时血糖'

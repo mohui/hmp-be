@@ -1,0 +1,13 @@
+import java.math.BigInteger
+
+select(id:Long) {
+    select sec.kn_monograph_section_id,
+           sec.kn_monograph_section_name,
+           content.kn_section_content,
+           content.kn_monograph_id
+    from medication_guide_monograph_content content,
+         medication_guide_monograph_section sec
+    where content.kn_section_id = sec.kn_monograph_section_id
+      and content.kn_monograph_id = :id
+    order by ifnull(sec.kn_order, 999)
+}

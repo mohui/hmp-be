@@ -1,0 +1,8 @@
+# 修改表名
+RENAME TABLE upcs_administrative_division to upcs_region;
+
+# 修改字段名
+ALTER TABLE upcs_org
+    change kn_admin_division_code kn_region_code bigint unsigned not null comment '行政区域编码';
+
+

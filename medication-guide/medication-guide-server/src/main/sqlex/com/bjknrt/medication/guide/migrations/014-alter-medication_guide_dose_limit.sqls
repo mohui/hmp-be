@@ -1,0 +1,14 @@
+alter table medication_guide_dose_limit
+    add kn_generic_id bigint COMMENT '通用名编号';
+
+alter table medication_guide_dose_limit
+    modify kn_drug_id bigint COMMENT '药品编号';
+
+alter table medication_guide_dose_limit
+    add kn_doseage_form_id bigint COMMENT '规格编号';
+
+alter table medication_guide_dose_limit
+    add kn_strength varchar(300) COMMENT '剂型';
+
+alter table medication_guide_dose_limit
+    add kn_dose_limit_unit varchar(50) not null COMMENT '给药单位';

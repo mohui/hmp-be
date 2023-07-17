@@ -1,0 +1,4 @@
+ALTER TABLE `hi_blood_pressure`
+    MODIFY COLUMN `kn_systolic_blood_pressure` double UNSIGNED NOT NULL COMMENT '收缩压/mmHg' AFTER `kn_patient_id`;
+ALTER TABLE `hi_blood_pressure`
+    MODIFY COLUMN `kn_diastolic_blood_pressure` double UNSIGNED NOT NULL COMMENT '舒张压/mmHg' AFTER `kn_systolic_blood_pressure`;

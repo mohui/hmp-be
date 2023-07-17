@@ -1,0 +1,6 @@
+-- 当开始时间为空 默认改为创建时间
+update mr_health_plan set kn_cycle_start_time = kn_created_at  where kn_cycle_start_time is null;
+-- 修改 健康计划表 开始时间为必填
+ALTER TABLE `mr_health_plan`
+    MODIFY COLUMN `kn_cycle_start_time` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '周期开始时间' AFTER `is_sunday`;
+

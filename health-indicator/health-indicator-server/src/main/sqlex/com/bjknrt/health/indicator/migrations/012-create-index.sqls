@@ -1,0 +1,26 @@
+alter table `hi_body_height`
+    add index `hbh_kpi_idx` (kn_patient_id);
+alter table `hi_body_weight`
+    add index `hbw_kpi_idx` (kn_patient_id);
+alter table `hi_waistline`
+    add index `hw_kpi_idx` (kn_patient_id);
+alter table `hi_bmi`
+    add index `hb_kpi_idx` (kn_patient_id);
+alter table `hi_blood_pressure`
+    add index `hbp_kpi_idx` (kn_patient_id);
+alter table `hi_blood_sugar`
+    add index `hbs_kpi_idx` (kn_patient_id);
+alter table `hi_blood_lipids`
+    add index `hbl_kpi_idx` (kn_patient_id);
+alter table `hi_heart_rate`
+    add index `hhr_kpi_idx` (kn_patient_id);
+alter table `hi_pulse`
+    add index `hp_kpi_idx` (kn_patient_id);
+alter table `hi_pulse_oximetry`
+    add index `hpo_kpi_idx` (kn_patient_id);
+alter table `hi_drinking`
+    add index `hd_kpi_idx` (kn_patient_id);
+alter table `hi_smoke`
+    add index `hs_kpi_idx` (kn_patient_id);
+alter table `hi_body_temperature`
+    add index `hbt_kpi_idx` (kn_patient_id);

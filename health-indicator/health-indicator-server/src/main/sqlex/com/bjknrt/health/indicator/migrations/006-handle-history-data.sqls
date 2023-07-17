@@ -1,0 +1,48 @@
+-- 增加测量时间
+update `hi_body_height`
+set kn_measure_at = kn_created_at
+where kn_created_at < now();
+
+update `hi_body_weight`
+set kn_measure_at = kn_created_at
+where kn_created_at < now();
+
+update `hi_bmi`
+set kn_measure_at = kn_created_at
+where kn_created_at < now();
+
+update `hi_waistline`
+set kn_measure_at = kn_created_at
+where kn_created_at < now();
+
+update `hi_body_temperature`
+set kn_measure_at = kn_created_at
+where kn_created_at < now();
+
+update `hi_blood_pressure`
+set kn_measure_at = kn_created_at
+where kn_created_at < now();
+
+update `hi_blood_sugar`
+set kn_measure_at = kn_created_at
+where kn_created_at < now();
+
+update `hi_blood_lipids`
+set kn_measure_at = kn_created_at
+where kn_created_at < now();
+
+update `hi_heart_rate`
+set kn_measure_at = kn_created_at
+where kn_created_at < now();
+
+update `hi_pulse`
+set kn_measure_at = kn_created_at
+where kn_created_at < now();
+
+update `hi_smoke`
+set kn_measure_at = kn_created_at
+where kn_created_at < now();
+
+update `hi_drinking`
+set kn_measure_at = kn_created_at
+where kn_created_at < now();

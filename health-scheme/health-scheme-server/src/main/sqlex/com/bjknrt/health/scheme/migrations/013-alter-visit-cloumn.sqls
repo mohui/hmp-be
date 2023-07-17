@@ -1,0 +1,14 @@
+alter table hs_cerebral_stroke_visit
+    drop is_intelligent_recover_sport,
+    drop is_intelligent_recover_work,
+    drop is_intelligent_recover_acknowledge,
+    drop is_intelligent_recover_swallow,
+    drop is_intelligent_recover_parole;
+
+
+alter table hs_cerebral_stroke_visit
+    add is_intelligent_recover_bci             tinyint(1) NOT NULL COMMENT '智能康复-脑机接口 ',
+    add is_intelligent_recover_robot           tinyint(1) NOT NULL COMMENT '智能康复-康复机器人 ',
+    add is_intelligent_recover_balance         tinyint(1) NOT NULL COMMENT '智能康复-平衡反馈训练 ',
+    add is_intelligent_recover_virtual_reality tinyint(1) NOT NULL COMMENT '智能康复-虚拟现实',
+    add is_intelligent_recover_other           tinyint(1) NOT NULL COMMENT '智能康复-其他智能设备辅助下训练';

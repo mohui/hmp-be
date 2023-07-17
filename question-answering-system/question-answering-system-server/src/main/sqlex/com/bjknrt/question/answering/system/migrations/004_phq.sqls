@@ -1,0 +1,233 @@
+INSERT INTO qas_examination_paper (id, examination_paper_title, examination_paper_desc,
+                                   examination_paper_tip, examination_paper_code,
+                                   examination_paper_reference, evaluation_time,
+                                   strategy_code, created_by, created_at, updated_by,
+                                   updated_at, is_del)
+VALUES (200, 'PHQ-9快速抑郁症状筛查量表',
+        'PHQ-9是国际通用抑郁检测量表之一；共有9个项目，根据最近两个星期内的实际感受，来选择一个与实际情况最符合的答案，答案没有对错，真实反应自己的感受就好。自2001年首次发表以来，9项患者健康问卷抑郁量表（PHQ-9）在全球范围内得到广泛传播，成为数以百计的临床及人群研究的测评工具，被写入大量抑郁指南，并在很多临床机构得到了广泛应用。',
+        '', 'PHQ', '[1]He C,Levis B,Riehm KE,et al. The Accuracy of the Patient Health Questionnaire-9 Algorithm for Screening to Detect Major Depression:An Individual Participant Data Meta-Analysis. Psychother Psychosom. 2019 Oct 8.
+[2]Kroenke K,Spitzer R L,Williams J. The PHQ-9:validity of a brief depression severity measure.[J].Journal of General Internal Medicine, 2001.
+[3]Martin A,Rief W,Klaiberg A,et al. Validity of the Brief Patient Health Questionnaire Mood Scale (PHQ-9) in the general population[J].General Hospital Psychiatry, 2006.',
+        '', 'DEFAULT', 1, '2022-08-05 12:12:50.042', 1, '2022-10-20 13:21:31.466', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (201, 200, '做事时提不起劲或没有兴趣？', '在过去的两周里,生活中以下症状出现的频率有多少？', NULL, 'RADIO', 1, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type, option_rule, is_dynamic, created_by, created_at, updated_by,
+                        updated_at, is_del)
+VALUES (2011, 201, 'PHQ_1_1', '没有', '没有', '', 1, 0.00, 'SELECT', '{\"single\":true}', 0,
+        1, '2022-08-08 09:56:59.064', 1,
+        '2022-08-08 09:56:59.064', 0),
+       (2012, 201, 'PHQ_1_2', '有几天', '有几天', '', 2, 1.00, 'SELECT', '{\"single\":true}',
+        0, 1, '2022-08-08 09:58:45.484', 1,
+        '2022-08-08 09:58:45.484', 0),
+       (2013, 201, 'PHQ_1_3', '一半以上时间', '一半以上时间', '', 3, 2.00, 'SELECT',
+        '{\"single\":true}', 0, 1, '2022-08-08 09:56:59.064', 1,
+        '2022-08-08 09:56:59.064', 0),
+       (2014, 201, 'PHQ_1_4', '几乎每天', '几乎每天', '', 4, 3.00, 'SELECT', '{\"single\":true}',
+        0, 1, '2022-08-08 09:58:45.484', 1,
+        '2022-08-08 09:58:45.484', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (202, 200, '感到心情低落、沮丧或绝望？', '在过去的两周里,生活中以下症状出现的频率有多少？', NULL, 'RADIO', 2, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type, option_rule, is_dynamic, created_by, created_at, updated_by,
+                        updated_at, is_del)
+VALUES (2021, 202, 'PHQ_2_1', '没有', '没有', '', 1, 0.00, 'SELECT', '{\"single\":true}', 0,
+        1, '2022-08-08 09:56:59.064', 1,
+        '2022-08-08 09:56:59.064', 0),
+       (2022, 202, 'PHQ_2_2', '有几天', '有几天', '', 2, 1.00, 'SELECT', '{\"single\":true}',
+        0, 1, '2022-08-08 09:58:45.484', 1,
+        '2022-08-08 09:58:45.484', 0),
+       (2023, 202, 'PHQ_2_3', '一半以上时间', '一半以上时间', '', 3, 2.00, 'SELECT',
+        '{\"single\":true}', 0, 1, '2022-08-08 09:56:59.064', 1,
+        '2022-08-08 09:56:59.064', 0),
+       (2024, 202, 'PHQ_2_4', '几乎每天', '几乎每天', '', 4, 3.00, 'SELECT', '{\"single\":true}',
+        0, 1, '2022-08-08 09:58:45.484', 1,
+        '2022-08-08 09:58:45.484', 0);
+
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (203, 200, '入睡困难、睡不安稳或睡眠过多？', '在过去的两周里,生活中以下症状出现的频率有多少？', NULL, 'RADIO', 3, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type, option_rule, is_dynamic, created_by, created_at, updated_by,
+                        updated_at, is_del)
+VALUES (2031, 203, 'PHQ_3_1', '没有', '没有', '', 1, 0.00, 'SELECT', '{\"single\":true}', 0,
+        1, '2022-08-08 09:56:59.064', 1,
+        '2022-08-08 09:56:59.064', 0),
+       (2032, 203, 'PHQ_3_2', '有几天', '有几天', '', 2, 1.00, 'SELECT', '{\"single\":true}',
+        0, 1, '2022-08-08 09:58:45.484', 1,
+        '2022-08-08 09:58:45.484', 0),
+       (2033, 203, 'PHQ_3_3', '一半以上时间', '一半以上时间', '', 3, 2.00, 'SELECT',
+        '{\"single\":true}', 0, 1, '2022-08-08 09:56:59.064', 1,
+        '2022-08-08 09:56:59.064', 0),
+       (2034, 203, 'PHQ_3_4', '几乎每天', '几乎每天', '', 4, 3.00, 'SELECT', '{\"single\":true}',
+        0, 1, '2022-08-08 09:58:45.484', 1,
+        '2022-08-08 09:58:45.484', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (204, 200, '感觉疲倦或没有活力？', '在过去的两周里,生活中以下症状出现的频率有多少？', NULL, 'RADIO', 4, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type, option_rule, is_dynamic, created_by, created_at, updated_by,
+                        updated_at, is_del)
+VALUES (2041, 204, 'PHQ_4_1', '没有', '没有', '', 1, 0.00, 'SELECT', '{\"single\":true}', 0,
+        1, '2022-08-08 09:56:59.064', 1,
+        '2022-08-08 09:56:59.064', 0),
+       (2042, 204, 'PHQ_4_2', '有几天', '有几天', '', 2, 1.00, 'SELECT', '{\"single\":true}',
+        0, 1, '2022-08-08 09:58:45.484', 1,
+        '2022-08-08 09:58:45.484', 0),
+       (2043, 204, 'PHQ_4_3', '一半以上时间', '一半以上时间', '', 3, 2.00, 'SELECT',
+        '{\"single\":true}', 0, 1, '2022-08-08 09:56:59.064', 1,
+        '2022-08-08 09:56:59.064', 0),
+       (2044, 204, 'PHQ_4_4', '几乎每天', '几乎每天', '', 4, 3.00, 'SELECT', '{\"single\":true}',
+        0, 1, '2022-08-08 09:58:45.484', 1,
+        '2022-08-08 09:58:45.484', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (205, 200, '食欲不振或吃太多？', '在过去的两周里,生活中以下症状出现的频率有多少？', NULL, 'RADIO', 5, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type, option_rule, is_dynamic, created_by, created_at, updated_by,
+                        updated_at, is_del)
+VALUES (2051, 205, 'PHQ_5_1', '没有', '没有', '', 1, 0.00, 'SELECT', '{\"single\":true}', 0,
+        1, '2022-08-08 09:56:59.064', 1,
+        '2022-08-08 09:56:59.064', 0),
+       (2052, 205, 'PHQ_5_2', '有几天', '有几天', '', 2, 1.00, 'SELECT', '{\"single\":true}',
+        0, 1, '2022-08-08 09:58:45.484', 1,
+        '2022-08-08 09:58:45.484', 0),
+       (2053, 205, 'PHQ_5_3', '一半以上时间', '一半以上时间', '', 3, 2.00, 'SELECT',
+        '{\"single\":true}', 0, 1, '2022-08-08 09:56:59.064', 1,
+        '2022-08-08 09:56:59.064', 0),
+       (2054, 205, 'PHQ_5_4', '几乎每天', '几乎每天', '', 4, 3.00, 'SELECT', '{\"single\":true}',
+        0, 1, '2022-08-08 09:58:45.484', 1,
+        '2022-08-08 09:58:45.484', 0);
+
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (206, 200, '觉得自己很糟，或觉得自己很失败，或让自己或家人失望？', '在过去的两周里,生活中以下症状出现的频率有多少？',
+        NULL,
+        'RADIO', 6, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type, option_rule, is_dynamic, created_by, created_at, updated_by,
+                        updated_at, is_del)
+VALUES (2061, 206, 'PHQ_6_1', '没有', '没有', '', 1, 0.00, 'SELECT', '{\"single\":true}', 0,
+        1, '2022-08-08 09:56:59.064', 1,
+        '2022-08-08 09:56:59.064', 0),
+       (2062, 206, 'PHQ_6_2', '有几天', '有几天', '', 2, 1.00, 'SELECT', '{\"single\":true}',
+        0, 1, '2022-08-08 09:58:45.484', 1,
+        '2022-08-08 09:58:45.484', 0),
+       (2063, 206, 'PHQ_6_3', '一半以上时间', '一半以上时间', '', 3, 2.00, 'SELECT',
+        '{\"single\":true}', 0, 1, '2022-08-08 09:56:59.064', 1,
+        '2022-08-08 09:56:59.064', 0),
+       (2064, 206, 'PHQ_6_4', '几乎每天', '几乎每天', '', 4, 3.00, 'SELECT', '{\"single\":true}',
+        0, 1, '2022-08-08 09:58:45.484', 1,
+        '2022-08-08 09:58:45.484', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (207, 200, '对事物专注有困难，例如阅读报纸或看电视时不能集中注意力？',
+        '在过去的两周里,生活中以下症状出现的频率有多少？', NULL,
+        'RADIO', 7, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type, option_rule, is_dynamic, created_by, created_at, updated_by,
+                        updated_at, is_del)
+VALUES (2071, 207, 'PHQ_7_1', '没有', '没有', '', 1, 0.00, 'SELECT', '{\"single\":true}', 0,
+        1, '2022-08-08 09:56:59.064', 1,
+        '2022-08-08 09:56:59.064', 0),
+       (2072, 207, 'PHQ_7_2', '有几天', '有几天', '', 2, 1.00, 'SELECT', '{\"single\":true}',
+        0, 1, '2022-08-08 09:58:45.484', 1,
+        '2022-08-08 09:58:45.484', 0),
+       (2073, 207, 'PHQ_7_3', '一半以上时间', '一半以上时间', '', 3, 2.00, 'SELECT',
+        '{\"single\":true}', 0, 1, '2022-08-08 09:56:59.064', 1,
+        '2022-08-08 09:56:59.064', 0),
+       (2074, 207, 'PHQ_7_4', '几乎每天', '几乎每天', '', 4, 3.00, 'SELECT', '{\"single\":true}',
+        0, 1, '2022-08-08 09:58:45.484', 1,
+        '2022-08-08 09:58:45.484', 0);
+
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (208, 200, '动作或说话速度缓慢到别人已经觉察？或正好相反，烦躁或坐立不安、动来动去的情况更胜于平常？',
+        '在过去的两周里,生活中以下症状出现的频率有多少？', NULL, 'RADIO', 8, 1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type, option_rule, is_dynamic, created_by, created_at, updated_by,
+                        updated_at, is_del)
+VALUES (2081, 208, 'PHQ_8_1', '没有', '没有', '', 1, 0.00, 'SELECT', '{\"single\":true}', 0,
+        1, '2022-08-08 09:56:59.064', 1,
+        '2022-08-08 09:56:59.064', 0),
+       (2082, 208, 'PHQ_8_2', '有几天', '有几天', '', 2, 1.00, 'SELECT', '{\"single\":true}',
+        0, 1, '2022-08-08 09:58:45.484', 1,
+        '2022-08-08 09:58:45.484', 0),
+       (2083, 208, 'PHQ_8_3', '一半以上时间', '一半以上时间', '', 3, 2.00, 'SELECT',
+        '{\"single\":true}', 0, 1, '2022-08-08 09:56:59.064', 1,
+        '2022-08-08 09:56:59.064', 0),
+       (2084, 208, 'PHQ_8_4', '几乎每天', '几乎每天', '', 4, 3.00, 'SELECT', '{\"single\":true}',
+        0, 1, '2022-08-08 09:58:45.484', 1,
+        '2022-08-08 09:58:45.484', 0);
+
+INSERT INTO qas_questions (id, examination_paper_id, questions_title, questions_group_title, questions_tip,
+                           questions_type, questions_sort, created_by, created_at, updated_by, updated_at, is_del)
+VALUES (209, 200, '有不如死掉或用某种方式伤害自己的念头？', '在过去的两周里,生活中以下症状出现的频率有多少？', NULL,
+        'RADIO', 9,
+        1,
+        '2022-08-08 09:53:34.714', 1, '2022-08-08 09:54:05.918', 0);
+
+INSERT INTO qas_option (id, questions_id, option_code, option_value, option_label, option_tip, option_sort,
+                        option_score, option_type, option_rule, is_dynamic, created_by, created_at, updated_by,
+                        updated_at, is_del)
+VALUES (2091, 209, 'PHQ_9_1', '没有', '没有', '', 1, 0.00, 'SELECT', '{\"single\":true}', 0,
+        1, '2022-08-08 09:56:59.064', 1,
+        '2022-08-08 09:56:59.064', 0),
+       (2092, 209, 'PHQ_9_2', '有几天', '有几天', '', 2, 1.00, 'SELECT', '{\"single\":true}',
+        0, 1, '2022-08-08 09:58:45.484', 1,
+        '2022-08-08 09:58:45.484', 0),
+       (2093, 209, 'PHQ_9_3', '一半以上时间', '一半以上时间', '', 3, 2.00, 'SELECT',
+        '{\"single\":true}', 0, 1, '2022-08-08 09:56:59.064', 1,
+        '2022-08-08 09:56:59.064', 0),
+       (2094, 209, 'PHQ_9_4', '几乎每天', '几乎每天', '', 4, 3.00, 'SELECT', '{\"single\":true}',
+        0, 1, '2022-08-08 09:58:45.484', 1,
+        '2022-08-08 09:58:45.484', 0);
+
+
+INSERT INTO qas_interpretation_of_results (id, examination_paper_id, min_value,
+                                           max_value, results_tag, results_msg,
+                                           created_by, created_at, updated_by,
+                                           updated_at, is_del)
+VALUES (299, 200, 5.00, 9.00, '轻度抑郁', '',
+        1, '2022-08-05 12:12:50.018', 1, '2022-08-05 12:12:50.018', 0),
+       (298, 200, 10.00, 14.00, '中度抑郁', '',
+        1, '2022-08-05 12:12:50.018', 1, '2022-08-05 12:12:50.018', 0),
+       (297, 200, 15.00, 19.00, '重度抑郁', '',
+        1, '2022-08-05 12:12:50.018', 1, '2022-08-05 12:12:50.018', 0),
+       (296, 200, 20.00, 27.00, '极重度抑郁', '',
+        1, '2022-08-05 12:12:50.018', 1, '2022-08-05 12:12:50.018', 0),
+       (295, 200, 0.00, 4.00, '没有抑郁', '',
+        1, '2022-08-05 12:12:50.018', 1, '2022-08-05 12:12:50.018', 0);

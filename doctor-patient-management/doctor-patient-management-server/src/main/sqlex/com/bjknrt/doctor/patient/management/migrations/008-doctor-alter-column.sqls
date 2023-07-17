@@ -1,0 +1,8 @@
+alter table dpm_doctor_info
+    add column kn_is_nurse tinyint(1) default 0 not null comment '是否是护士，不是护士就是医生';
+
+alter table dpm_doctor_info
+    add column kn_doctor_level varchar(50)  not null default 'RESIDENT_PHYSICIAN' comment '等级职称：住院医师 RESIDENT_PHYSICIAN，主治医生 IN_CHARGE_PHYSICIAN,主任医师 CHIEF_PHYSICIAN，副主任医师 ASSOCIATE_CHIEF_PHYSICIAN，初级护士 JUNIOR_NURSE, 初级护师 JUNIOR_SENIORNURSE ，主管护师 CHARGE_SENIORNURSE,主任护师 CHIEF_SENIORNURSE，副主任医师 ASSOCIATE_CHIEF_SENIORNURSE';
+
+
+

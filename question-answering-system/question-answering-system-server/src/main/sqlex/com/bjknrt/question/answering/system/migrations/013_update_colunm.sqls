@@ -1,0 +1,15 @@
+alter table qas_disease_evaluate
+    modify hypertension_disease_tag varchar(16) not null comment '高血压病种标签 （EXISTS-患者，HIGH-高危,LOW-低危）';
+
+alter table qas_disease_evaluate
+    modify diabetes_disease_tag varchar(16) not null comment '糖尿病病种标签 （EXISTS-患者，HIGH-高危,LOW-低危）';
+
+alter table qas_disease_evaluate
+    modify acute_coronary_disease_tag varchar(16) not null comment '冠心病病种标签 （EXISTS-患者，HIGH-高危,LOW-低危）';
+
+alter table qas_disease_evaluate
+    modify cerebral_stroke_disease_tag varchar(16) not null comment '脑卒中病种标签 （EXISTS-患者，HIGH-高危,LOW-低危）';
+
+alter table qas_disease_evaluate
+    modify copd_disease_tag varchar(16) not null comment '慢阻肺病种标签 （EXISTS-患者，HIGH-高危,LOW-低危）';
+

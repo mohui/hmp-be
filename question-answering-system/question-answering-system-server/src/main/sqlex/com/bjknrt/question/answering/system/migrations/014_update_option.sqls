@@ -1,0 +1,5 @@
+alter table qas_option
+    add is_auto_commit tinyint(1) not null default 0 comment '是否自动提交答题';
+
+alter table qas_option
+    add forward_to bigint unsigned default null comment '跳转到指定题目的Id';

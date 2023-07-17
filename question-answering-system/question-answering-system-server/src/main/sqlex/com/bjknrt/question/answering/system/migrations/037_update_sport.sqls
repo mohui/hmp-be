@@ -1,0 +1,19 @@
+delete
+from qas_option
+where questions_id = 150004;
+
+insert into qas_option(id, questions_id, option_code, option_value, option_label, option_tip, option_sort, option_score,
+                       option_type, option_rule, created_by, updated_by, is_auto_commit, forward_to)
+values (15000401, 150004, 'SPORT_150004_01', '1', '太极（每周3次，每次30分钟）', '', 1, null, 'SELECT', null, 1, 1, false,
+        null),
+       (15000402, 150004, 'SPORT_150004_02', '2', '八段锦（每周3次，每次30分钟）', '', 2, null, 'SELECT', null, 1, 1,
+        false, null),
+       (15000403, 150004, 'SPORT_150004_03', '3', '拉伸运动（每周3次，每次30分钟）', '', 3, null, 'SELECT', null, 1, 1,
+        false, null),
+       (15000404, 150004, 'SPORT_150004_04', '4', '常速散步（每周3次，每次30分钟）', '', 4, null, 'SELECT', null, 1, 1,
+        false, null),
+       (15000405, 150004, 'SPORT_150004_05', '5', '握手训练（每周2次，每次4组*2分钟，每组间隔1分钟） ', '', 5, null,
+        'SELECT', null, 1, 1, false, null),
+       (15000406, 150004, 'SPORT_150004_06', '6', '以上都不希望', '', 6, null, 'SELECT', '{\"single\":true}', 1, 1,
+        false, null);
+

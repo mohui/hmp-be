@@ -1,0 +1,4 @@
+INSERT INTO upcs_role (kn_created_by, kn_updated_by, kn_id, kn_name, kn_code)
+VALUES (0, 0, 3, '行政管理员', 'REGION_ADMIN'),
+       (0, 0, 4, '护士', 'NURSE'),
+       (0, 0, 5, '患者', 'PATIENT');

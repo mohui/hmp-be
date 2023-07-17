@@ -1,0 +1,102 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: article-service
+  labels:
+    app: article-service
+    service: article-service
+spec:
+  ports:
+    - port: 8080
+      name: article-service-server
+      appProtocol: http
+    - port: 7777
+      name: article-service-debug
+      appProtocol: tcp
+  selector:
+    app: article-service
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: article-service
+  labels:
+    app: article-service
+    version: v0.0.1
+spec:
+  podManagementPolicy: Parallel
+  serviceName: article-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: article-service
+      version: v0.0.1
+  template:
+    metadata:
+      labels:
+        swck-java-agent-injected: "true"
+        app: article-service
+        version: v0.0.1
+    spec:
+      containers:
+        - name: article-service
+          args:
+            - "--spring.profiles.active=${APP_PROFILE}"
+            - "--spring.cloud.nacos.discovery.namespace=${APP_PROFILE}"
+#            - "--spring.cloud.nacos.discovery.ip=${SERVICE_DNS}"
+            - "--spring.cloud.nacos.server-addr=${NACOS_SERVER_ADDR}"
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['statefulset.kubernetes.io/pod-name']
+            - name: SERVICE_DNS
+              value: $(SERVICE_NAME)
+            - name: TZ
+              value: Asia/Shanghai
+            - name: SW_AGENT_NAME
+              value: $(SERVICE_NAME).$(NAMESPACE)
+          image: base-image-template
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "1Gi"
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+          ports:
+            - containerPort: 7777
+            - containerPort: 9999
+            - name: liveness-port
+              containerPort: 8080
+          livenessProbe:
+            successThreshold: 1
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 15
+            initialDelaySeconds: 15
+            httpGet:
+              path: /actuator/health/liveness
+              port: liveness-port
+          readinessProbe:
+            successThreshold: 1
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 15
+            initialDelaySeconds: 15
+            httpGet:
+              path: /actuator/health/readiness
+              port: liveness-port
+          startupProbe:
+            successThreshold: 1
+            failureThreshold: 40
+            timeoutSeconds: 1
+            periodSeconds: 15
+            initialDelaySeconds: 15
+            httpGet:
+              path: /actuator/health/liveness
+              port: liveness-port
+
+

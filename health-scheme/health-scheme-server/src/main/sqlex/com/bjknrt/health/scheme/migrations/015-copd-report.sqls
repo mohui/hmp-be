@@ -1,0 +1,26 @@
+CREATE TABLE `hs_copd_stage_statistics`
+(
+    `id`                      bigint(20) unsigned NOT NULL,
+    `stage_report_id`         bigint(20) unsigned NOT NULL COMMENT '阶段性报告id',
+    `score_deviation_value`   decimal(5, 2)                            DEFAULT NULL COMMENT '本次报告得分与上次报告得分的差值',
+    `abnormal_data_alert_msg` varchar(2048) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '异常数据提醒消息',
+    `created_by`              bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `created_at`              datetime            NOT NULL             DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='慢阻肺统计';
+
+
+CREATE TABLE `hs_copd_stage_statistics_detail`
+(
+    `id`                              bigint(20) unsigned NOT NULL,
+    `stage_report_id`                 bigint(20) unsigned NOT NULL COMMENT '阶段性报告id',
+    `pulse_oxygen_saturation`         decimal(5, 2)       NOT NULL COMMENT '脉搏氧饱和度',
+    `measure_datetime`                datetime            NOT NULL COMMENT '测量时间',
+    `created_by`                      bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `created_at`                      datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='慢阻肺统计明细';

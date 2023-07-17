@@ -1,0 +1,4 @@
+ALTER TABLE hs_t2dm_visit
+    MODIFY COLUMN `HbA1c` double NULL COMMENT '糖化血糖蛋白值. 单位: %' AFTER `glu`,
+    MODIFY COLUMN `HbA1c_date` datetime NULL COMMENT '糖化血糖蛋白检查日期' AFTER `HbA1c`;
+    

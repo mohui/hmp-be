@@ -1,0 +1,14 @@
+import java.math.BigInteger
+
+getOrgNum(code:BigInteger) {
+    SELECT count(1)
+    FROM upcs.upcs_org
+    WHERE kn_id = :code
+      AND is_del = false
+}
+
+getRegionNum(code:BigInteger) {
+    SELECT count(1)
+    FROM upcs.upcs_region
+    WHERE kn_code = :code
+}

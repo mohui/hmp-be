@@ -1,0 +1,8 @@
+ALTER TABLE `hs_cerebral_stroke_leave_hospital_visit`
+    MODIFY COLUMN `follow_date` datetime(3) NOT NULL COMMENT '随访日期' AFTER `follow_way`;
+ALTER TABLE `hs_cerebral_stroke_visit`
+    MODIFY COLUMN `follow_date` datetime(3) NOT NULL COMMENT '随访日期' AFTER `follow_way`;
+
+update hs_cerebral_stroke_leave_hospital_visit hospital set follow_date = hospital.created_at where follow_date = TIMESTAMP('0000-00-00');
+
+update hs_cerebral_stroke_visit stroke set follow_date = stroke.created_at where follow_date = TIMESTAMP('0000-00-00');

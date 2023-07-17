@@ -1,0 +1,96 @@
+create table dpm_patient_info
+(
+    kn_id                       bigint unsigned primary key comment '主键',
+    kn_name                     varchar(50)     not null comment '姓名',
+    kn_gender                   varchar(16)     not null comment '性别（MAN-男，WOMAN-女）',
+    kn_phone                    varchar(11)     not null comment '联系电话',
+    kn_birthday                 datetime        not null comment '出生日期',
+    kn_id_card                  varchar(18)     not null comment '身份证号',
+    kn_provincial_code          varchar(20)     null     default null comment '省编码',
+    kn_municipal_code           varchar(20)     null     default null comment '市编码',
+    kn_county_code              varchar(20)     null     default null comment '县编码',
+    kn_address                  varchar(255)    null     default null comment '详细地址',
+    kn_height                   decimal(10, 2)  null     default null comment '身高（单位 cm）',
+    kn_weight                   decimal(10, 2)  null     default null comment '体重（单位 kg）',
+    kn_waistline                decimal(10, 2)  null     default null comment '腰围（单位 cm）',
+    kn_fasting_blood_sugar      decimal(10, 2)  null     default null comment '空腹血糖（单位 mmol/L）',
+    kn_diastolic_blood_pressure decimal(10, 2)  null     default null comment '舒张压（单位 mmHg）',
+    kn_systolic_pressure        decimal(10, 2)  null     default null comment '收缩压（单位 mmHg）',
+    kn_serum_tch                decimal(10, 2)  null     default null comment '血清总胆固醇（单位 mmol/L）',
+    kn_medical_history          varchar(255)    null     default null comment '疾病史，多选逗号分割（HYPERTENSION-高血压,DIABETES-糖尿病,ACUTE_CORONARY_DISEASE-冠心病,CEREBRAL_STROKE-脑卒中,COPD-慢阻肺,DYSLIPIDEMIA-血脂异常）',
+    kn_family_history           varchar(255)    null     default null comment '家族史，多选逗号分割（HYPERTENSION-高血压,DIABETES-糖尿病,ACUTE_CORONARY_DISEASE-冠心病,CEREBRAL_STROKE-脑卒中,COPD-慢阻肺）',
+    kn_symptom                  varchar(255)    null     default null comment '症状，多选逗号分割（DIZZY-头晕，头疼症状，CHEST_PAIN-体力劳动、精神紧张或激动时出现胸痛症状，休息后逐渐缓解，CHRONIC_COUGH-呼吸困难或慢性咳嗽，WEIGHT_LOSS-多饮、多尿、多食、不明原因体重下降，GIDDINESS-一过性黑蒙、眩晕）',
+    kn_smoking                  tinyint(1)      null     default null comment '是否吸烟 （1-是，0-否）',
+    kn_crowd_type               varchar(255)    null     default null comment '人群分类，多选逗号分割（HYPERTENSION-高血压,DIABETES-糖尿病,ACUTE_CORONARY_DISEASE-冠心病,CEREBRAL_STROKE-脑卒中,COPD-慢阻肺）',
+    kn_tag                      varchar(255)    null comment '高危标签，多选逗号分割（HIGH-高危,MEDIUM-中危,LOW-低危,EXISTS-患者）',
+    kn_auth_id                  bigint unsigned not null comment '权限中心返回Id',
+    kn_created_by               bigint unsigned not null comment '创建人id',
+    kn_created_at               datetime(3)     not null default current_timestamp(3) comment '创建时间',
+    kn_updated_by               bigint unsigned not null comment '修改人id',
+    kn_updated_at               datetime(3)     not null default current_timestamp(3) on update current_timestamp(3) comment '修改时间',
+    kn_del                      tinyint(1)      not null default 0 comment '删除状态 （1-是，0-否）'
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4 COMMENT ='患者信息表';
+
+create table dpm_doctor_patient
+(
+    kn_id                   bigint unsigned primary key comment '主键',
+    kn_patient_id           bigint unsigned not null comment '患者Id(患者信息表主键)',
+    kn_doctor_id            bigint unsigned null comment '医生Id(医生信息表主键)',
+    kn_bind_doctor_datetime datetime(3)     null comment '绑定医生时间 (医生信息表主键)',
+    kn_status               varchar(16)     not null default 'START_ASSESS' comment '患者状态 （NONE-无，START_ASSESS-开始评估，MAKE_PLAN-制定健康方案，SUCCESS-完成）',
+    kn_message_status       varchar(16)     NOT NULL DEFAULT 'NONE' COMMENT '留言类型 （READ-已读，UNREAD-已读，NONE-无）',
+    kn_message_num          int             NOT NULL DEFAULT 0 COMMENT '留言数量 '
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4 COMMENT ='医生患者关系表';
+
+
+create table dpm_doctor_info
+(
+    kn_id              bigint unsigned primary key comment '主键',
+    kn_name            varchar(50)     not null comment '姓名',
+    kn_gender          varchar(16)     not null comment '性别（MAN-男，WOMAN-女）',
+    kn_phone           varchar(11)     not null comment '联系电话',
+    kn_dept_name       varchar(20)     not null comment '科室名称',
+    kn_hospital_id     bigint unsigned not null comment '医院Id',
+    kn_hospital_name   varchar(20)     not null comment '医院名称',
+    kn_address         varchar(255)    not null comment '详细地址',
+    kn_auth_id         bigint unsigned not null comment '权限中心返回Id',
+    kn_health_plan_num BIGINT          NOT NULL DEFAULT 0 COMMENT '健康方案数量',
+    kn_created_by      bigint unsigned not null comment '创建人id',
+    kn_created_at      datetime(3)     not null default current_timestamp(3) comment '创建时间',
+    kn_updated_by      bigint unsigned not null comment '修改人id',
+    kn_updated_at      datetime(3)     not null default current_timestamp(3) on update current_timestamp(3) comment '修改时间',
+    kn_del             tinyint(1)      not null default 0 comment '删除状态 （1-是，0-否）'
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4 COMMENT ='医生信息表';
+
+
+
+create table dpm_doctor_visit_record
+(
+    kn_id                       bigint unsigned primary key comment '主键',
+    kn_doctor_patient_id        bigint unsigned not null comment '医生患者关系Id(医生患者关系信息表主键)',
+    kn_height                   decimal(10, 2)  null     default null comment '身高（单位 cm）',
+    kn_weight                   decimal(10, 2)  null     default null comment '身高（单位 cm）',
+    kn_waistline                decimal(10, 2)  null     default null comment '腰围（单位 cm）',
+    kn_fasting_blood_sugar      decimal(10, 2)  null     default null comment '空腹血糖（单位 mmol/L）',
+    kn_diastolic_blood_pressure decimal(10, 2)  null     default null comment '舒张压（单位 mmHg）',
+    kn_systolic_pressure        decimal(10, 2)  null     default null comment '收缩压（单位 mmHg）',
+    kn_serum_tch                decimal(10, 2)  null     default null comment '血清总胆固醇（单位 mmol/L）',
+    kn_medical_history          varchar(255)    null     default null comment '疾病史，多选逗号分割（HYPERTENSION-高血压,DIABETES-糖尿病,ACUTE_CORONARY_DISEASE-冠心病,CEREBRAL_STROKE-脑卒中,COPD-慢阻肺,DYSLIPIDEMIA-血脂异常）',
+    kn_family_history           varchar(255)    null     default null comment '家族史，多选逗号分割（HYPERTENSION-高血压,DIABETES-糖尿病,ACUTE_CORONARY_DISEASE-冠心病,CEREBRAL_STROKE-脑卒中,COPD-慢阻肺）',
+    kn_symptom                  varchar(255)    null     default null comment '症状，多选逗号分割（DIZZY-头晕，头疼症状，CHEST_PAIN-体力劳动、精神紧张或激动时出现胸痛症状，休息后逐渐缓解，CHRONIC_COUGH-呼吸困难或慢性咳嗽，WEIGHT_LOSS-多饮、多尿、多食、不明原因体重下降，GIDDINESS-一过性黑蒙、眩晕）',
+    kn_lifestyle                varchar(16)     null     default null comment '生活方式，多选逗号分割（SMOKE-吸烟，SPORT-运动（<3次/周且<30min/次），DRINK-饮酒）',
+    kn_salt_intake              decimal(10, 2)  null     default null comment '每天盐的摄入量（单位 g）',
+    kn_visit_datetime           datetime(3)     not null default current_timestamp(3) comment '回访时间'
+
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4 COMMENT ='医生回访记录';
+
+
+

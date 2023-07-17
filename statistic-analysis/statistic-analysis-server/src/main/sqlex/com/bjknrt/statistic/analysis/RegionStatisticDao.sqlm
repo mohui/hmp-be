@@ -1,0 +1,116 @@
+import java.math.BigInteger
+
+getRegionPeopleNum(
+code:BigInteger,
+tagValue:String,
+hypertensionTag:String,
+diabetesTag:String,
+acuteCoronaryDiseaseTag:String,
+cerebralStrokeTag:String,
+copdTag:String
+) {
+    WITH recursive recursion (kn_code, kn_name, kn_parent_code, kn_level_code) AS (SELECT kn_code,
+                                                                                          kn_name,
+                                                                                          kn_parent_code,
+                                                                                          kn_level_code
+                                                                                   FROM upcs.upcs_region
+                                                                                   WHERE (:code IS NULL OR kn_parent_code = :code)
+                                                                                     AND (:code IS NOT NULL OR kn_parent_code IS NULL)
+                                                                                   UNION ALL
+                                                                                   SELECT d1.kn_code,
+                                                                                          d1.kn_name,
+                                                                                          d1.kn_parent_code,
+                                                                                          d1.kn_level_code
+                                                                                   FROM upcs.upcs_region d1,
+                                                                                        recursion AS d2
+                                                                                   WHERE d1.kn_parent_code = d2.kn_code
+                                                                                     AND d1.kn_level_code <= 4)
+    SELECT r.kn_code,
+           r.kn_name,
+           r.kn_parent_code,
+           r.kn_level_code,
+           count(DISTINCT p.kn_patient_id) num
+    FROM recursion r
+             LEFT JOIN (select uo.kn_id,
+                               uo.kn_name,
+                               COALESCE(uo.kn_region_code, region.kn_region_code) as kn_region_code,
+                               dp.kn_patient_id
+                        from dpm.dpm_doctor_info d
+                                 INNER JOIN dpm.dpm_doctor_patient dp on dp.kn_doctor_id = d.kn_id
+                                 INNER JOIN dpm.dpm_patient_info patient
+                                            on patient.kn_id = dp.kn_patient_id and patient.kn_del = FALSE
+                                 LEFT JOIN upcs.upcs_user_region region
+                                           on region.kn_user_id = d.kn_id and region.is_del = FALSE
+                                 LEFT JOIN upcs.upcs_user_org org on org.kn_user_id = d.kn_id and org.is_del = FALSE
+                                 LEFT JOIN upcs.upcs_org uo on uo.kn_id = org.kn_org_id and uo.is_del = FALSE
+                        where d.kn_del = FALSE
+                          and (region.kn_region_code is not null or uo.kn_region_code is not null)
+                          and (
+                                ((:hypertensionTag is null) OR
+                                 (patient.kn_hypertension_disease_tag = :tagValue))
+                                AND
+                                ((:diabetesTag is null) OR
+                                 (patient.kn_diabetes_disease_tag = :tagValue))
+                                AND
+                                ((:acuteCoronaryDiseaseTag is null) OR
+                                 (patient.kn_acute_coronary_disease_tag = :tagValue))
+                                AND
+                                ((:cerebralStrokeTag is null) OR
+                                 (patient.kn_cerebral_stroke_disease_tag = :tagValue))
+                                AND
+                                ((:copdTag is null) OR (patient.kn_copd_disease_tag = :tagValue))
+                            )) p
+                       on r.kn_code = p.kn_region_code
+    GROUP BY kn_code,
+             kn_name,
+             kn_parent_code,
+             kn_level_code
+    ORDER BY num DESC,
+             kn_code ASC
+}
+
+getRegionHospitalPatientPeopleNum(
+code:BigInteger,
+tagValue:String,
+hypertensionTag:String,
+diabetesTag:String,
+acuteCoronaryDiseaseTag:String,
+cerebralStrokeTag:String,
+copdTag:String
+) {
+    SELECT uo.kn_id,
+           uo.kn_name,
+           uo.kn_region_code,
+           COUNT(DISTINCT t.kn_patient_id) num
+    FROM upcs.upcs_org uo
+             LEFT JOIN (SELECT d.kn_hospital_id,
+                               d.kn_hospital_name,
+                               dp.kn_patient_id
+                        FROM dpm.dpm_doctor_info d
+                                 INNER JOIN dpm.dpm_doctor_patient dp ON dp.kn_doctor_id = d.kn_id
+                                 INNER JOIN dpm.dpm_patient_info patient on dp.kn_patient_id = patient.kn_id
+                        WHERE d.kn_del = FALSE
+                          and patient.kn_del = FALSE
+                          and (
+                                ((:hypertensionTag is null) OR
+                                 (patient.kn_hypertension_disease_tag = :tagValue))
+                                AND
+                                ((:diabetesTag is null) OR
+                                 (patient.kn_diabetes_disease_tag = :tagValue))
+                                AND
+                                ((:acuteCoronaryDiseaseTag is null) OR
+                                 (patient.kn_acute_coronary_disease_tag = :tagValue))
+                                AND
+                                ((:cerebralStrokeTag is null) OR
+                                 (patient.kn_cerebral_stroke_disease_tag = :tagValue))
+                                AND
+                                ((:copdTag is null) OR (patient.kn_copd_disease_tag = :tagValue))
+                            )) t ON t.kn_hospital_id = uo.kn_id
+    WHERE uo.is_del = FALSE
+      AND (:code is null OR uo.kn_region_code = :code)
+    GROUP BY kn_id,
+             kn_name,
+             kn_region_code
+    ORDER BY num DESC,
+             kn_id ASC
+}

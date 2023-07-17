@@ -1,0 +1,103 @@
+# created on 2022/8/3, by wanghehui
+
+# method {
+#     select * from dual
+# }
+
+import java.math.BigInteger
+
+htnVistTablelist*(patientId:BigInteger, type:String*, followWays: String*) {
+    select *
+    from (select id,
+                 'HYPERTENSION'   name,
+                 follow_way       followWay,
+                 follow_date      followDate,
+                 signs_sbp        signsSbp,
+                 signs_dbp        signsDbp,
+                 signs_height     signsHeight,
+                 signs_weight     signsWeight,
+                 signs_heart_rate signsHeartRate,
+                 signs_bim        signsBim,
+                 null             glu,
+                 created_by       createdBy
+          from hs_htn_visit
+          where patient_id = :patientId
+          union
+          select id,
+                 'DIABETES'   name,
+                 follow_way   followWay,
+                 follow_date  followDate,
+                 signs_sbp    signsSbp,
+                 signs_dbp    signsDbp,
+                 signs_height signsHeight,
+                 signs_weight signsWeight,
+                 null         signsHeartRate,
+                 signs_bim    signsBim,
+                 glu,
+                 created_by   createdBy
+          from hs_t2dm_visit
+          where patient_id = :patientId
+          union
+          select id,
+                 'ACUTE_CORONARY_DISEASE' name,
+                 follow_way               followWay,
+                 follow_date              followDate,
+                 signs_sbp                signsSbp,
+                 signs_dbp                signsDbp,
+                 null                     signsHeight,
+                 signs_weight             signsWeight,
+                 signs_heart_rate         signsHeartRate,
+                 signs_bim                signsBim,
+                 null                     glu,
+                 created_by               createdBy
+          from hs_acute_coronary_visit
+          where patient_id = :patientId
+          union
+          select id,
+                 'CEREBRAL_STROKE' name,
+                 follow_way        followWay,
+                 created_at        followDate,
+                 null              signsSbp,
+                 null              signsDbp,
+                 null              signsHeight,
+                 null              signsWeight,
+                 null              signsHeartRate,
+                 null              signsBim,
+                 null              glu,
+                 created_by        createdBy
+          from hs_cerebral_stroke_visit
+          where patient_id = :patientId
+          union
+          select id,
+                 'COPD'       name,
+                 follow_way   followWay,
+                 follow_date  followDate,
+                 signs_sbp    signsSbp,
+                 signs_dbp    signsDbp,
+                 signs_height signsHeight,
+                 signs_weight signsWeight,
+                 null         signsHeartRate,
+                 null         signsBim,
+                 null         glu,
+                 created_by   createdBy
+          from hs_copd_visit
+          where patient_id = :patientId
+          union
+          select kn_id                  id,
+                 'LEAVE_HOSPITAL_VISIT' name,
+                 follow_way             followWay,
+                 created_at             followDate,
+                 null                   signsSbp,
+                 null                   signsDbp,
+                 null                   signsHeight,
+                 null                   signsWeight,
+                 null                   signsHeartRate,
+                 null                   signsBim,
+                 null                   glu,
+                 created_by             createdBy
+          from hs_cerebral_stroke_leave_hospital_visit
+          where patient_id = :patientId) aa
+    where (:type is null or name in (:type))
+        and (:followWays is null or followWay in (:followWays))
+    order by followDate desc
+}

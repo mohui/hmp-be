@@ -1,0 +1,6 @@
+-- 数据库Schema描述文件, 执行DDL操作
+alter table `as_article_info`
+    add column `kn_cover_image` varchar(255) null comment '封面图' after `kn_content`;
+
+alter table `as_article_info`
+    add column `kn_summary` varchar(255) null comment '摘要' after `kn_content`

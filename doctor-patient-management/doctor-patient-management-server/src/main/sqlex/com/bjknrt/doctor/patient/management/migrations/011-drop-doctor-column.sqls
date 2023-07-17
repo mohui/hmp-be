@@ -1,0 +1,2 @@
+alter table dpm_doctor_info
+    drop column kn_is_nurse;

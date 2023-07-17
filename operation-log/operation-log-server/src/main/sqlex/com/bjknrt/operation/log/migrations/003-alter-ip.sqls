@@ -1,0 +1,2 @@
+ALTER TABLE `ol_operator_log`
+    modify kn_ip varchar(50) null comment '终端IP'

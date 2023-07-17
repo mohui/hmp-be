@@ -1,0 +1,32 @@
+INSERT INTO qas_examination_paper (id, examination_paper_title, examination_paper_desc,
+                                   examination_paper_tip, examination_paper_code,
+                                   examination_paper_reference, evaluation_time,
+                                   strategy_code, created_by, created_at, updated_by,
+                                   updated_at, is_del)
+VALUES (2600, '康复训练评估', '',
+        null, 'REHABILITATION_TRAINING', '', '', 'REHABILITATION_TRAINING',
+        1, current_timestamp(), 1, current_timestamp(), 0);
+
+insert into qas_questions(id, examination_paper_id, questions_title, questions_type, questions_sort, created_by,
+                          updated_by, questions_tip)
+values (260001, 2600, '请选择您要进行的内容（可多选）', 'MULTIPLE_CHOICE', 1, 1, 1, null),
+       (260002, 2600, '请选择您要进行的智能训练项目（可多选）', 'MULTIPLE_CHOICE', 2, 1, 1, null);
+
+insert into qas_option(id, questions_id, option_code, option_value, option_label, option_tip, option_sort, option_score,
+                       option_type, option_rule, created_by, updated_by)
+values (26000101, 260001, 'REHABILITATION_TRAINING_260001_26000101', '1', '运动疗法', '', 1, 0, 'SELECT', '', 1, 1),
+       (26000102, 260001, 'REHABILITATION_TRAINING_260001_26000102', '2', '作业疗法', '', 2, 0, 'SELECT', '', 1, 1),
+       (26000103, 260001, 'REHABILITATION_TRAINING_260001_26000103', '3', '认知训练', '', 3, 0, 'SELECT', '', 1, 1),
+       (26000104, 260001, 'REHABILITATION_TRAINING_260001_26000104', '4', '言语训练', '', 4, 0, 'SELECT', '', 1, 1),
+       (26000105, 260001, 'REHABILITATION_TRAINING_260001_26000105', '5', '吞咽训练', '', 5, 0, 'SELECT', '', 1, 1),
+       (26000106, 260001, 'REHABILITATION_TRAINING_260001_26000106', '6', '以上都不选', '', 6, 0, 'SELECT',
+        '{\"single\":true}', 1, 1),
+
+       (26000201, 260002, 'REHABILITATION_TRAINING_260002_26000201', '1', '脑机接口', '', 1, 0, 'SELECT', '', 1, 1),
+       (26000202, 260002, 'REHABILITATION_TRAINING_260002_26000202', '2', '康复机器人', '', 2, 0, 'SELECT', '', 1, 1),
+       (26000203, 260002, 'REHABILITATION_TRAINING_260002_26000203', '3', '平衡反馈训练', '', 3, 0, 'SELECT', '', 1, 1),
+       (26000204, 260002, 'REHABILITATION_TRAINING_260002_26000204', '4', '虚拟现实', '', 4, 0, 'SELECT', '', 1, 1),
+       (26000205, 260002, 'REHABILITATION_TRAINING_260002_26000205', '5', '其他智能设备辅助下训练', '', 5, 0, 'SELECT', '', 1, 1),
+       (26000206, 260002, 'REHABILITATION_TRAINING_260002_26000206', '6', '以上都不选', '', 6, 0, 'SELECT',
+        '{\"single\":true}', 1, 1);
+

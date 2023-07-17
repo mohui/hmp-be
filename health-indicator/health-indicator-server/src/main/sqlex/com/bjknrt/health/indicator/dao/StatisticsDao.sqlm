@@ -1,0 +1,172 @@
+import java.time.LocalDateTime
+import java.math.BigInteger
+
+findHeightData(startTime:LocalDateTime, endTime:LocalDateTime, patientId:BigInteger) {
+    select str_to_date(date_format(kn_measure_at, '%Y-%m-%d'),'%Y-%m-%d') measureDate,
+           round(avg(kn_body_height), 2)          value
+    from hi_body_height
+    where kn_patient_id = :patientId
+      and kn_measure_at >= :startTime
+      and kn_measure_at < :endTime
+    group by measureDate
+    order by measureDate
+}
+
+findWeightData(startTime:LocalDateTime, endTime:LocalDateTime, patientId:BigInteger) {
+    select str_to_date(date_format(kn_measure_at, '%Y-%m-%d'),'%Y-%m-%d') measureDate,
+           round(avg(kn_body_weight), 2)          value
+    from hi_body_weight
+    where kn_patient_id = :patientId
+      and kn_measure_at >= :startTime
+      and kn_measure_at < :endTime
+    group by measureDate
+    order by measureDate
+}
+
+findBmiData(startTime:LocalDateTime, endTime:LocalDateTime, patientId:BigInteger) {
+    select str_to_date(date_format(kn_measure_at, '%Y-%m-%d'),'%Y-%m-%d') measureDate,
+           round(avg(kn_bmi), 2)                  value
+    from hi_bmi
+    where kn_patient_id = :patientId
+      and kn_measure_at >= :startTime
+      and kn_measure_at < :endTime
+    group by measureDate
+    order by measureDate
+}
+
+findWaistlineData(startTime:LocalDateTime, endTime:LocalDateTime, patientId:BigInteger) {
+    select str_to_date(date_format(kn_measure_at, '%Y-%m-%d'),'%Y-%m-%d') measureDate,
+           round(avg(kn_waistline), 2)            value
+    from hi_waistline
+    where kn_patient_id = :patientId
+      and kn_measure_at >= :startTime
+      and kn_measure_at < :endTime
+    group by measureDate
+    order by measureDate
+}
+
+findBloodPressureData(startTime:LocalDateTime, endTime:LocalDateTime, patientId:BigInteger) {
+    select str_to_date(date_format(kn_measure_at, '%Y-%m-%d'),'%Y-%m-%d')     measureDate,
+           round(avg(kn_diastolic_blood_pressure), 2) dbpValue,
+           round(avg(kn_systolic_blood_pressure), 2)  sbpValue
+    from hi_blood_pressure
+    where kn_patient_id = :patientId
+      and kn_measure_at >= :startTime
+      and kn_measure_at < :endTime
+    group by measureDate
+    order by measureDate
+}
+
+findBloodSugarData(startTime:LocalDateTime, endTime:LocalDateTime, patientId:BigInteger) {
+select measureDate,
+       round(fbsData/fbsCount, 2) fbsValue,
+       round(bbsData/bbsCount, 2) bbsValue,
+       round(abpData/abpCount, 2) abpValue,
+       round(sbsData/sbsCount, 2) sbsValue,
+       round(rbsData/rbsCount, 2) rbsValue
+from (
+         select
+             str_to_date( date_format( kn_measure_at, '%Y-%m-%d' ), '%Y-%m-%d' ) measureDate,
+             sum(ifnull( kn_fasting_blood_sandalwood, 0 )) fbsData,
+             sum(if(kn_fasting_blood_sandalwood is not null, 1 ,0 ))  fbsCount,
+             sum(ifnull( kn_before_lunch_blood_sugar, 0 )+ifnull( kn_before_dinner_blood_sugar, 0 )) bbsData,
+             sum(if( kn_before_lunch_blood_sugar is not null or kn_before_dinner_blood_sugar is not null , 1 , 0 ))  bbsCount,
+             sum(ifnull( kn_after_meal_blood_sugar, 0 )+ifnull( kn_after_lunch_blood_sugar, 0 )+ifnull( kn_after_dinner_blood_sugar, 0 )) abpData,
+             sum(if( kn_after_meal_blood_sugar is not null or kn_after_lunch_blood_sugar is not null or kn_after_dinner_blood_sugar is not null , 1 , 0 ))  abpCount,
+             sum(ifnull( kn_before_sleep_blood_sugar, 0 )) sbsData,
+             sum(if( kn_before_sleep_blood_sugar is not null , 1 , 0 ))  sbsCount,
+             sum(ifnull( kn_random_blood_sugar, 0 )) rbsData,
+             sum(if( kn_random_blood_sugar is not null , 1 , 0 ))  rbsCount
+         from
+             hi_blood_sugar
+         where kn_patient_id = :patientId
+           and kn_measure_at >= :startTime
+           and kn_measure_at < :endTime
+         group by measureDate
+     ) as temp_table
+     order by measureDate
+}
+
+findBloodLipidsData(startTime:LocalDateTime, endTime:LocalDateTime, patientId:BigInteger) {
+    select str_to_date(date_format(kn_measure_at, '%Y-%m-%d'),'%Y-%m-%d')     measureDate,
+           round(avg(kn_high_density_lipoprotein), 2) hdlValue,
+           round(avg(kn_low_density_lipoprotein), 2)  ldlvalue,
+           round(avg(kn_total_cholesterol), 2)        tcvalue,
+           round(avg(kn_triglycerides), 2)            tgvalue
+    from hi_blood_lipids
+    where kn_patient_id = :patientId
+      and kn_measure_at >= :startTime
+      and kn_measure_at < :endTime
+    group by measureDate
+    order by measureDate
+}
+
+findHeartRateData(startTime:LocalDateTime, endTime:LocalDateTime, patientId:BigInteger) {
+    select str_to_date(date_format(kn_measure_at, '%Y-%m-%d'),'%Y-%m-%d') measureDate,
+           round(avg(kn_heart_rate), 2)           value
+    from hi_heart_rate
+    where kn_patient_id = :patientId
+      and kn_measure_at >= :startTime
+      and kn_measure_at < :endTime
+    group by measureDate
+    order by measureDate
+}
+
+findPulseData(startTime:LocalDateTime, endTime:LocalDateTime, patientId:BigInteger) {
+    select str_to_date(date_format(kn_measure_at, '%Y-%m-%d'),'%Y-%m-%d') measureDate,
+           round(avg(kn_pulse), 2)                value
+    from hi_pulse
+    where kn_patient_id = :patientId
+      and kn_measure_at >= :startTime
+      and kn_measure_at < :endTime
+    group by measureDate
+    order by measureDate
+}
+
+findSmokeData(startTime:LocalDateTime, endTime:LocalDateTime, patientId:BigInteger) {
+    select str_to_date(date_format(kn_measure_at, '%Y-%m-%d'), '%Y-%m-%d') measureDate,
+           sum(kn_num)                                                     value
+    from hi_smoke
+    where kn_patient_id = :patientId
+      and kn_measure_at >= :startTime
+      and kn_measure_at < :endTime
+    group by measureDate
+    order by measureDate
+}
+
+findDrinkingData(startTime:LocalDateTime, endTime:LocalDateTime, patientId:BigInteger) {
+    select str_to_date(date_format(kn_measure_at, '%Y-%m-%d'), '%Y-%m-%d') measureDate,
+           round(sum(kn_beer), 2)                                          bValue,
+           round(sum(kn_wine), 2)                                          wValue,
+           round(sum(kn_white_spirit), 2)                                  wsValue,
+           round(sum(kn_yellow_rice_spirit), 2)                            yrsValue,
+           round(sum(kn_total_alcohol), 2)                                 taValue
+    from hi_drinking
+    where kn_patient_id = :patientId
+      and kn_measure_at >= :startTime
+      and kn_measure_at < :endTime
+    group by measureDate
+    order by measureDate
+}
+
+findTemperatureData(startTime:LocalDateTime, endTime:LocalDateTime, patientId:BigInteger) {
+    select str_to_date(date_format(kn_measure_at, '%Y-%m-%d'),'%Y-%m-%d') measureDate,
+           round(avg(kn_celsius), 2)              value
+    from hi_body_temperature
+    where kn_patient_id = :patientId
+      and kn_measure_at >= :startTime
+      and kn_measure_at < :endTime
+    group by measureDate
+    order by measureDate
+}
+
+findPulseOximetryData(startTime:LocalDateTime, endTime:LocalDateTime, patientId:BigInteger) {
+    select str_to_date(date_format(kn_measure_at, '%Y-%m-%d'), '%Y-%m-%d') measureDate,
+           round(avg(kn_pulse_oximetry), 2)                                value
+    from hi_pulse_oximetry
+    where kn_patient_id = :patientId
+      and kn_measure_at >= :startTime
+      and kn_measure_at < :endTime
+    group by measureDate
+    order by measureDate
+}

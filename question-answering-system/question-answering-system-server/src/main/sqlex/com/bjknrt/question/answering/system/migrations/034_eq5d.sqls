@@ -1,0 +1,41 @@
+alter table qas_option
+    modify option_score decimal (10,3) default NULL null comment '选项分数';
+
+INSERT INTO qas_examination_paper (id, examination_paper_title, examination_paper_desc,
+                                   examination_paper_tip, examination_paper_code,
+                                   examination_paper_reference, evaluation_time,
+                                   strategy_code, created_by, created_at, updated_by,
+                                   updated_at, is_del)
+VALUES (2400, 'EQ-5D','欧洲五维健康量表（EQ-5D）健康描述系统从行动能力、自己照顾自己的能力、日常活动能力、疼痛或不舒服、焦虑或抑郁这五个维度测量患者的健康相关生存质量，可以较好地反映脑卒中患者的生活质量，使用方便、简明易懂。',
+        null, 'EQ5D', '李明晖,罗南. 欧洲五维健康量表(EQ-5D)中文版应用介绍[J]. 中国药物经济学,2009(1):49-57. DOI:10.3969/j.issn.1673-5846.2009.01.007. ', '', 'EQ5D',
+        1, current_timestamp(), 1, current_timestamp(), 0);
+
+insert into qas_questions(id, examination_paper_id, questions_title, questions_type, questions_sort, created_by,
+                          updated_by, questions_tip)
+values (240001, 2400, '行为', 'RADIO', 1, 1, 1, null),
+       (240002, 2400, '自己照顾自己', 'RADIO', 2, 1, 1, null),
+       (240003, 2400, '日常活动（如工作，学习，家务事，家庭或休闲活动）', 'RADIO', 3, 1, 1, null),
+       (240004, 2400, '疼痛/不舒服', 'RADIO', 4, 1, 1, null),
+       (240005, 2400, '焦虑（如紧张、担心、不安等等）/抑郁（如做事情缺乏兴趣、没乐趣、提不起精神等等）', 'RADIO', 5, 1, 1, null);
+
+insert into qas_option(id, questions_id, option_code, option_value, option_label, option_tip, option_sort, option_score,
+                       option_type, option_rule, created_by, updated_by)
+values (24000101, 240001, 'EQ5D_240001_24000101', '1', '我可以四处行走，没有任何困难', '', 1, 0.000, 'SELECT', '{\"single\":true}', 1, 1),
+       (24000102, 240001, 'EQ5D_240001_24000102', '2', '我行动有些不方便', '', 2, 0.075, 'SELECT', '{\"single\":true}', 1, 1),
+       (24000103, 240001, 'EQ5D_240001_24000103', '3', '我不能下床活动', '', 3, 0.418, 'SELECT', '{\"single\":true}', 1, 1),
+
+       (24000201, 240002, 'EQ5D_240002_24000201', '1', '我能自己照顾自己', '', 1, 0.000, 'SELECT', '{\"single\":true}', 1, 1),
+       (24000202, 240002, 'EQ5D_240002_24000202', '2', '我在洗脸、刷牙、洗澡或穿衣服方面有些困难', '', 2, 0.054, 'SELECT', '{\"single\":true}', 1, 1),
+       (24000203, 240002, 'EQ5D_240002_24000203', '3', '我无法自己洗脸、刷牙、洗澡或穿衣', '', 3, 0.102, 'SELECT', '{\"single\":true}', 1, 1),
+
+       (24000301, 240003, 'EQ5D_240003_24000301', '1', '我能进行日常活动，没有任何困难', '', 1, 0.000, 'SELECT', '{\"single\":true}', 1, 1),
+       (24000302, 240003, 'EQ5D_240003_24000302', '2', '我在进行日常活动方面有些困难 ', '', 2, 0.044, 'SELECT', '{\"single\":true}', 1, 1),
+       (24000303, 240003, 'EQ5D_240003_24000303', '3', '我无法进行日常活动', '', 3, 0.133, 'SELECT', '{\"single\":true}', 1, 1),
+
+       (24000401, 240004, 'EQ5D_240004_24000401', '1', '我没有任何疼痛或不舒服', '', 1, 0.000, 'SELECT', '{\"single\":true}', 1, 1),
+       (24000402, 240004, 'EQ5D_240004_24000402', '2', '我觉得中度疼痛或不舒服', '', 2, 0.080, 'SELECT', '{\"single\":true}', 1, 1),
+       (24000403, 240004, 'EQ5D_240004_24000403', '3', '我觉得极度疼痛或不舒服', '', 3, 0.194, 'SELECT', '{\"single\":true}', 1, 1),
+
+       (24000501, 240005, 'EQ5D_240005_24000501', '1', '我不觉得焦虑或抑郁', '', 1, 0.000, 'SELECT', '{\"single\":true}', 1, 1),
+       (24000502, 240005, 'EQ5D_240005_24000502', '2', '我觉得中度焦虑或抑郁', '', 2, 0.063, 'SELECT', '{\"single\":true}', 1, 1),
+       (24000503, 240005, 'EQ5D_240005_24000503', '3', '我觉得极度焦虑或抑郁', '', 3, 0.112, 'SELECT', '{\"single\":true}', 1, 1);

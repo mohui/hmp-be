@@ -1,0 +1,61 @@
+INSERT INTO qas_examination_paper (id, examination_paper_title, examination_paper_desc,
+                                   examination_paper_tip, examination_paper_code,
+                                   examination_paper_reference, evaluation_time,
+                                   strategy_code, created_by, created_at, updated_by,
+                                   updated_at, is_del)
+VALUES (2000, 'ASCVD风险评估',
+        '动脉粥样硬化性心血管病（ASCVD）量表是基于我国长期队列研究数据开发的量表，评分表按性别分别列出年龄、收缩压、总胆固醇、吸烟与否、体重指数和是否有糖尿病6个ASCVD的主要危险因素不同水平下的计分，并提供了6个危险因素累计分数对应的ASCVD10年的绝对发病危险。同时针对55岁以下且10年危险中危的人群增加了余生危险的评估，以便识别出中青年ASCVD余生危险为高危的个体，对包括血脂在内的危险因素进行早期积极干预。',
+        null, 'EXPERT_ASCVD', '[1]王淼,刘静,赵冬. 中国动脉粥样硬化性心血管病发病危险评估的新方案[J].中华心血管病杂志,2018,46(2): 87-91. DOI: 10.3760/cma.j.issn.0253-3758.2018.02.003.
+[2]中国成人血脂异常防治指南修订联合委员会. 中国成人血脂异常防治指南(2016年修订版)[J].中国循环杂志,2016,31(10): 937-950. DOI: 10.3969/j.issn.1000-3614.2016.10.001.',
+        '', 'EXPERT_ASCVD', 1, current_timestamp(), 1, current_timestamp(), 0);
+
+
+insert into qas_questions (id, examination_paper_id, questions_title,
+                           questions_group_title, questions_tip, questions_type,
+                           questions_sort, created_by, created_at, updated_by,
+                           updated_at, is_del, match_reg_exp, match_fail_msg)
+values (200001, 2000, '您是否患有冠心病、缺血性卒中或其他外周动脉疾病病史（常见的比如下肢动脉粥样硬化闭塞症）', null, null,
+        'RADIO', 1, 1, current_timestamp(), 1, current_timestamp(), false, null, null),
+       (200002, 2000, '您近期血脂情况', null, null, 'FILL_IN_THE_BLANK', 2, 1, current_timestamp(), 1,
+        current_timestamp(), false, '((?=.*EXPERT_ASCVD_20000201)(?=.*EXPERT_ASCVD_20000203))',
+        '高密度脂蛋白胆固醇、总胆固醇是必填项！'),
+       (200003, 2000, '您近期血压情况', null, null, 'FILL_IN_THE_BLANK', 3, 1, current_timestamp(), 1,
+        current_timestamp(), false, null, null),
+       (200004, 2000, '您当前的身体质量指数（BMI）情况', null, null, 'FILL_IN_THE_BLANK', 4, 1, current_timestamp(), 1,
+        current_timestamp(), false, null, null),
+       (200005, 2000, '您是否吸烟？', null, null, 'RADIO', 5, 1, current_timestamp(), 1, current_timestamp(), false,
+        null, null);
+
+insert into qas_option(id, questions_id, option_code, option_value, option_label, option_tip, option_sort, option_score,
+                       option_type, option_rule, created_by, updated_by, is_auto_commit, forward_to)
+values (20000101, 200001, 'EXPERT_ASCVD_20000101', '20000101', '是', '', 1, null, 'SELECT', '{\"single\":true}', 1, 1,
+        true, null),
+       (20000102, 200001, 'EXPERT_ASCVD_20000102', '20000102', '否', '', 2, null, 'SELECT', '{\"single\":true}', 1, 1,
+        false, null),
+
+       (20000201, 200002, 'EXPERT_ASCVD_20000201', '', '高密度脂蛋白胆固醇(mmol/L)', '', 1, null, 'INPUT', null,
+        1, 1, false, null),
+       (20000202, 200002, 'EXPERT_ASCVD_20000202', '', '低密度脂蛋白胆固醇(mmol/L)', '', 2, null, 'INPUT', null,
+        1, 1, false, null),
+       (20000203, 200002, 'EXPERT_ASCVD_20000203', '', '总胆固醇(mmol/L)', '', 3, null, 'INPUT', null, 1, 1,
+        false, null),
+       (20000204, 200002, 'EXPERT_ASCVD_20000204', '', '甘油三酯(mmol/L)', '', 4, null, 'INPUT', null, 1, 1,
+        false, null),
+
+       (20000301, 200003, 'EXPERT_ASCVD_20000301', '', '收缩压（高压）(mmHg)', '', 1, null, 'INPUT', '{\"required\":true,\"isNumber\":true,\"min\":0,\"max\":300}', 1, 1,
+        false, null),
+       (20000302, 200003, 'EXPERT_ASCVD_20000302', '', '舒张压（低压）(mmHg)', '', 2, null, 'INPUT', '{\"required\":true,\"isNumber\":true,\"min\":0,\"max\":200}', 1, 1,
+        false, null),
+
+       (20000401, 200004, 'EXPERT_ASCVD_20000401', '', '身高(cm)', '', 1, null, 'INPUT', '{\"required\":true,\"isNumber\":true,\"notZero\":true}', 1, 1, false,
+        null),
+       (20000402, 200004, 'EXPERT_ASCVD_20000402', '', '体重(kg)', '', 2, null, 'INPUT', '{\"required\":true,\"isNumber\":true,\"notZero\":true}', 1, 1, false,
+        null),
+
+       (20000501, 200005, 'EXPERT_ASCVD_20000501', '20000501', '是', '', 1, null, 'SELECT', '{\"single\":true}', 1, 1,
+        true, null),
+       (20000502, 200005, 'EXPERT_ASCVD_20000502', '20000502', '否', '', 2, null, 'SELECT', '{\"single\":true}', 1, 1,
+        false, null);
+
+
+

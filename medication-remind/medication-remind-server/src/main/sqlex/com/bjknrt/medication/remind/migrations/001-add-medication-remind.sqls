@@ -1,0 +1,27 @@
+-- create on 2022/7/19, by wanghehui
+
+-- 数据库Schema描述文件, 执行DDL操作
+CREATE TABLE mr_medication_remind
+(
+    kn_id         bigint unsigned NOT NULL primary key COMMENT '唯一主键',
+    kn_patient_id bigint unsigned NOT NULL COMMENT '患者id',
+    kn_drug_name  varchar(255)    NOT NULL DEFAULT '' COMMENT '药品名称',
+    kn_time       time            NOT NULL COMMENT '时间',
+    kn_monday     tinyint         NOT NULL DEFAULT 0 COMMENT '周一,1:选中,0未选中',
+    kn_tuesday    tinyint         NOT NULL DEFAULT 0 COMMENT '周二,1:选中,0未选中',
+    kn_wednesday  tinyint         NOT NULL DEFAULT 0 COMMENT '周三,1:选中,0未选中',
+    kn_thursday   tinyint         NOT NULL DEFAULT 0 COMMENT '周四,1:选中,0未选中',
+    kn_friday     tinyint         NOT NULL DEFAULT 0 COMMENT '周五,1:选中,0未选中',
+    kn_saturday   tinyint         NOT NULL DEFAULT 0 COMMENT '周六,1:选中,0未选中',
+    kn_sunday     tinyint         NOT NULL DEFAULT 0 COMMENT '周日,1:选中,0未选中',
+    kn_status     tinyint         NOT NULL DEFAULT 1 COMMENT '状态, 1可用,0不可用',
+    kn_created_by bigint unsigned          DEFAULT NULL COMMENT '创建人id',
+    kn_created_at datetime(3)     NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+    kn_updated_by bigint unsigned          DEFAULT NULL COMMENT '修改人id',
+    kn_updated_at datetime(3)     NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
+    index index_wek (kn_monday, kn_tuesday, kn_wednesday, kn_thursday, kn_friday, kn_saturday, kn_sunday),
+    index index_time (kn_time)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci
+    COMMENT = '定时用药表';

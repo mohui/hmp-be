@@ -1,0 +1,54 @@
+import java.math.BigInteger
+
+selectRoleByUserId(userId:BigInteger*) {
+    select uur.kn_user_id,
+           ur.kn_created_by,
+           ur.kn_created_at,
+           ur.kn_updated_by,
+           ur.kn_updated_at,
+           ur.is_del,
+           ur.kn_id,
+           ur.kn_name,
+           ur.kn_code
+    from upcs_user_role uur,
+         upcs_role ur
+    WHERE ur.kn_id = uur.kn_role_id
+      and uur.is_del = false
+      and ur.is_del = false
+      and uur.kn_user_id in (:userId)
+
+}
+
+selectOrgByUserId(userId:BigInteger*) {
+    select uuo.kn_user_id,
+           uo.kn_created_by,
+           uo.kn_created_at,
+           uo.kn_updated_by,
+           uo.kn_updated_at,
+           uo.is_del,
+           uo.kn_id,
+           uo.kn_name,
+           uo.kn_region_code,
+           uo.kn_sort
+    from upcs_user_org uuo,
+         upcs_org uo
+    WHERE uo.kn_id = uuo.kn_org_id
+      and uo.is_del = false
+      and uuo.is_del = false
+      and uuo.kn_user_id in (:userId)
+
+}
+
+selectRegionByUserId(userId:BigInteger*) {
+    select uur.kn_user_id,
+           ur.kn_code,
+           ur.kn_name,
+           ur.kn_parent_code,
+           ur.kn_level_code
+    from upcs_user_region uur,
+         upcs_region ur
+    WHERE ur.kn_code = uur.kn_region_code
+      and uur.is_del = false
+      and uur.kn_user_id in (:userId)
+
+}

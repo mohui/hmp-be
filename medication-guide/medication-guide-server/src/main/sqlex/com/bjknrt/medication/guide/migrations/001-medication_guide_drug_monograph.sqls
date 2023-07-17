@@ -1,0 +1,15 @@
+CREATE TABLE IF NOT EXISTS medication_guide_drug_monograph
+(
+    kn_name           VARCHAR(100) COMMENT '药品名称',
+    kn_brand          VARCHAR(100) COMMENT '品牌',
+    kn_strength       VARCHAR(300) COMMENT '剂型',
+    kn_pinyin         VARCHAR(300) COMMENT '药品名称拼音',
+    kn_search_pinyin  VARCHAR(300) COMMENT '检索拼音',
+    kn_generic_id     BIGINT COMMENT '通用名id',
+    kn_generic_name   VARCHAR(100) COMMENT '通用名',
+    kn_monograph_id   BIGINT not null COMMENT '说明书id',
+    kn_monograph_name VARCHAR(300) COMMENT '说明书厂家',
+    kn_show_id        VARCHAR(50)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4 COMMENT ='用药指导-药品说明书检索目录';

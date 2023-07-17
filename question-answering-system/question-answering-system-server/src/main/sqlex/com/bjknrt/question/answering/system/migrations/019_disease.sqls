@@ -1,0 +1,8 @@
+alter table qas_disease_evaluate
+ add column is_pmh_diabetic_nephropathy tinyint(1) not null  default false comment '既往病史-糖尿病肾病（1-是，0-否）';
+
+alter table qas_disease_evaluate
+ add column is_pmh_diabetic_retinopathy tinyint(1) not null  default false comment '既往病史-糖尿病视网膜病变（1-是，0-否）';
+
+alter table qas_disease_evaluate
+ add column is_pmh_diabetic_foot tinyint(1) not null  default false comment '既往病史-糖尿病足（1-是，0-否）';

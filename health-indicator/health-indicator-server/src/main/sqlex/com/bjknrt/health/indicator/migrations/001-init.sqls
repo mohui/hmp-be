@@ -1,0 +1,162 @@
+-- 身高
+create table hi_body_height
+(
+    kn_created_by  bigint unsigned NULL     DEFAULT NULL COMMENT '创建人id',
+    kn_created_at  DATETIME(3)     NOT NULL DEFAULT current_timestamp(3) COMMENT '创建时间',
+    kn_id          bigint unsigned NOT NULL COMMENT '主键',
+    kn_patient_id  bigint unsigned NOT NULL COMMENT '病人id',
+    kn_body_height double unsigned NOT NULL COMMENT '身高/cm'
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci
+    COMMENT = '身高指标表';
+
+-- 体重
+create table hi_body_weight
+(
+    kn_created_by  bigint unsigned NULL     DEFAULT NULL COMMENT '创建人id',
+    kn_created_at  DATETIME(3)     NOT NULL DEFAULT current_timestamp(3) COMMENT '创建时间',
+    kn_id          bigint unsigned NOT NULL COMMENT '主键',
+    kn_patient_id  bigint unsigned NOT NULL COMMENT '病人id',
+    kn_body_weight double unsigned NOT NULL COMMENT '体重/kg'
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci
+    COMMENT = '体重指标表';
+
+-- BMI
+create table hi_bmi
+(
+    kn_created_by bigint unsigned NULL     DEFAULT NULL COMMENT '创建人id',
+    kn_created_at DATETIME(3)     NOT NULL DEFAULT current_timestamp(3) COMMENT '创建时间',
+    kn_id         bigint unsigned NOT NULL COMMENT '主键',
+    kn_patient_id bigint unsigned NOT NULL COMMENT '病人id',
+    kn_bmi        double unsigned NOT NULL COMMENT '体质指数. 单位: kg/m²'
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci
+    COMMENT = 'BMI指标表';
+
+-- 腰围
+create table hi_waistline
+(
+    kn_created_by bigint unsigned NULL     DEFAULT NULL COMMENT '创建人id',
+    kn_created_at DATETIME(3)     NOT NULL DEFAULT current_timestamp(3) COMMENT '创建时间',
+    kn_id         bigint unsigned NOT NULL COMMENT '主键',
+    kn_patient_id bigint unsigned NOT NULL COMMENT '病人id',
+    kn_waistline  double unsigned NOT NULL COMMENT '腰围/cm'
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci
+    COMMENT = '腰围指标表';
+
+-- 体温
+create table hi_body_temperature
+(
+    kn_created_by bigint unsigned NULL     DEFAULT NULL COMMENT '创建人id',
+    kn_created_at DATETIME(3)     NOT NULL DEFAULT current_timestamp(3) COMMENT '创建时间',
+    kn_id         bigint unsigned NOT NULL COMMENT '主键',
+    kn_patient_id bigint unsigned NOT NULL COMMENT '病人id',
+    kn_celsius    double          NOT NULL COMMENT '摄氏度/℃'
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci
+    COMMENT = '体温指标表';
+
+-- 血压
+create table hi_blood_pressure
+(
+    kn_created_by               bigint unsigned NULL     DEFAULT NULL COMMENT '创建人id',
+    kn_created_at               DATETIME(3)     NOT NULL DEFAULT current_timestamp(3) COMMENT '创建时间',
+    kn_id                       bigint unsigned NOT NULL COMMENT '主键',
+    kn_patient_id               bigint unsigned NOT NULL COMMENT '病人id',
+    kn_systolic_blood_pressure  double unsigned NULL COMMENT '收缩压/mmHg',
+    kn_diastolic_blood_pressure double unsigned NULL COMMENT '舒张压/mmHg'
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci
+    COMMENT = '血压指标表';
+
+-- 血糖
+create table hi_blood_sugar
+(
+    kn_created_by               bigint unsigned NULL     DEFAULT NULL COMMENT '创建人id',
+    kn_created_at               DATETIME(3)     NOT NULL DEFAULT current_timestamp(3) COMMENT '创建时间',
+    kn_id                       bigint unsigned NOT NULL COMMENT '主键',
+    kn_patient_id               bigint unsigned NOT NULL COMMENT '病人id',
+    kn_fasting_blood_sandalwood double unsigned NULL COMMENT '空腹血糖/mmol/L',
+    kn_random_blood_sugar       double unsigned NULL COMMENT '随机血糖/mmol/L'
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci
+    COMMENT = '血糖指标表';
+
+-- 血脂
+create table hi_blood_lipids
+(
+    kn_created_by               bigint unsigned NULL     DEFAULT NULL COMMENT '创建人id',
+    kn_created_at               DATETIME(3)     NOT NULL DEFAULT current_timestamp(3) COMMENT '创建时间',
+    kn_id                       bigint unsigned NOT NULL COMMENT '主键',
+    kn_patient_id               bigint unsigned NOT NULL COMMENT '病人id',
+    kn_total_cholesterol        double unsigned NULL COMMENT '总胆固醇/mmol/L',
+    kn_triglycerides            double unsigned NULL COMMENT '甘油三酯/mmol/L',
+    kn_low_density_lipoprotein  double unsigned NULL COMMENT '低密度脂蛋白/mmol/L',
+    kn_high_density_lipoprotein double unsigned NULL COMMENT '高密度脂蛋白/mmol/L'
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci
+    COMMENT = '血脂指标表';
+
+-- 心率
+create table hi_heart_rate
+(
+    kn_created_by bigint unsigned   NULL     DEFAULT NULL COMMENT '创建人id',
+    kn_created_at DATETIME(3)       NOT NULL DEFAULT current_timestamp(3) COMMENT '创建时间',
+    kn_id         bigint unsigned   NOT NULL COMMENT '主键',
+    kn_patient_id bigint unsigned   NOT NULL COMMENT '病人id',
+    kn_heart_rate smallint unsigned NOT NULL COMMENT '心率/次/分'
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci
+    COMMENT = '心率指标表';
+
+-- 脉搏
+create table hi_pulse
+(
+    kn_created_by bigint unsigned   NULL     DEFAULT NULL COMMENT '创建人id',
+    kn_created_at DATETIME(3)       NOT NULL DEFAULT current_timestamp(3) COMMENT '创建时间',
+    kn_id         bigint unsigned   NOT NULL COMMENT '主键',
+    kn_patient_id bigint unsigned   NOT NULL COMMENT '病人id',
+    kn_pulse      smallint unsigned NOT NULL COMMENT '脉搏/次/分'
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci
+    COMMENT = '脉搏指标表';
+
+-- 吸烟
+create table hi_smoke
+(
+    kn_created_by bigint unsigned  NULL     DEFAULT NULL COMMENT '创建人id',
+    kn_created_at DATETIME(3)      NOT NULL DEFAULT current_timestamp(3) COMMENT '创建时间',
+    kn_id         bigint unsigned  NOT NULL COMMENT '主键',
+    kn_patient_id bigint unsigned  NOT NULL COMMENT '病人id',
+    kn_num        tinyint unsigned NOT NULL COMMENT '几支/日'
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci
+    COMMENT = '吸烟指标表';
+
+-- 饮酒
+create table hi_drinking
+(
+    kn_created_by   bigint unsigned NULL     DEFAULT NULL COMMENT '创建人id',
+    kn_created_at   DATETIME(3)     NOT NULL DEFAULT current_timestamp(3) COMMENT '创建时间',
+    kn_id           bigint unsigned NOT NULL COMMENT '主键',
+    kn_patient_id   bigint unsigned NOT NULL COMMENT '病人id',
+    kn_beer         double unsigned NOT NULL COMMENT '啤酒/两/日',
+    kn_white_spirit double unsigned NOT NULL COMMENT '白酒/两/日',
+    kn_wine         double unsigned NOT NULL COMMENT '红酒/两/日'
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci
+    COMMENT = '饮酒指标表';

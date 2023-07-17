@@ -1,0 +1,38 @@
+-- create on 2022/8/11, by knrt
+
+-- 数据库Schema描述文件, 执行DDL操作
+ALTER TABLE `hi_blood_lipids`
+    ADD PRIMARY KEY (`kn_id`);
+
+ALTER TABLE `hi_blood_pressure`
+    ADD PRIMARY KEY (`kn_id`);
+
+ALTER TABLE `hi_blood_sugar`
+    ADD PRIMARY KEY (`kn_id`);
+
+ALTER TABLE `hi_bmi`
+    ADD PRIMARY KEY (`kn_id`);
+
+ALTER TABLE `hi_body_height`
+    ADD PRIMARY KEY (`kn_id`);
+
+ALTER TABLE `hi_body_temperature`
+    ADD PRIMARY KEY (`kn_id`);
+
+ALTER TABLE `hi_body_weight`
+    ADD PRIMARY KEY (`kn_id`);
+
+ALTER TABLE `hi_drinking`
+    ADD PRIMARY KEY (`kn_id`);
+
+ALTER TABLE `hi_heart_rate`
+    ADD PRIMARY KEY (`kn_id`);
+
+ALTER TABLE `hi_pulse`
+    ADD PRIMARY KEY (`kn_id`);
+
+ALTER TABLE `hi_smoke`
+    ADD PRIMARY KEY (`kn_id`);
+
+ALTER TABLE `hi_waistline`
+    ADD PRIMARY KEY (`kn_id`);

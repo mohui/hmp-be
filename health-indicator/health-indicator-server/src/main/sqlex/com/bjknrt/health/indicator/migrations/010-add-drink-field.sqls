@@ -1,0 +1,6 @@
+alter table `hi_drinking`
+    add column `kn_total_alcohol` double unsigned not null default 0 comment '总饮酒量/两/日';
+
+update `hi_drinking` drink
+set `kn_total_alcohol` = drink.kn_beer * 0.1 + drink.kn_wine * 0.25 + drink.kn_white_spirit
+where kn_total_alcohol = 0

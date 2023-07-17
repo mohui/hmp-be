@@ -1,0 +1,33 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+configurations:
+  - kustomize-config.yaml
+resources:
+  - ../../base
+namespace: dev
+images:
+  - name: base-image-template
+    newName: 192.168.3.201:8080/bjknrt/hmp/question-answering-system-server
+    newTag: $(IMAGE_TAG)
+commonLabels:
+  app: question-answering-system
+generatorOptions:
+  disableNameSuffixHash: true
+  labels:
+    type: generated
+  annotations:
+    node: generated
+configMapGenerator:
+  - name: question-answering-system-dev-build-env
+    envs:
+      - ci.env
+vars:
+  - name: IMAGE_TAG
+    objref:
+      kind: ConfigMap
+      name: question-answering-system-dev-build-env
+      apiVersion: v1
+    fieldref:
+      fieldpath: data.IMAGE_TAG
+patchesStrategicMerge:
+  - patch.yaml

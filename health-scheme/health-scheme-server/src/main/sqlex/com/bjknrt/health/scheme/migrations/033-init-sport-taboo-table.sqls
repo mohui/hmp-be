@@ -1,0 +1,18 @@
+CREATE TABLE `hs_sport_taboo_info`
+(
+    `kn_id`                      bigint(20) unsigned NOT NULL COMMENT '主键ID',
+    `kn_patient_id`              bigint(20) unsigned NOT NULL COMMENT '患者id',
+    `kn_health_manage_scheme_id` bigint(20) unsigned NOT NULL COMMENT '健康方案ID',
+    `kn_answer_record_id`        bigint(20) unsigned NOT NULL COMMENT '答题记录ID',
+    `kn_answer_result_id`        bigint(20) unsigned NOT NULL COMMENT '答题结果ID',
+    `kn_option_id`               bigint(20) unsigned NOT NULL COMMENT '选项ID',
+    `kn_option_label`            varchar(255)        NOT NULL COMMENT '选项名称',
+    `is_del`                     tinyint(1)          NOT NULL DEFAULT '0' COMMENT '删除状态 （1-是，0-否）',
+    `kn_created_by`              bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `kn_created_at`              datetime(3)         NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+    PRIMARY KEY (`kn_id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin COMMENT ='运动禁忌表';
+
+CREATE INDEX hsti_patient_id_scheme_id_idx ON `hs_sport_taboo_info` (`kn_patient_id`, `kn_health_manage_scheme_id`)

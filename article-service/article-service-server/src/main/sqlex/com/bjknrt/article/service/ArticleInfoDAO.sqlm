@@ -1,0 +1,38 @@
+import java.util.Date
+import java.time.LocalDate
+import java.time.LocalDateTime
+
+page*(articleTitle:String, articleTag:String*, startCreatedAt:LocalDateTime,endCreatedAt:LocalDateTime, status:String) {
+    select aai.*
+    from as_article_info aai
+    where aai.is_del = 0
+
+      and (
+            :articleTitle is null
+            or (aai.kn_article_title like concat('%', :articleTitle, '%'))
+        )
+
+      and (
+            :articleTag is null
+            or (aai.kn_id in (select tag.kn_article_info_id
+                              from as_article_tag_info tag
+                              where tag.is_del = false
+                                and tag.kn_tag in (:articleTag))
+                )
+        )
+      and (
+            :startCreatedAt is null
+            or (aai.kn_created_at >= :startCreatedAt)
+        )
+
+      and (
+            :endCreatedAt is null
+            or (aai.kn_created_at < :endCreatedAt)
+        )
+
+      and (
+            :status is null
+            or (aai.kn_status = :status)
+        )
+    order by aai.kn_created_at desc
+}

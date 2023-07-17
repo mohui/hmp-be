@@ -1,0 +1,11 @@
+create table mb_message_board
+(
+    kn_id               bigint unsigned primary key comment '主键',
+    kn_content          text            not null comment '留言内容',
+    kn_message_datetime datetime(3)     not null default current_timestamp(3) comment '留言时间',
+    kn_message_status   varchar(16)     not null default 'UNREAD' comment '消息状态 （UNREAD-未读，READ-已读,NONE-无）',
+    kn_from_id          bigint unsigned not null comment '发送消息者Id',
+    kn_to_id            bigint unsigned not null comment '接收消息者Id'
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4 COMMENT = '留言板表';

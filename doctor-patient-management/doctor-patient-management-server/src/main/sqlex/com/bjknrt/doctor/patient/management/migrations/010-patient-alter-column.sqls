@@ -1,0 +1,5 @@
+alter table dpm_doctor_patient
+    modify kn_status varchar(16) not null default 'START_ASSESS' comment '患者状态 （NONE-无，START_ASSESS-开始评估，SUCCESS-完成）';
+
+update dpm_doctor_patient set kn_status = 'SUCCESS' where kn_status ='MAKE_PLAN';
+

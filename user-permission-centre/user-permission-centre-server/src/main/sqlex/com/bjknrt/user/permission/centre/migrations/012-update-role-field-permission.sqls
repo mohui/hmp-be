@@ -1,0 +1,17 @@
+-- 数据库Schema描述文件, 执行DDL操作
+ALTER TABLE `upcs_role_permission`
+    ADD COLUMN `kn_permission_code` varchar(64) NOT NULL COMMENT '权限code' AFTER `kn_role_id`;
+
+update upcs_role_permission a, upcs_permission b  set a.kn_permission_code = b.kn_code where a.kn_permission_id = b.kn_id;
+
+ALTER TABLE `upcs_role_permission`
+    DROP COLUMN `kn_permission_id`;
+
+ALTER TABLE `upcs_role`
+    ADD COLUMN `is_used` boolean NOT NULL DEFAULT true COMMENT '状态, true:可用,false: 不可用' AFTER `is_del`;
+
+drop table upcs_permission;
+
+
+ALTER TABLE `upcs_org`
+    DROP COLUMN `kn_parent_id`;

@@ -1,0 +1,22 @@
+dev:web:build:
+  extends:
+    - .web:init
+  stage: build
+  tags:
+    - pve
+    - docker
+  variables:
+    IMAGE_TAG: dev-${CI_COMMIT_SHORT_SHA}
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^standalone*/'
+  script:
+    - gradle build publishAllPublicationsToBjknrtRepository
+    - gradle jib -DsendCredentialsOverHttp=true
+  cache:
+    paths:
+      - .gradle/wrapper
+      - .gradle/caches
+  artifacts:
+    when: always
+    reports:
+      junit: ${MODULE_NAME}/**/build/test-results/test/**/TEST-*.xml

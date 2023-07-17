@@ -1,0 +1,46 @@
+-- 修改高血压患者随访表,根据文档改为必填
+update hs_htn_visit set follow_way = 'SELF' where follow_way is null;
+update hs_htn_visit set is_symptom_none = false where is_symptom_none is null;
+update hs_htn_visit set is_symptom_dizziness_headache = false where is_symptom_dizziness_headache is null;
+update hs_htn_visit set is_symptom_nausea_vomiting = false where is_symptom_nausea_vomiting is null;
+update hs_htn_visit set is_symptom_blurred_tinnitus = false where is_symptom_blurred_tinnitus is null;
+update hs_htn_visit set is_symptom_breathing = false where is_symptom_breathing is null;
+update hs_htn_visit set is_symptom_palpitations_toc = false where is_symptom_palpitations_toc is null;
+update hs_htn_visit set is_symptom_nose_bleed = false where is_symptom_nose_bleed is null;
+update hs_htn_visit set is_symptom_numbness = false where is_symptom_numbness is null;
+update hs_htn_visit set is_symptom_lower_extremity_edema = false where is_symptom_lower_extremity_edema is null;
+update hs_htn_visit set signs_heart_rate = false where signs_heart_rate is null;
+update hs_htn_visit set life_cigarettes_per_day = 0 where life_cigarettes_per_day is null;
+update hs_htn_visit set life_alcohol_per_day = 0 where life_alcohol_per_day is null;
+update hs_htn_visit set life_sport_per_week = 0 where life_sport_per_week is null;
+update hs_htn_visit set life_sport_per_time = 0 where life_sport_per_time is null;
+update hs_htn_visit set life_salt_situation = 'LIGHT' where life_salt_situation is null;
+update hs_htn_visit set life_follow_medical_advice = 'GOOD' where life_follow_medical_advice is null;
+update hs_htn_visit set drug_compliance = 'LAW' where drug_compliance is null;
+update hs_htn_visit set is_adr = false where is_adr is null;
+
+ALTER TABLE `hs_htn_visit`
+    MODIFY COLUMN `follow_way` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '随访方式. SELF. 患者自填. OUTPATIENT. 门诊; FAMILY. 家庭; PHONE. 电话;ONLINE.线上' AFTER `doctor_name`,
+    MODIFY COLUMN `is_symptom_none` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '无症状' AFTER `follow_date`,
+    MODIFY COLUMN `is_symptom_dizziness_headache` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '头痛头晕' AFTER `is_symptom_none`,
+    MODIFY COLUMN `is_symptom_nausea_vomiting` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '恶心呕吐' AFTER `is_symptom_dizziness_headache`,
+    MODIFY COLUMN `is_symptom_blurred_tinnitus` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '眼花耳鸣' AFTER `is_symptom_nausea_vomiting`,
+    MODIFY COLUMN `is_symptom_breathing` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '呼吸困难' AFTER `is_symptom_blurred_tinnitus`,
+    MODIFY COLUMN `is_symptom_palpitations_toc` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '心悸胸闷' AFTER `is_symptom_breathing`,
+    MODIFY COLUMN `is_symptom_nose_bleed` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '鼻衄出血不止' AFTER `is_symptom_palpitations_toc`,
+    MODIFY COLUMN `is_symptom_numbness` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '四肢发麻' AFTER `is_symptom_nose_bleed`,
+    MODIFY COLUMN `is_symptom_lower_extremity_edema` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '下肢水肿' AFTER `is_symptom_numbness`,
+    MODIFY COLUMN `signs_heart_rate` double UNSIGNED NOT NULL COMMENT '心率. 单位: 次/分钟' AFTER `signs_weight`,
+    MODIFY COLUMN `life_cigarettes_per_day` tinyint UNSIGNED NOT NULL COMMENT '日吸烟量. 单位: 支' AFTER `signs_other`,
+    MODIFY COLUMN `life_alcohol_per_day` double UNSIGNED NOT NULL COMMENT '日饮酒量. 单位: 两' AFTER `life_cigarettes_per_day`,
+    MODIFY COLUMN `life_sport_per_week` tinyint UNSIGNED NOT NULL COMMENT '每周运动次数. 单位: 次' AFTER `life_alcohol_per_day`,
+    MODIFY COLUMN `life_sport_per_time` double UNSIGNED NOT NULL COMMENT '每次运动时间. 单位: 分钟' AFTER `life_sport_per_week`,
+    MODIFY COLUMN `life_salt_situation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '摄盐情况. LIGHT: 轻; MIDDLE: 中; DEEP: 重' AFTER `life_sport_per_time`,
+    MODIFY COLUMN `life_follow_medical_advice` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '遵医行为. GOOD: 良好; ORDINARY: 一般; BAD: 差' AFTER `life_mental_adjustment`,
+    MODIFY COLUMN `drug_compliance` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '服药依从性. LAW: 规律; GAP: 间断; NO: 不服药' AFTER `abbreviations_about_examination`,
+    MODIFY COLUMN `is_adr` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '有无药物不良反应' AFTER `drug_compliance`;
+
+
+
+
+

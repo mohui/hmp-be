@@ -1,0 +1,52 @@
+-- 数据库Schema描述文件, 执行DDL操作
+CREATE TABLE `as_article_info`
+(
+    `kn_id`            bigint(20) unsigned not null comment '主键ID',
+    `kn_article_title` varchar(255)        not null comment '文章标题',
+    `kn_author`        varchar(255)        null comment '作者',
+    `kn_data_source`   varchar(100)        not null comment '数据来源',
+    `kn_content`       text                not null comment '文章内容',
+    `kn_created_by`    bigint(20) unsigned null comment '创建人',
+    `kn_created_at`    datetime(3)         not null default current_timestamp(3) comment '创建时间',
+    `kn_publisher`     bigint(20) unsigned null comment '发布者',
+    `kn_publish_at`    datetime(3)         null comment '发布时间',
+    `kn_updated_by`    bigint(20)          null comment '修改人',
+    `kn_updated_at`    datetime(3)         not null default current_timestamp(3) comment '修改时间',
+    `kn_status`        varchar(20)         not null comment '发布状态（未发布：UN_PUBLISHED，已发布：PUBLISHED，已下架：OFF_SHELF）',
+    `is_del`           tinyint(1)          not null default 0 comment '删除状态（1：是 0：否）',
+    PRIMARY KEY (`kn_id`) USING BTREE
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '文章表';
+
+CREATE TABLE `as_card_info`
+(
+    `kn_id`                     bigint(20) unsigned not null comment '主键ID',
+    `kn_card_title`             varchar(255)        not null comment '卡片标题',
+    `kn_author`                 varchar(255)        null comment '作者',
+    `kn_data_source`            varchar(100)        not null comment '数据来源',
+    `kn_content`                text                not null comment '卡片内容',
+    `kn_created_by`             bigint(20) unsigned null comment '创建人',
+    `kn_created_at`             datetime(3)         not null default current_timestamp(3) comment '创建时间',
+    `kn_publisher`              bigint(20) unsigned null comment '发布者',
+    `kn_publish_at`             datetime(3)         null comment '发布时间',
+    `kn_updated_by`             bigint(20)          null comment '修改人',
+    `kn_updated_at`             datetime(3)         not null default current_timestamp(3) comment '修改时间',
+    `kn_status`                 varchar(20)         not null comment '发布状态（未发布：UN_PUBLISHED，已发布：PUBLISHED，已下架：OFF_SHELF）',
+    `is_del`                    tinyint(1)          not null default 0 comment '删除状态（1：是 0：否）',
+    `kn_relation_article_id`    bigint(20) unsigned null comment '强关联文章或卡片ID',
+    PRIMARY KEY (`kn_id`) USING BTREE
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '卡片表';
+
+CREATE TABLE `as_article_tag_info`
+(
+    `kn_id`              bigint(20) unsigned not null comment '主键ID',
+    `kn_tag`             varchar(20)         not null comment '标签名称（高血压：HYPERTENSION，糖尿病：DIABETES，冠心病：ACUTE_CORONARY，脑卒中：CEREBRAL_STROKE，慢阻肺：COPD）',
+    `kn_article_info_id` bigint unsigned     not null comment '文章或卡片ID',
+    `is_del`             tinyint(1)          not null default 0 comment '删除状态（1：是 0：否）',
+    PRIMARY KEY (`kn_id`) USING BTREE
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '标签表';

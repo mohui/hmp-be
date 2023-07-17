@@ -1,0 +1,68 @@
+alter table hs_acute_coronary_disease_stage_statistics
+    modify `created_at` datetime(3) default CURRENT_TIMESTAMP(3) not null comment '创建时间';
+
+alter table hs_acute_coronary_disease_stage_statistics_detail
+    modify `measure_datetime` datetime(3) default CURRENT_TIMESTAMP(3) not null comment '测量时间',
+    modify `created_at` datetime(3) default CURRENT_TIMESTAMP(3) not null comment '创建时间';
+
+alter table hs_acute_coronary_visit
+    modify `follow_date` datetime(3) DEFAULT NULL COMMENT '随访日期',
+    modify `next_visit` datetime(3) DEFAULT NULL COMMENT '下次随访日期';
+
+alter table hs_cerebral_stroke_stage_statistics
+    modify `created_at` datetime(3) default CURRENT_TIMESTAMP(3) not null comment '创建时间';
+
+alter table hs_cerebral_stroke_stage_statistics_detail
+    modify`measure_datetime` datetime(3) NOT NULL COMMENT '测量时间',
+    modify `created_at` datetime(3) default CURRENT_TIMESTAMP(3) not null comment '创建时间';
+
+alter table hs_cerebral_stroke_visit
+    modify `created_at` datetime(3) default CURRENT_TIMESTAMP(3) not null comment '创建时间';
+
+alter table hs_copd_stage_statistics
+    modify `created_at` datetime(3) default CURRENT_TIMESTAMP(3) not null comment '创建时间';
+
+alter table hs_copd_stage_statistics_detail
+    modify `measure_datetime` datetime(3) NOT NULL COMMENT '测量时间',
+    modify `created_at` datetime(3) default CURRENT_TIMESTAMP(3) not null comment '创建时间';
+
+alter table hs_copd_visit
+    modify `follow_date` datetime(3) DEFAULT NULL COMMENT '随访日期';
+
+
+alter table hs_diabetes_stage_statistics
+    modify `created_at` datetime(3) default CURRENT_TIMESTAMP(3) not null comment '创建时间';
+
+alter table hs_diabetes_stage_statistics_detail
+    modify `measure_datetime` datetime(3) NOT NULL COMMENT '测量时间',
+    modify `created_at` datetime(3) default CURRENT_TIMESTAMP(3) not null comment '创建时间';
+
+alter table hs_health_scheme_management_info
+    modify `kn_created_at` datetime(3) default CURRENT_TIMESTAMP(3) not null comment '创建时间';
+
+alter table hs_hsm_health_plan
+    modify `kn_start_date` datetime(3) NOT NULL COMMENT '开始时间',
+    modify `kn_end_date` datetime(3) DEFAULT NULL COMMENT '结束时间';
+
+
+alter table hs_htn_visit
+    modify `follow_date` datetime(3) DEFAULT NULL COMMENT '随访日期',
+    modify `next_visit` datetime(3) DEFAULT NULL COMMENT '下次随访日期';
+
+alter table hs_stage_report
+    modify`report_start_datetime` datetime(3) NOT NULL COMMENT '报告开始时间',
+    modify `report_end_datetime` datetime(3) NOT NULL COMMENT '报告截止时间',
+    modify `created_at` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间';
+
+alter table hs_stage_statistics
+    modify `created_at` datetime(3) default CURRENT_TIMESTAMP(3) not null comment '创建时间';
+
+alter table hs_stage_statistics_detail
+    modify `measure_datetime` datetime(3) NOT NULL COMMENT '测量时间',
+    modify `created_at` datetime(3) default CURRENT_TIMESTAMP(3) not null comment '创建时间';
+
+alter table hs_t2dm_visit
+    modify `follow_date` datetime(3) DEFAULT NULL COMMENT '随访日期',
+    modify `HbA1c_date` datetime(3) DEFAULT NULL COMMENT '糖化血糖蛋白检查日期',
+    modify `next_visit` datetime(3) NOT NULL COMMENT '下次随访日期';
+

@@ -1,0 +1,26 @@
+alter table dpm_patient_info
+    drop kn_tag;
+
+alter table dpm_patient_info
+    drop kn_crowd_type;
+
+alter table dpm_patient_info
+    modify kn_weight decimal(10, 2) null default null comment '体重（单位 kg）';
+
+alter table dpm_patient_info
+    add kn_synthesis_disease_tag varchar(16) null default null comment '五病综合标签 （HIGH-高危,LOW-低危）' after kn_smoking;
+
+alter table dpm_patient_info
+    add kn_hypertension_disease_tag varchar(16) null default null comment '高血压病种标签 （EXISTS-患者，HIGH-高危,LOW-低危）' after kn_smoking;
+
+alter table dpm_patient_info
+    add kn_diabetes_disease_tag varchar(16) null default null comment '糖尿病病种标签 （EXISTS-患者，HIGH-高危,LOW-低危）' after kn_smoking;
+
+alter table dpm_patient_info
+    add kn_acute_coronary_disease_tag varchar(16) null default null comment '冠心病病种标签 （EXISTS-患者，HIGH-高危,LOW-低危）' after kn_smoking;
+
+alter table dpm_patient_info
+    add kn_cerebral_stroke_disease_tag varchar(16) null default null comment '脑卒中病种标签 （EXISTS-患者，HIGH-高危,LOW-低危）' after kn_smoking;
+
+alter table dpm_patient_info
+    add kn_copd_disease_tag varchar(16) null default null comment '慢阻肺病种标签 （EXISTS-患者，HIGH-高危,LOW-低危）' after kn_smoking;

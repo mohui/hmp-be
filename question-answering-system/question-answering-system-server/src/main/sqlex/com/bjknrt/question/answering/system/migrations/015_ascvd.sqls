@@ -1,0 +1,71 @@
+INSERT INTO qas_examination_paper (id, examination_paper_title, examination_paper_desc,
+                                   examination_paper_tip, examination_paper_code,
+                                   examination_paper_reference, evaluation_time,
+                                   strategy_code, created_by, created_at, updated_by,
+                                   updated_at, is_del)
+VALUES (1100, 'ASCVD风险评估', '《中国心血管病预防指南 2017》公布的新的ASCVD 发病危险评估方案是基于累积超过 20 年的大样本前瞻性心血管病队列研究数据分析及广泛
+征求中外心血管领域专家的意见基础上确定的。此危险评估方案最主要的特点是建立了便于临床使用的发病危险评估流程，将危险评估扩大至血脂水平更低的人群
+（1.8 mmol/L ≤ LDL-C ＜ 2.6 mmol/L），对中青年人群进行余生发病危险评估。', null, 'ASCVD',
+        '王淼,刘静,赵冬. 中国心血管病预防指南(2017)动脉粥样硬化性心血管病发病危险评估方法概述[J].中国循环杂志,2018,33(z1): 10-13. DOI: 10.3969/j.issn.1000-3614.2018.增刊.003.',
+        '', 'ASCVD', 1, '2022-08-30 11:56:36.546', 1, '2022-10-26 10:09:51.992', 0);
+
+insert into qas_questions(id, examination_paper_id, questions_title, questions_type, questions_sort, created_by,
+                          updated_by, questions_tip)
+values (110001, 1100, '是否已有冠心病、缺血性脑卒中或已出现症状的外周动脉疾病？', 'RADIO', 1, 1, 1, null),
+       (110002, 1100, '是否是糖尿病患者且年龄≥40岁？', 'RADIO', 2, 1, 1, null),
+       (110003, 1100,
+        '①LDL-C ≥ 4.9 mmol/L（190 mg/dl）或 TC ≥ 7.2 mmol/L（280 mg/dl）； ②三级高血压（收缩压≥180mmHg和（或）舒张压≥110mmHg）；③ 重度吸烟（吸烟≥ 30 支 /d），是否存在以上三项中任意一项？',
+        'RADIO', 3, 1, 1, null),
+       (110004, 1100, '是否有高血压？', 'RADIO', 4, 1, 1, null),
+       (110005, 1100, '后面括号中的情况您占几个？（①吸烟②低HDL-C③男性≥45岁或女性≥55岁）', 'RADIO', 5, 1, 1, null),
+       (110006, 1100, '后面括号中的情况您占几个？（①吸烟②低HDL-C③男性≥45岁或女性≥55岁）', 'RADIO', 6, 1, 1, null),
+       (110007, 1100, '是否TC≥4.1mmol/L或LDL-C≥2.6mmol/L？（满足其一即可）', 'RADIO', 7, 1, 1, null),
+       (110008, 1100, '是否TC≥4.1mmol/L或LDL-C≥2.6mmol/L？（满足其一即可）', 'RADIO', 8, 1, 1, null),
+       (110009, 1100, '是否TC≥5.2mmol/L或LDL-C≥3.4mmol/L？（满足其一即可）', 'RADIO', 9, 1, 1, null),
+       (110010, 1100, '是否TC≥4.1mmol/L或LDL-C≥2.6mmol/L？（满足其一即可）', 'RADIO', 10, 1, 1, null),
+       (110011, 1100, '年龄是否小于55岁？', 'RADIO', 11, 1, 1, null),
+       (110012, 1100,
+        '后面括号中的情况您是否占2个或2个以上？（①收缩压≥160 mmHg 或舒张压≥ 100 mmHg②非 HDL-C ≥ 5.2 mmol/L（200 mg/dl）③HDL-C ＜ 1.0 mmol/L（40 mg/dl）④BMI ≥ 28 kg/m²⑤吸烟）',
+        'RADIO', 12, 1, 1, null);
+
+
+insert into qas_option(id, questions_id, option_code, option_value, option_label, option_tip, option_sort, option_score,
+                       option_type, option_rule, created_by, updated_by, is_auto_commit, forward_to)
+values (11000101, 110001, 'ASCVD_110001_01', '1', '是', '', 1, 0, 'SELECT', '{\"single\":true}', 1, 1, true, null),
+       (11000102, 110001, 'ASCVD_110001_02', '0', '否', '', 2, 0, 'SELECT', '{\"single\":true}', 1, 1, false, 110002),
+
+       (11000201, 110002, 'ASCVD_110002_01', '1', '是', '', 1, 0, 'SELECT', '{\"single\":true}', 1, 1, true, null),
+       (11000202, 110002, 'ASCVD_110002_02', '0', '否', '', 2, 0, 'SELECT', '{\"single\":true}', 1, 1, false, 110003),
+
+       (11000301, 110003, 'ASCVD_110003_01', '1', '是', '', 1, 0, 'SELECT', '{\"single\":true}', 1, 1, true, null),
+       (11000302, 110003, 'ASCVD_110003_02', '0', '否', '', 2, 0, 'SELECT', '{\"single\":true}', 1, 1, false, 110004),
+
+       (11000401, 110004, 'ASCVD_110004_01', '1', '是', '', 1, 0, 'SELECT', '{\"single\":true}', 1, 1, false, 110005),
+       (11000402, 110004, 'ASCVD_110004_02', '0', '否', '', 2, 0, 'SELECT', '{\"single\":true}', 1, 1, false, 110006),
+
+       (11000501, 110005, 'ASCVD_110005_01', '1', '0个', '', 1, 0, 'SELECT', '{\"single\":true}', 1, 1, true, null),
+       (11000502, 110005, 'ASCVD_110005_02', '0', '1个', '', 2, 0, 'SELECT', '{\"single\":true}', 1, 1, false, 110007),
+       (11000503, 110005, 'ASCVD_110005_03', '0', '2个', '', 3, 0, 'SELECT', '{\"single\":true}', 1, 1, false, 110008),
+       (11000504, 110005, 'ASCVD_110005_04', '0', '3个', '', 4, 0, 'SELECT', '{\"single\":true}', 1, 1, true, null),
+
+       (11000601, 110006, 'ASCVD_110006_01', '1', '0-1个', '', 1, 0, 'SELECT', '{\"single\":true}', 1, 1, true, null),
+       (11000602, 110006, 'ASCVD_110006_02', '0', '2个', '', 2, 0, 'SELECT', '{\"single\":true}', 1, 1, false, 110009),
+       (11000603, 110006, 'ASCVD_110006_03', '0', '3个', '', 3, 0, 'SELECT', '{\"single\":true}', 1, 1, false, 110010),
+
+       (11000701, 110007, 'ASCVD_110007_01', '1', '是', '', 1, 0, 'SELECT', '{\"single\":true}', 1, 1, false, 110011),
+       (11000702, 110007, 'ASCVD_110007_02', '0', '否', '', 2, 0, 'SELECT', '{\"single\":true}', 1, 1, true, null),
+
+       (11000801, 110008, 'ASCVD_110008_01', '1', '是', '', 1, 0, 'SELECT', '{\"single\":true}', 1, 1, true, null),
+       (11000802, 110008, 'ASCVD_110008_02', '0', '否', '', 2, 0, 'SELECT', '{\"single\":true}', 1, 1, false, 110011),
+
+       (11000901, 110009, 'ASCVD_110009_01', '1', '是', '', 1, 0, 'SELECT', '{\"single\":true}', 1, 1, false, 110011),
+       (11000902, 110009, 'ASCVD_110009_02', '0', '否', '', 2, 0, 'SELECT', '{\"single\":true}', 1, 1, true, null),
+
+       (11001001, 110010, 'ASCVD_110010_01', '1', '是', '', 1, 0, 'SELECT', '{\"single\":true}', 1, 1, false, 110011),
+       (11001002, 110010, 'ASCVD_110010_02', '0', '否', '', 2, 0, 'SELECT', '{\"single\":true}', 1, 1, true, null),
+
+       (11001101, 110011, 'ASCVD_110011_01', '1', '是', '', 1, 0, 'SELECT', '{\"single\":true}', 1, 1, false, 110012),
+       (11001102, 110011, 'ASCVD_110011_02', '0', '否', '', 2, 0, 'SELECT', '{\"single\":true}', 1, 1, true, null),
+
+       (11001201, 110012, 'ASCVD_110012_01', '1', '是', '', 1, 0, 'SELECT', '{\"single\":true}', 1, 1, true, null),
+       (11001202, 110012, 'ASCVD_110012_02', '0', '否', '', 2, 0, 'SELECT', '{\"single\":true}', 1, 1, true, null);

@@ -1,0 +1,26 @@
+alter table hs_stage_report
+    add column fail_msg varchar(255) null comment '创建阶段报告失败的原因';
+
+alter table hs_stage_report
+    add column age int not null default 0 comment '患者年龄';
+
+alter table hs_stage_statistics
+    add column blood_pressure_fill_rate decimal(5, 2) not null default 0 comment '血压完成率（患者实际总的血压测量次数/系统建议本阶段内的血压测量次数）';
+
+alter table hs_stage_statistics
+    add column blood_pressure_standard_rate decimal(5, 2) not null default 0 comment '血压达标率（患者实际血压达标次数/患者实际总的血压测量次数）';
+
+alter table hs_stage_statistics
+    add column standard_rate_deviation_value decimal(5, 2) null comment '本次达标率与上次达标率的差';
+
+alter table hs_stage_statistics
+    add column systolic_blood_pressure_upper_limit_num int not null default 0 comment '超收缩压上限的次数（ 年龄＜65岁者,收缩压≥140mmHg的次数；年龄≥65岁者，收缩压≥150mmHg的次数 ）';
+
+alter table hs_stage_statistics
+    add column diastolic_blood_pressure_lower_limit_num int not null default 0 comment '超舒张压下限的次数（ 舒张压≥90mmHg ）';
+
+alter table hs_stage_statistics
+    add column low_blood_pressure_num int not null default 0 comment '低血压次数（ 收缩压＜90mmHg 或 舒张压＜60mmHg ）';
+
+alter table hs_stage_statistics
+    add column abnormal_data_alert_msg varchar(2048) null comment '异常数据提醒消息';

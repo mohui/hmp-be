@@ -1,0 +1,31 @@
+INSERT INTO qas_examination_paper (id, examination_paper_title, examination_paper_desc,
+                                   examination_paper_tip, examination_paper_code,
+                                   examination_paper_reference, evaluation_time,
+                                   strategy_code, created_by, created_at, updated_by,
+                                   updated_at, is_del)
+VALUES (2800, 'ESSEN脑卒中风险评分量表','ESSEN脑卒中风险评分量表（ESRS）是目前少数基于缺血性卒中人群判断脑卒中复发风险的预测工具之一，可以很好地预测脑卒中和复合心血管事件的发生。总分9分，评分越高，脑卒中复发风险越高。',
+        null, 'ESSEN', '中华医学会神经病学分会,中华医学会神经病学分会脑血管病学组. 中国缺血性脑卒中风险评估量表使用专家共识[J]. 中华神经科杂志,2016,49(7):519-525. DOI:10.3760/cma.j.issn.1006-7876.2016.07.003.', '', 'ESSEN',
+        1, current_timestamp(), 1, current_timestamp(), 0);
+
+insert into qas_questions(id, examination_paper_id, questions_title, questions_type, questions_sort, created_by,
+                          updated_by, questions_tip)
+values (280001, 2800, '患者年龄', 'FILL_IN_THE_BLANK', 1, 1, 1, null),
+       (280002, 2800, '患者（您）是否有以下情况（可多选）', 'MULTIPLE_CHOICE', 2, 1, 1, null);
+
+insert into qas_option(id, questions_id, option_code, option_value, option_label, option_tip, option_sort, option_score,
+                       option_type, option_rule, created_by, updated_by)
+values (28000101, 280001, 'ESSEN_280001_28000101', '1', '', '', 1, null, 'INPUT', null, 1, 1),
+
+       (28000201, 280002, 'ESSEN_280002_28000201', '1', '高血压', '', 1, 1, 'SELECT', null, 1, 1),
+       (28000202, 280002, 'ESSEN_280002_28000202', '2', '糖尿病', '', 2, 1, 'SELECT', null, 1, 1),
+       (28000203, 280002, 'ESSEN_280002_28000203', '3', '既往心肌梗死', '', 3, 1, 'SELECT', null, 1, 1),
+       (28000204, 280002, 'ESSEN_280002_28000204', '4', '其他心脏病（除外心房颤动和心肌梗死）', '', 4, 1, 'SELECT', null, 1, 1),
+       (28000205, 280002, 'ESSEN_280002_28000205', '5', '外周动脉疾病', '', 5, 1, 'SELECT', null, 1, 1),
+       (28000206, 280002, 'ESSEN_280002_28000206', '6', '吸烟', '', 6, 1, 'SELECT', null, 1, 1),
+       (28000207, 280002, 'ESSEN_280002_28000207', '7', '既往短暂性脑缺血发作（TIA）或缺血性卒中病史', '', 7, 1, 'SELECT', null, 1, 1);
+
+insert into qas_interpretation_of_results(id, examination_paper_id, min_value, max_value, results_tag, results_msg,
+                                          created_by, updated_by)
+values (2899, 2800, 0, 2, '脑卒中复发风险：低风险', '', 1, 1),
+       (2897, 2800, 3, 6, '脑卒中复发风险：高风险', '', 1, 1),
+       (2896, 2800, 7, 9, '脑卒中复发风险：极高', '', 1, 1);

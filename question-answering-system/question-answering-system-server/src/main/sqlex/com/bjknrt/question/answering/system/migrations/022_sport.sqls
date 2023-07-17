@@ -1,0 +1,53 @@
+INSERT INTO qas_examination_paper (id, examination_paper_title, examination_paper_desc,
+                                   examination_paper_tip, examination_paper_code,
+                                   examination_paper_reference, evaluation_time,
+                                   strategy_code, created_by, created_at, updated_by,
+                                   updated_at, is_del)
+VALUES (1500, '运动评估', '', null, 'SPORT', '', '', 'SPORT', 1, '2022-09-22 10:55:38', 1, '2022-09-27 17:04:06.675',
+        0);
+
+insert into qas_questions(id, examination_paper_id, questions_title, questions_type, questions_sort, created_by,
+                          updated_by, questions_tip)
+values (150001, 1500, '在安静状态下，您是否有以下情况？', 'MULTIPLE_CHOICE', 1, 1, 1, null),
+       (150002, 1500, '您是否希望进行呼吸操（每周2次，每次45分钟）的训练?', 'RADIO', 2, 1, 1, null),
+       (150003, 1500, '请选择您希望进行的有氧运动', 'MULTIPLE_CHOICE', 3, 1, 1, null),
+       (150004, 1500, '请选择您希望进行的综合性运动', 'MULTIPLE_CHOICE', 4, 1, 1, null);
+
+insert into qas_option(id, questions_id, option_code, option_value, option_label, option_tip, option_sort, option_score,
+                       option_type, option_rule, created_by, updated_by, is_auto_commit, forward_to)
+values (15000101, 150001, 'SPORT_150001_01', '1', '血氧饱和度小于90%', '', 1, null, 'SELECT', null,
+        1, 1, true, null),
+       (15000102, 150001, 'SPORT_150001_02', '2', '每分钟的呼吸次数超过35次', '', 2, null,
+        'SELECT', null, 1, 1, true, null),
+       (15000103, 150001, 'SPORT_150001_03', '3', '每分钟的心跳次数超过130次', '', 3, null, 'SELECT', null, 1, 1, true, null),
+       (15000104, 150001, 'SPORT_150001_04', '4', '近两周内出现过血糖＜3.9 mmol/L或空腹血糖＞16.7 mmol/L', '', 4, null, 'SELECT', null, 1, 1, true, null),
+       (15000105, 150001, 'SPORT_150001_05', '5', '以前血压达到过的最高值：收缩压（高压）≥180mmHg或者舒张压（低压）≥110mmHg', '', 5, null, 'SELECT', null, 1, 1, true, null),
+       (15000106, 150001, 'SPORT_150001_06', '6',
+        '其他情况：糖尿病酮症酸中毒、严重肾病、合并急性感染、增殖性视网膜病变、严重心脑血管疾病比如不稳定性心绞痛、严重心律失常、一过性脑缺血发作等',
+        '', 6, null, 'SELECT', null, 1, 1, true, null),
+       (15000107, 150001, 'SPORT_150001_07', '7', '无以上情况', '', 7, null, 'SELECT', '{\"single\":true}', 1, 1, false, null),
+
+       (15000201, 150002, 'SPORT_150002_01', '1', '是', '', 1, null, 'SELECT', '{\"single\":true}', 1, 1, false, null),
+       (15000202, 150002, 'SPORT_150002_02', '0', '否', '', 2, null, 'SELECT', '{\"single\":true}', 1, 1, false, null),
+
+       (15000301, 150003, 'SPORT_150003_01', '1', '步行（每周5次，每次30分钟）', '', 1, null, 'SELECT', null, 1, 1, false,
+        null),
+       (15000302, 150003, 'SPORT_150003_02', '2', '慢跑（每周5次，每次30分钟）', '', 2, null, 'SELECT', null, 1, 1, false,
+        null),
+       (15000303, 150003, 'SPORT_150003_03', '3', '骑自行车（每周5次，每次30分钟） ', '', 3, null, 'SELECT', null, 1, 1,
+        false, null),
+       (15000304, 150003, 'SPORT_150003_04', '4', '球类（乒乓球、羽毛球、网球）（每周5次，每次30分钟）', '', 4, null, 'SELECT',
+        null, 1, 1, false, null),
+       (15000305, 150003, 'SPORT_150003_05', '5', '健身操（每周5次，每次30分钟） ', '', 5, null, 'SELECT', null, 1, 1,
+        false, null),
+       (15000306, 150003, 'SPORT_150003_06', '6', '游泳（每周3次，每次30分钟）', '', 6, null, 'SELECT', null, 1, 1, false,
+        null),
+
+       (15000401, 150004, 'SPORT_150004_01', '1', '太极（每周3次，每次30分钟）', '', 1, null, 'SELECT', null, 1, 1, false,
+        null),
+       (15000402, 150004, 'SPORT_150004_02', '2', '八段锦（每周3次，每次30分钟）', '', 2, null, 'SELECT', null, 1, 1,
+        false, null),
+       (15000403, 150004, 'SPORT_150004_03', '3', '拉伸运动（每周3次，每次30分钟） ', '', 3, null, 'SELECT', null, 1, 1,
+        false, null),
+       (15000404, 150004, 'SPORT_150004_04', '4', '以上都不希望', '', 4, null, 'SELECT', '{\"single\":true}', 1, 1, false, null);
+

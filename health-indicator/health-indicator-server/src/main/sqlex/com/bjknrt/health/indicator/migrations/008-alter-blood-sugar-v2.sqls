@@ -1,0 +1,16 @@
+-- 数据库Schema描述文件, 执行DDL操作
+ALTER TABLE `hi_blood_sugar`
+    ADD COLUMN `kn_before_lunch_blood_sugar` DOUBLE UNSIGNED NULL COMMENT '餐前血糖mmol/L（午餐）';
+
+ALTER TABLE `hi_blood_sugar`
+    ADD COLUMN `kn_before_dinner_blood_sugar` DOUBLE UNSIGNED NULL COMMENT '餐前血糖mmol/L（晚餐）';
+
+ALTER TABLE `hi_blood_sugar`
+    ADD COLUMN `kn_after_lunch_blood_sugar` DOUBLE UNSIGNED NULL COMMENT '餐后2h血糖mmol/L（午餐）';
+
+ALTER TABLE `hi_blood_sugar`
+    ADD COLUMN `kn_after_dinner_blood_sugar` DOUBLE UNSIGNED NULL COMMENT '餐后2h血糖mmol/L（晚餐）';
+
+ALTER TABLE `hi_blood_sugar`
+    ADD COLUMN `kn_before_sleep_blood_sugar` DOUBLE UNSIGNED NULL COMMENT '睡前血糖mmol/L';
+

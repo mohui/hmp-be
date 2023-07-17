@@ -1,0 +1,40 @@
+INSERT INTO qas_examination_paper (id, examination_paper_title, examination_paper_desc,
+                                   examination_paper_tip, examination_paper_code,
+                                   examination_paper_reference, evaluation_time,
+                                   strategy_code, created_by, created_at, updated_by,
+                                   updated_at, is_del)
+VALUES (1900, '高血压患者心血管疾病总体危险评估',
+        '心血管病总体危险评估是检出高危个体、确定干预目标人群的重要措施，根据血压水平、心血管危险因素、靶器官损害、临床并发症等进行分层，分为低危、中危、高危。我们采用的是由国家卫生和计划生育委员会疾病预防控制局、中国健康教育中心、中华预防医学会的指导下制定的《中国高血压患者教育指南》中适合基层的评估方法，实用性强、使用范围广。',
+        null, 'HCD', '[1]吴兆苏,霍勇,王文,等. 中国高血压患者教育指南[J].中国医学前沿杂志(电子版),2014(3): 78-110.', '',
+        'HCD', 1, '2022-08-10 11:56:36.838', 1, '2022-10-26 10:09:51.674', 0);
+
+insert into qas_questions(id, examination_paper_id, questions_title, questions_type, questions_sort, created_by,
+                          updated_by, questions_tip)
+values (1901, 1900, '您既往血压高值为多少mmHg？', 'SHORT_ANSWER', 1, 1, 1, null),
+       (1903, 1900, '您是否有以下危险因素', 'MULTIPLE_CHOICE', 2, 1, 1, null),
+       (1904, 1900, '您是否有以下靶器官损害', 'MULTIPLE_CHOICE', 3, 1, 1, null),
+       (1905, 1900, '您是否有以下临床疾患', 'MULTIPLE_CHOICE', 4, 1, 1, null);
+insert into qas_option(id, questions_id, option_code, option_value, option_label, option_tip, option_sort, option_score,
+                       option_type, option_rule, created_by, updated_by)
+values (190101, 1901, '1', '', '您既往血压收缩压（高压）最高值为', '', 1, 0, 'INPUT', '{\"required\":true,\"isNumber\":true,\"min\":0,\"max\":300}', 1, 1),
+       (190201, 1901, '2', '', '您既往血压舒张压（低压）最低值为', '', 2, 0, 'INPUT', '{\"required\":true,\"isNumber\":true,\"min\":0,\"max\":200}', 1, 1),
+       (190301, 1903, 'Q2_A', 'Q2_A', '年龄男性>55岁，女性>60岁', '', 1, 0, 'SELECT', null, 1, 1),
+       (190302, 1903, 'Q2_B', 'Q2_B', '吸烟', '', 2, 0, 'SELECT', null, 1, 1),
+       (190303, 1903, 'Q2_C', 'Q2_C', '血脂异常', '', 3, 0, 'SELECT', null, 1, 1),
+       (190304, 1903, 'Q2_D', 'Q2_D', '早发心血管病家族史', '', 4, 0, 'SELECT', null, 1, 1),
+       (190305, 1903, 'Q2_E', 'Q2_E', '肥胖', '', 5, 0, 'SELECT', null, 1, 1),
+       (190306, 1903, 'Q2_F', 'Q2_F', '缺少体力活动', '', 6, 0, 'SELECT', null, 1, 1),
+       (190307, 1903, 'Q2_G', 'Q2_G', '高同型半胱氨酸血症', '', 7, 0, 'SELECT', null, 1, 1),
+       (190308, 1903, 'Q2_H', 'Q2_H', '无', '', 8, 0, 'SELECT', '{"single":true}', 1, 1),
+       (190401, 1904, 'Q3_A', 'Q3_A', '左心室肥厚', '', 1, 0, 'SELECT', null, 1, 1),
+       (190402, 1904, 'Q3_B', 'Q3_B', '颈动脉内中膜增厚、斑块', '', 2, 0, 'SELECT', null, 1, 1),
+       (190403, 1904, 'Q3_C', 'Q3_C', '肾功能受损', '', 3, 0, 'SELECT', null, 1, 1),
+       (190404, 1904, 'Q3_D', 'Q3_D', '颈股动脉脉搏传导速度≥12m/s', '', 4, 0, 'SELECT', null, 1, 1),
+       (190405, 1904, 'Q3_E', 'Q3_E', '无', '', 5, 0, 'SELECT', '{"single":true}', 1, 1),
+       (190501, 1905, 'Q4_A', 'Q4_A', '脑血管病', '', 1, 0, 'SELECT', null, 1, 1),
+       (190502, 1905, 'Q4_B', 'Q4_B', '心脏病', '', 2, 0, 'SELECT', null, 1, 1),
+       (190503, 1905, 'Q4_C', 'Q4_C', '肾脏病', '', 3, 0, 'SELECT', null, 1, 1),
+       (190504, 1905, 'Q4_D', 'Q4_D', '周围血管病', '', 4, 0, 'SELECT', null, 1, 1),
+       (190505, 1905, 'Q4_E', 'Q4_E', '视网膜病变', '', 5, 0, 'SELECT', null, 1, 1),
+       (190506, 1905, 'Q4_F', 'Q4_F', '糖尿病', '', 6, 0, 'SELECT', null, 1, 1),
+       (190507, 1905, 'Q4_G', 'Q4_G', '无', '', 7, 0, 'SELECT', '{"single":true}', 1, 1);

@@ -1,0 +1,4 @@
+update hs_health_scheme_management_info set kn_start_date  = kn_created_at where  kn_start_date is null;
+
+alter table hs_health_scheme_management_info
+    modify `kn_start_date` date not null comment '阶段开始时间';

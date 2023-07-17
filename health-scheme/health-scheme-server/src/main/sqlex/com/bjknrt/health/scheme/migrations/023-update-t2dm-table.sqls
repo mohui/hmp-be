@@ -1,0 +1,61 @@
+update hs_t2dm_visit set follow_way = 'SELF' where follow_way is null;
+update hs_t2dm_visit set is_symptom_none = false where is_symptom_none is null;
+update hs_t2dm_visit set is_symptom_drink = false where is_symptom_drink is null;
+update hs_t2dm_visit set is_symptom_eat = false where is_symptom_eat is null;
+update hs_t2dm_visit set is_symptom_diuresis = false where is_symptom_diuresis is null;
+update hs_t2dm_visit set is_symptom_blurred = false where is_symptom_blurred is null;
+update hs_t2dm_visit set is_symptom_infection = false where is_symptom_infection is null;
+update hs_t2dm_visit set is_symptom_hand_feet_numbness = false where is_symptom_hand_feet_numbness is null;
+update hs_t2dm_visit set is_symptom_lower_extremity_edema = false where is_symptom_lower_extremity_edema is null;
+update hs_t2dm_visit set is_symptom_weight_loss_diagnosed = false where is_symptom_weight_loss_diagnosed is null;
+update hs_t2dm_visit set is_signs_adp_normal = false where is_signs_adp_normal is null;
+update hs_t2dm_visit set is_signs_adp_recede = false where is_signs_adp_recede is null;
+update hs_t2dm_visit set is_signs_adp_recede_left = false where is_signs_adp_recede_left is null;
+update hs_t2dm_visit set is_signs_adp_recede_right = false where is_signs_adp_recede_right is null;
+update hs_t2dm_visit set is_signs_adp_vanish = false where is_signs_adp_vanish is null;
+update hs_t2dm_visit set is_signs_adp_vanish_left = false where is_signs_adp_vanish_left is null;
+update hs_t2dm_visit set is_signs_adp_vanish_right = false where is_signs_adp_vanish_right is null;
+update hs_t2dm_visit set life_cigarettes_per_day = 0 where life_cigarettes_per_day is null;
+update hs_t2dm_visit set life_alcohol_per_day = 0 where life_alcohol_per_day is null;
+update hs_t2dm_visit set life_sport_per_week = 0 where life_sport_per_week is null;
+update hs_t2dm_visit set life_sport_per_time = 0 where life_sport_per_time is null;
+update hs_t2dm_visit set life_food_situation = 0 where life_food_situation is null;
+update hs_t2dm_visit set life_follow_medical_advice = 'GOOD' where life_follow_medical_advice is null;
+update hs_t2dm_visit set glu = 0 where glu is null;
+update hs_t2dm_visit set HbA1c = 0 where HbA1c is null;
+update hs_t2dm_visit set HbA1c_date = now() where HbA1c_date is null;
+update hs_t2dm_visit set drug_compliance = 'LAW' where drug_compliance is null;
+update hs_t2dm_visit set is_adr = 0 where is_adr is null;
+update hs_t2dm_visit set rhg = 'NO' where rhg is null;
+
+
+ALTER TABLE `hs_t2dm_visit`
+    MODIFY COLUMN `follow_way` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '随访方式. SELF. 患者自填. OUTPATIENT. 门诊; FAMILY. 家庭; PHONE. 电话;ONLINE.线上' AFTER `doctor_name`,
+    MODIFY COLUMN `is_symptom_none` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '无症状' AFTER `follow_date`,
+    MODIFY COLUMN `is_symptom_drink` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '多饮' AFTER `is_symptom_none`,
+    MODIFY COLUMN `is_symptom_eat` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '多食' AFTER `is_symptom_drink`,
+    MODIFY COLUMN `is_symptom_diuresis` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '多尿' AFTER `is_symptom_eat`,
+    MODIFY COLUMN `is_symptom_blurred` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '视力模糊' AFTER `is_symptom_diuresis`,
+    MODIFY COLUMN `is_symptom_infection` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '感染' AFTER `is_symptom_blurred`,
+    MODIFY COLUMN `is_symptom_hand_feet_numbness` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '手脚麻木' AFTER `is_symptom_infection`,
+    MODIFY COLUMN `is_symptom_lower_extremity_edema` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '下肢浮肿' AFTER `is_symptom_hand_feet_numbness`,
+    MODIFY COLUMN `is_symptom_weight_loss_diagnosed` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '体重明显下降' AFTER `is_symptom_lower_extremity_edema`,
+    MODIFY COLUMN `is_signs_adp_normal` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '足背动脉搏动: 触及正常' AFTER `signs_bim`,
+    MODIFY COLUMN `is_signs_adp_recede` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '足背动脉搏动: 减弱-双侧' AFTER `is_signs_adp_normal`,
+    MODIFY COLUMN `is_signs_adp_recede_left` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '足背动脉搏动: 减弱-左侧' AFTER `is_signs_adp_recede`,
+    MODIFY COLUMN `is_signs_adp_recede_right` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '足背动脉搏动: 减弱-右侧' AFTER `is_signs_adp_recede_left`,
+    MODIFY COLUMN `is_signs_adp_vanish` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '足背动脉搏动: 消失-双侧' AFTER `is_signs_adp_recede_right`,
+    MODIFY COLUMN `is_signs_adp_vanish_left` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '足背动脉搏动: 消失-左侧' AFTER `is_signs_adp_vanish`,
+    MODIFY COLUMN `is_signs_adp_vanish_right` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '足背动脉搏动: 消失-右侧' AFTER `is_signs_adp_vanish_left`,
+    MODIFY COLUMN `life_cigarettes_per_day` tinyint UNSIGNED NOT NULL COMMENT '日吸烟量. 单位: 支' AFTER `signs_other`,
+    MODIFY COLUMN `life_alcohol_per_day` double UNSIGNED NOT NULL COMMENT '日饮酒量. 单位: 两' AFTER `life_cigarettes_per_day`,
+    MODIFY COLUMN `life_sport_per_week` double UNSIGNED NOT NULL COMMENT '每周运动次数. 单位: 次' AFTER `life_alcohol_per_day`,
+    MODIFY COLUMN `life_sport_per_time` double UNSIGNED NOT NULL COMMENT '每次运动时间. 单位: 分钟' AFTER `life_sport_per_week`,
+    MODIFY COLUMN `life_food_situation` double UNSIGNED NOT NULL COMMENT '主食. 单位: 克/天' AFTER `life_sport_per_time`,
+    MODIFY COLUMN `life_follow_medical_advice` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '遵医行为. GOOD: 良好; ORDINARY: 一般; BAD: 差' AFTER `life_mental_adjustment`,
+    MODIFY COLUMN `glu` double NOT NULL COMMENT '空腹血糖. 单位: mmol/L' AFTER `life_follow_medical_advice`,
+    MODIFY COLUMN `HbA1c` double NOT NULL COMMENT '糖化血糖蛋白值. 单位: %' AFTER `glu`,
+    MODIFY COLUMN `HbA1c_date` datetime NOT NULL COMMENT '糖化血糖蛋白检查日期' AFTER `HbA1c`,
+    MODIFY COLUMN `drug_compliance` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '服药依从性. LAW: 规律; GAP: 间断; NO: 不服药' AFTER `assist_other`,
+    MODIFY COLUMN `is_adr` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '有无药物不良反应' AFTER `drug_compliance`,
+    MODIFY COLUMN `rhg` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '低血糖反应. NO: 无; OCCASIONALLY: 偶尔; FREQUENTLY: 频繁' AFTER `adr_desc`;

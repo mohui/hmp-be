@@ -1,0 +1,62 @@
+-- 高血压用药题目
+INSERT INTO qas_examination_paper (id, examination_paper_title, examination_paper_desc,
+                                   examination_paper_tip, examination_paper_code,
+                                   examination_paper_reference, evaluation_time,
+                                   strategy_code, created_by, created_at, updated_by,
+                                   updated_at, is_del)
+VALUES (3300, '高血压用药评估', '', '', 'HYPERTENSION_DRUG_PROGRAM', '', '', 'DRUG_PROGRAM',
+        1, current_timestamp(), 1, current_timestamp(), 0);
+
+-- 录入高血压用药题目
+insert into qas_questions(id, examination_paper_id, questions_title, questions_type, questions_sort, created_by,
+                          updated_by, questions_tip, is_repeat_answer)
+values (330001, 3300, '您目前是否服用药物？', 'RADIO', 1, 1, 1, null, false),
+       (330002, 3300, '2. 请输入您目前正在服用的药物名称：', 'FILL_IN_THE_BLANK', 2, 1, 1, null, true),
+       (330003, 3300, '是否需要我们每天提醒您用药？', 'RADIO', 3, 1, 1, null, false);
+
+
+-- 录入高血压用药选项
+insert into qas_option(id, questions_id, option_code, option_value, option_label, option_tip, option_sort, option_score,
+                       option_type, option_rule, created_by, updated_by, is_auto_commit, forward_to)
+values (33000101, 330001, 'HYPERTENSION_DRUG_PROGRAM_330001_1', 'A', '是', '', 1, null, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (33000102, 330001, 'HYPERTENSION_DRUG_PROGRAM_330001_2', 'B', '否', '', 2, null, 'SELECT', '{"single":true}', 1, 1, false, null),
+
+       (33000201, 330002, 'HYPERTENSION_DRUG_PROGRAM_330002_1', '', '药物名称及规格：', '', 1, null, 'INPUT', null, 1, 1, false, null),
+       (33000202, 330002, 'HYPERTENSION_DRUG_PROGRAM_330002_2', '', '剂量：', '', 2, null, 'INPUT', null, 1, 1, false, null),
+       (33000203, 330002, 'HYPERTENSION_DRUG_PROGRAM_330002_3', '', '频次：', '', 3, null, 'INPUT', null, 1, 1, false, null),
+       (33000204, 330002, 'HYPERTENSION_DRUG_PROGRAM_330002_4', '', '时间：', '', 4, null, 'INPUT', null, 1, 1, false, null),
+
+       (33000301, 330003, 'HYPERTENSION_DRUG_PROGRAM_330003_1', 'A', '是', '', 1, null, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (33000302, 330003, 'HYPERTENSION_DRUG_PROGRAM_330003_2', 'B', '否', '', 2, null, 'SELECT', '{"single":true}', 1, 1, false, null);
+
+
+-- 糖尿病用药题目
+INSERT INTO qas_examination_paper (id, examination_paper_title, examination_paper_desc,
+                                   examination_paper_tip, examination_paper_code,
+                                   examination_paper_reference, evaluation_time,
+                                   strategy_code, created_by, created_at, updated_by,
+                                   updated_at, is_del)
+VALUES (3400, '糖尿病用药评估', '', '', 'DIABETES_DRUG_PROGRAM', '', '', 'DRUG_PROGRAM',
+        1, current_timestamp(), 1, current_timestamp(), 0);
+
+-- 录入糖尿病用药题目
+insert into qas_questions(id, examination_paper_id, questions_title, questions_type, questions_sort, created_by,
+                          updated_by, questions_tip, is_repeat_answer)
+values (340001, 3400, '您是否正在口服降糖药或注射胰岛素？', 'RADIO', 1, 1, 1, null, false),
+       (340002, 3400, '2. 请输入您目前正在服用的药物名称：', 'FILL_IN_THE_BLANK', 2, 1, 1, null, true),
+       (340003, 3400, '是否需要我们每天提醒您用药？', 'RADIO', 3, 1, 1, null, false);
+
+
+-- 录入糖尿病用药选项
+insert into qas_option(id, questions_id, option_code, option_value, option_label, option_tip, option_sort, option_score,
+                       option_type, option_rule, created_by, updated_by, is_auto_commit, forward_to)
+values (34000101, 340001, 'DIABETES_DRUG_PROGRAM_340001_1', 'A', '是', '', 1, null, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (34000102, 340001, 'DIABETES_DRUG_PROGRAM_340001_2', 'B', '否', '', 2, null, 'SELECT', '{"single":true}', 1, 1, false, null),
+
+       (34000201, 340002, 'DIABETES_DRUG_PROGRAM_340002_1', '', '药物名称及规格：', '', 1, null, 'INPUT', null, 1, 1, false, null),
+       (34000202, 340002, 'DIABETES_DRUG_PROGRAM_340002_2', '', '剂量：', '', 2, null, 'INPUT', null, 1, 1, false, null),
+       (34000203, 340002, 'DIABETES_DRUG_PROGRAM_340002_3', '', '频次：', '', 3, null, 'INPUT', null, 1, 1, false, null),
+       (34000204, 340002, 'DIABETES_DRUG_PROGRAM_340002_4', '', '时间：', '', 4, null, 'INPUT', null, 1, 1, false, null),
+
+       (34000301, 340003, 'DIABETES_DRUG_PROGRAM_340003_1', 'A', '是', '', 1, null, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (34000302, 340003, 'DIABETES_DRUG_PROGRAM_340003_2', 'B', '否', '', 2, null, 'SELECT', '{"single":true}', 1, 1, false, null);

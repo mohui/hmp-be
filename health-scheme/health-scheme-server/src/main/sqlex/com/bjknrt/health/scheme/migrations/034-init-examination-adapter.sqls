@@ -1,0 +1,25 @@
+DROP TABLE `hs_sport_taboo_info`;
+
+CREATE TABLE `hs_manage_detail_examination_adapter`
+(
+    `kn_id`                      BIGINT(20) UNSIGNED NOT NULL COMMENT '主键ID',
+    `kn_patient_id`              BIGINT(20) UNSIGNED NOT NULL COMMENT '患者id',
+    `kn_health_manage_scheme_id` BIGINT(20) UNSIGNED NOT NULL COMMENT '健康方案ID',
+    `kn_examination_paper_code`  VARCHAR(50)         NOT NULL COMMENT '问卷CODE',
+    `kn_answer_record_id`        BIGINT(20) UNSIGNED NOT NULL COMMENT '答题记录ID',
+    `kn_answer_result_id`        BIGINT(20) UNSIGNED NOT NULL COMMENT '答题结果ID',
+    `kn_questions_id`            BIGINT(20) UNSIGNED NOT NULL COMMENT '题目Id',
+    `kn_option_id`               BIGINT(20) UNSIGNED NOT NULL COMMENT '选项ID',
+    `kn_option_label`            VARCHAR(255)                 DEFAULT NULL COMMENT '选项名称',
+    `kn_message`                 text                         DEFAULT NULL COMMENT '扩展信息',
+    `is_del`                     boolean             NOT NULL DEFAULT false COMMENT '是否删除',
+    `kn_created_by`              BIGINT(20) UNSIGNED NOT NULL COMMENT '创建人',
+    `kn_created_at`              datetime(3)         NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+    PRIMARY KEY (`kn_id`)
+) ENGINE = INNODB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin COMMENT = '健康方案详情问卷适配表';
+CREATE INDEX hmdea_patient_scheme_id_paper_code_idx ON `hs_manage_detail_examination_adapter` (
+                                                                                               `kn_patient_id`,
+                                                                                               `kn_health_manage_scheme_id`,
+                                                                                               `kn_examination_paper_code`)

@@ -1,0 +1,56 @@
+INSERT INTO qas_examination_paper (id, examination_paper_title, examination_paper_desc,
+                                   examination_paper_tip, examination_paper_code,
+                                   examination_paper_reference, evaluation_time,
+                                   strategy_code, created_by, created_at, updated_by,
+                                   updated_at, is_del)
+VALUES (1800, '糖尿病发病风险评估',
+        '该评估量表为中国糖尿病风险评分表，主要是对20~74岁普通人群进行糖尿病风险评估。该评分表的制定源自2007年至2008年全国14省市的糖尿病流行病学调查数据，评分值的范围为0~51分， 总分≥25分者应进行OGTT（口服葡萄糖耐量实验）。',
+        null, 'AI_2DM', '中国2型糖尿病防治指南(2020年版)(上)[J].中国实用内科杂志,2021,41(08): 668-695.', '', 'AI_2DM',
+        1, '2022-08-10 11:56:36.838', 1, '2022-10-26 10:09:51.871', 0);
+
+insert into qas_questions(id, examination_paper_id, questions_title, questions_type, questions_sort, created_by,
+                          updated_by, questions_tip)
+values (1801, 1800, '您的年龄是多少岁', 'SHORT_ANSWER', 1, 1, 1, null),
+       (1802, 1800, '您血压的收缩压（高值）值为多少（mmHg）', 'SHORT_ANSWER', 2, 1, 1, null),
+       (1803, 1800, '您的性别', 'RADIO', 3, 1, 1, null),
+       (1804, 1800, '您的体质指数是多少（kg/m^2）', 'SHORT_ANSWER', 4, 1, 1, null),
+       (1805, 1800, '您的腰围是多少（cm）', 'SHORT_ANSWER', 5, 1, 1, null),
+       (1806, 1800, '您的亲戚（父母、同胞、子女）是否被诊断患有糖尿病', 'RADIO', 6, 1, 1, null);
+insert into qas_option(id, questions_id, option_code, option_value, option_label, option_tip, option_sort, option_score,
+                       option_type, option_rule, created_by, updated_by)
+values (180101, 1801, '', '', '', '', 1, 0, 'INPUT', NULL, 1, 1),
+       (180201, 1802, '', '', '', '', 1, 0, 'INPUT', '{\"required\":true,\"isNumber\":true,\"min\":0,\"max\":300}', 1, 1),
+       (180301, 1803, 'MAN', 'MAN', '男', '', 1, 2, 'SELECT', '{"single":true}', 1, 1),
+       (180302, 1803, 'FEMAN', 'FEMAN', '女', '', 2, 0, 'SELECT', '{"single":true}', 1, 1),
+       (180401, 1804, '', '', '', '', 1, 0, 'INPUT', NULL, 1, 1),
+       (180501, 1805, '', '', '', '', 1, 0, 'INPUT', NULL, 1, 1),
+       (180601, 1806, 'YES', 'YES', '是', '', 3, 6, 'SELECT', '{"single":true}', 1, 1),
+       (180602, 1806, 'NO', 'NO', '否', '', 4, 0, 'SELECT', '{"single":true}', 1, 1);
+insert into qas_interpretation_of_results(id, examination_paper_id, min_value, max_value, results_tag, results_msg,
+                                          created_by, updated_by)
+values (1809, 1800, 0, 24, '发生糖尿病风险不高', '建议积极践行健康生活方式，如合理膳食、坚持运动、戒烟限酒等预防糖尿病。',
+        1, 1),
+       (1810, 1800, 25, 51, '发生糖尿病的风险较高', '应在医生的指导下进行糖尿病诊断检查。
+1、运动种类：有氧运动
+运动方式：步行、慢跑、走跑交替、广场舞、广播操、健身保健操、上下楼梯、游泳、自行车、功率自行车、跑步机、跳绳、划船、滑雪、太极拳(剑)、养身功法等。
+运动强度、时间与频率：
+（1）每周进行最少150分钟中等强度身体活动;
+（2）每天进行30~60分钟中等强度运动(每周5天);可一次性完成，也可分成小段;
+（3）逐渐增加运动的时间、频率及强度可以减少受伤的风险并且更易于坚持运动;
+（4）即使达不到最小推荐量,只要运动,也可以获得益处。
+
+2、运动种类：抗阻运动
+运动方式：自重训练(即徒手力量练 习)如平板支撑、俯卧撑、仰卧起坐,器材锻炼如弹力带、哑铃等。
+运动强度、时间与频率：
+（1）采用各种练习和器材锻炼全身的每个大肌肉群，2~3次/周;
+（2）久坐不动的人群应从很轻或轻强度开始;
+（3）每个练习2~4组;
+（4）提高肌肉耐力15~20次/组,增加力量则8~12次/组:每组肌肉群,每次训练之间休息 48 小时。
+
+3、运动种类：伸展及柔韧性运动
+运动方式：静态、动态及本体感觉神经肌肉促进术
+运动强度、时间与频率：
+（1）每周最少做 2~3 次柔韧性锻炼来增加关节活动度，最好每天做;
+（2）每个拉伸练习的强度应该达到紧张或有点不舒服，并在此情况下保持10~30秒;
+（3）每个拉伸重复2~4次,累计60秒;
+（4）柔韧性练习在肌肉预热的情况下进行较好,比如在拉伸之前进行轻度的有氧活动或洗热水澡。', 1, 1);

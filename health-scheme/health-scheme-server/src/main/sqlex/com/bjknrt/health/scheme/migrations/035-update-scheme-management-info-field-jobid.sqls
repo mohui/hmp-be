@@ -1,0 +1,7 @@
+-- 数据库Schema描述文件, 执行DDL操作
+
+ALTER TABLE `hs_health_scheme_management_info`
+    MODIFY COLUMN `kn_job_id` varchar(100) NULL DEFAULT NULL COMMENT '任务id' AFTER `kn_patient_id`;
+
+ALTER TABLE `hs_hsm_health_plan`
+    MODIFY COLUMN `kn_job_id` varchar(100) NULL DEFAULT NULL COMMENT '任务id' AFTER `is_del`;

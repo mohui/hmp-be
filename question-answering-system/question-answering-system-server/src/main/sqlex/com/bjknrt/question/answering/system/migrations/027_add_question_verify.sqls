@@ -1,0 +1,5 @@
+alter table qas_questions
+    add match_reg_exp varchar(255)  null comment '题目的选择结果符合正则进行下一步操作，不符合提示匹配失败的消息';
+
+alter table qas_questions
+    add match_fail_msg varchar(255)  null comment '提示匹配失败的消息';

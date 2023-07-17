@@ -1,0 +1,34 @@
+create table medication_guide_category_type
+(
+    category_type_id   bigint primary key comment '主键',
+    category_type_name varchar(100) comment '名称'
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4 COMMENT ='用药指导-分类类型列表';
+
+-- 增加手动数据
+insert into medication_guide_category_type
+values (0, '报警药品分类');
+
+create table medication_guide_category
+(
+    category_id        bigint       not null comment '主键',
+    category_name      varchar(100) not null comment '名称',
+    category_type_id   bigint       not null comment '分类类别 0-报警药品分类 1-药理分类',
+    category_parent_id bigint comment '所属上级',
+    dose_form_id       bigint comment '剂型id(报警药品分类时使用)',
+    route_id           bigint comment '给药途径id(报警药品分类时使用)',
+    constraint pk_medication_guide_category primary key (category_id, category_type_id)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4 COMMENT ='用药指导-分类列表';
+
+create table medication_guide_category_generic
+(
+    category_id      bigint not null comment '报警分类id',
+    category_type_id bigint comment '分类类别 0-报警药品分类 1-药理分类',
+    generic_id       bigint not null comment '通用名id',
+    constraint pk_medication_guide_category_generic primary key (category_id, category_type_id, generic_id)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4 COMMENT ='用药指导-分类与通用名列表';

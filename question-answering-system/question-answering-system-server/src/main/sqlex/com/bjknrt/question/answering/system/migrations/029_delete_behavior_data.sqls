@@ -1,0 +1,15 @@
+-- 清除行为习惯随访的选项、问题.（原先问卷数据可以复用，无需删除）
+DELETE
+FROM qas_option
+where questions_id in
+      (140001, 140002, 140003, 140004, 140005, 140006, 140007, 140008, 140009, 140010, 140011, 140012, 140013, 140014);
+
+DELETE
+FROM qas_questions
+WHERE examination_paper_id = 1400;
+
+-- 清除原先行为习惯随访的题干图片数据
+DELETE
+FROM qas_questions_image
+WHERE id IN (1, 2, 3, 4)
+

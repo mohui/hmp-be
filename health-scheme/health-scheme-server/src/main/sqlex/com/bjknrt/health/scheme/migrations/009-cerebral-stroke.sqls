@@ -1,0 +1,81 @@
+CREATE TABLE `hs_cerebral_stroke_stage_statistics`
+(
+    `id`                            bigint(20) unsigned NOT NULL,
+    `stage_report_id`               bigint(20) unsigned NOT NULL COMMENT '阶段性报告id',
+    `mrs_score`                     decimal(5, 2)       NOT NULL COMMENT '本次mrs评分',
+    `barthel_score`                 decimal(5, 2)       NOT NULL COMMENT '本次barthel评分',
+    `eq5d_score`                    decimal(5, 2)       NOT NULL COMMENT '本次eq5d评分',
+    `mrs_score_deviation_value`     decimal(5, 2)       NULL COMMENT '本次mrs评分与上次mrs评分的差',
+    `barthel_score_deviation_value` decimal(5, 2)       NULL COMMENT '本次barthel评分与上次barthel评分的差',
+    `eq5d_score_deviation_value`    decimal(5, 2)       NULL COMMENT '本次eq5d评分与上次eq5d评分的差',
+    `score_deviation_value`         decimal(5, 2)       NULL COMMENT '本次报告得分与上次报告得分的差值',
+    `abnormal_data_alert_msg`       varchar(2048)       NULL COMMENT '异常数据提醒消息',
+    `created_by`                    bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `created_at`                    datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='脑卒中阶段性统计';
+
+CREATE TABLE `hs_cerebral_stroke_stage_statistics_detail`
+(
+    `id`                              bigint(20) unsigned NOT NULL,
+    `stage_report_id`                 bigint(20) unsigned NOT NULL COMMENT '阶段性报告id',
+    `systolic_blood_pressure`         decimal(5, 2)       NOT NULL COMMENT '收缩压',
+    `diastolic_blood_pressure`        decimal(5, 2)       NOT NULL COMMENT '舒张压',
+    `is_systolic_blood_pressure_max`  tinyint(1)          NOT NULL COMMENT '是否是收缩压最大值',
+    `is_diastolic_blood_pressure_max` tinyint(1)          NOT NULL COMMENT '是否是舒张压最大值',
+    `measure_datetime`                datetime            NOT NULL COMMENT '测量时间',
+    `created_by`                      bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `created_at`                      datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='脑卒中段性统计明细';
+
+drop table `hs_cerebral_stroke_visit`;
+
+
+CREATE TABLE `hs_cerebral_stroke_visit`
+(
+    `id`                                 bigint(20) unsigned NOT NULL,
+    `patient_id`                         bigint(20) unsigned NOT NULL COMMENT '患者id',
+    `doctor_id`                          bigint(20) unsigned NOT NULL COMMENT '随访医生id',
+    `mrs_score`                          decimal(5, 2)       NOT NULL COMMENT 'mrs评分',
+    `barthel_score`                      decimal(5, 2)       NOT NULL COMMENT 'barthel评分',
+    `eq5d_score`                         decimal(5, 2)       NOT NULL COMMENT 'eq5d评分',
+    `prevention_drug`                    varchar(16)         NOT NULL COMMENT '是否标准二级预防用药(SAA-单药抗血小板,DA-双联抗血小板，AA-抗凝抗血小板+抗凝,UM-未标准用药)',
+    `is_lipid_lowering_therapy`          tinyint(1)          NOT NULL COMMENT '是否标准降脂治疗',
+    `is_regular_medication`              tinyint(1)          NOT NULL COMMENT '是否遵从医嘱按时规律服药',
+    `is_high_risk_factors_standard`      tinyint(1)          NOT NULL COMMENT '下列高危因素控制是否达标：高血压、糖代谢异常、血脂异常、心脏病、无症状性颈动脉粥样硬化、生活方式',
+    `is_pain_cause_head`                 tinyint(1)          NOT NULL COMMENT '疼痛-头痛',
+    `is_pain_cause_arthrosis`            tinyint(1)          NOT NULL COMMENT '疼痛-关节痛',
+    `is_pain_cause_shoulder`             tinyint(1)          NOT NULL COMMENT '疼痛-肩痛',
+    `is_pain_cause_nerve`                tinyint(1)          NOT NULL COMMENT '疼痛-中枢性疼痛（多因触摸、接触水或运动而加重 ）',
+    `is_pain_cause_none`                 tinyint(1)          NOT NULL COMMENT '疼痛-无 ',
+    `is_fall`                            tinyint(1)          NOT NULL COMMENT '跌倒 ',
+    `normal_recover_days`                int                 NOT NULL COMMENT '常规康复-发病后多久启动康复(数值输入，整数（天）) ',
+    `normal_recover_frequency`           int                 NOT NULL COMMENT '常规康复-训练频次： （次/周）',
+    `normal_recover_time`                decimal(5, 2)       NOT NULL COMMENT '常规康复-训练时长： （小时/周）',
+    `is_normal_recover_sport`            tinyint(1)          NOT NULL COMMENT '常规康复-运动疗法 ',
+    `is_normal_recover_work`             tinyint(1)          NOT NULL COMMENT '常规康复-作业疗法 ',
+    `is_normal_recover_acknowledge`      tinyint(1)          NOT NULL COMMENT '常规康复-认知训练 ',
+    `is_normal_recover_parole`           tinyint(1)          NOT NULL COMMENT '常规康复-言语训练 ',
+    `is_normal_recover_swallow`          tinyint(1)          NOT NULL COMMENT '常规康复-吞咽训练 ',
+    `is_normal_recover_none`             tinyint(1)          NOT NULL COMMENT '常规康复-以上都不选',
+    `intelligent_recover_days`           int                 NOT NULL COMMENT '智能康复-发病后多久启动康复(数值输入，整数（天）) ',
+    `intelligent_recover_frequency`      int                 NOT NULL COMMENT '智能康复-训练频次： （次/周）',
+    `intelligent_recover_time`           decimal(5, 2)       NOT NULL COMMENT '智能康复-训练时长： （小时/周）',
+    `is_intelligent_recover_sport`       tinyint(1)          NOT NULL COMMENT '智能康复-运动疗法 ',
+    `is_intelligent_recover_work`        tinyint(1)          NOT NULL COMMENT '智能康复-作业疗法 ',
+    `is_intelligent_recover_acknowledge` tinyint(1)          NOT NULL COMMENT '智能康复-认知训练 ',
+    `is_intelligent_recover_parole`      tinyint(1)          NOT NULL COMMENT '智能康复-言语训练 ',
+    `is_intelligent_recover_swallow`     tinyint(1)          NOT NULL COMMENT '智能康复-吞咽训练 ',
+    `is_intelligent_recover_none`        tinyint(1)          NOT NULL COMMENT '智能康复-以上都不选',
+    `created_by`                         bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `created_at`                         datetime            NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='脑卒中患者随访表';
+

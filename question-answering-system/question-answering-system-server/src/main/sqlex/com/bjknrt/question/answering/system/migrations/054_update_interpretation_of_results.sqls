@@ -1,0 +1,2 @@
+-- 数据库Schema描述文件, 执行DDL操作
+update qas_interpretation_of_results set results_tag = '日常生活活动完全自理', max_value = 105 where id = 2395;

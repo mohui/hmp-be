@@ -1,0 +1,28 @@
+-- 足背动脉搏动-正常
+ALTER TABLE `hs_t2dm_visit` DROP COLUMN `is_signs_adp_normal`;
+-- 足背动脉搏动-减弱
+ALTER TABLE `hs_t2dm_visit` DROP COLUMN `is_signs_adp_recede`;
+ALTER TABLE `hs_t2dm_visit` DROP COLUMN `is_signs_adp_recede_left`;
+ALTER TABLE `hs_t2dm_visit` DROP COLUMN `is_signs_adp_recede_right`;
+-- 足背动脉搏动-消失
+ALTER TABLE `hs_t2dm_visit` DROP COLUMN `is_signs_adp_vanish`;
+ALTER TABLE `hs_t2dm_visit` DROP COLUMN `is_signs_adp_vanish_left`;
+ALTER TABLE `hs_t2dm_visit` DROP COLUMN `is_signs_adp_vanish_right`;
+-- 足背动脉搏动-其他
+ALTER TABLE `hs_t2dm_visit` DROP COLUMN `signs_other`;
+
+-- 足背动脉搏动左侧改为枚举
+ALTER TABLE `hs_t2dm_visit`
+ADD COLUMN `signs_adp_left` varchar(50) NULL COMMENT '足背动脉搏动左侧:NORMAL-正常,RECEDE-减弱,VANISH-消失' AFTER `signs_bim`;
+-- 足背动脉搏动右侧改为枚举
+ALTER TABLE `hs_t2dm_visit`
+ADD COLUMN `signs_adp_right` varchar(50) NULL COMMENT '足背动脉搏动右侧:NORMAL-正常,RECEDE-减弱,VANISH-消失' AFTER `signs_adp_left`;
+
+update hs_t2dm_visit set signs_adp_left = 'NORMAL' where signs_adp_left is null;
+update hs_t2dm_visit set signs_adp_right = 'NORMAL' where signs_adp_right is null;
+
+-- 改为必填
+ALTER TABLE `hs_t2dm_visit`
+    MODIFY COLUMN `signs_adp_left` varchar(50) NOT NULL COMMENT '足背动脉搏动左侧:NORMAL-正常,RECEDE-减弱,VANISH-消失' AFTER `signs_bim`;
+ALTER TABLE `hs_t2dm_visit`
+    MODIFY COLUMN `signs_adp_right` varchar(50) NOT NULL COMMENT '足背动脉搏动左侧:NORMAL-正常,RECEDE-减弱,VANISH-消失' AFTER `signs_adp_left`;

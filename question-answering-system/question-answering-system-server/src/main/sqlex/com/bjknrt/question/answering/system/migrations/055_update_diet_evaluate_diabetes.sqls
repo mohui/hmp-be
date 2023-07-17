@@ -1,0 +1,13 @@
+-- 更改第7题为多选
+update qas_questions
+set questions_type='MULTIPLE_CHOICE'
+where id = 360007;
+
+update qas_option
+set option_rule = null
+where id in (36000701, 36000702, 36000703);
+
+-- 新增第7题的无选项
+insert into qas_option(id, questions_id, option_code, option_value, option_label, option_tip, option_sort, option_score,
+                       option_type, option_rule, created_by, updated_by, is_auto_commit, forward_to)
+values (36000704, 360007, 'DIET_EVALUATE_360007_4', 'd', '无', '', 4, 0, 'SELECT', '{"single":true}', 1, 1, false, null);

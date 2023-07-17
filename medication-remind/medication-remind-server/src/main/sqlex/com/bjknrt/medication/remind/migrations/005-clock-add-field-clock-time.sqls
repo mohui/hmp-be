@@ -1,0 +1,5 @@
+-- 数据库Schema描述文件, 执行DDL操作
+ALTER TABLE `mr_clock_in`
+    ADD COLUMN `kn_clock_at` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '打卡时间' AFTER `kn_time`;
+
+update mr_clock_in set kn_clock_at = kn_created_at where kn_created_at < now()

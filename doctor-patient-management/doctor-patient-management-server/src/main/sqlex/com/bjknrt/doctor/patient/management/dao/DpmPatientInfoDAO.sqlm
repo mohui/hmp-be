@@ -1,0 +1,192 @@
+import java.math.BigInteger
+
+# 根据地区和机构ID获取患者信息
+pagePatientInfoByRegionOrg*(orgIds:BigInteger*, regionIds:BigInteger*, doctorId:BigInteger, keyword:String,
+                            hypertensionCrowdType:String, diabetesCrowdType:String, acuteCoronaryCrowdType:String,
+                            cerebralStrokeCrowdType:String, copdCrowdType:String, crowdTypeAnyMatch:Boolean, status:String,
+                            sevenDaysNotLoginStatus:Boolean, notHaveServicePackage:Boolean, healthManageTypeList:String*,
+                            messageStatus:String) {
+    WITH recursive
+        region_temp (kn_code, kn_name, kn_parent_code, kn_level_code)
+            AS (SELECT ureg.kn_code,
+                       ureg.kn_name,
+                       ureg.kn_parent_code,
+                       ureg.kn_level_code
+                FROM upcs.upcs_region ureg
+                WHERE (:regionIds is null or ureg.kn_code in (:regionIds))
+                  and :regionIds is not null
+                UNION ALL
+                SELECT d1.kn_code,
+                       d1.kn_name,
+                       d1.kn_parent_code,
+                       d1.kn_level_code
+                FROM upcs.upcs_region d1
+                         inner join region_temp d2 on d1.kn_parent_code = d2.kn_code
+                WHERE d1.kn_level_code <= 4),
+        health_manage_info AS (SELECT kn_id, kn_patient_id, kn_health_manage_type
+                               FROM hs.hs_health_scheme_management_info hhsmi
+                               WHERE hhsmi.kn_id IN (SELECT MAX(kn_id)
+                                                     FROM hs.hs_health_scheme_management_info
+                                                     WHERE is_del = FALSE
+                                                     GROUP BY kn_patient_id)
+                                 AND hhsmi.kn_created_at <= NOW()
+                                 AND (hhsmi.kn_end_date IS NULL OR NOW() < hhsmi.kn_end_date))
+    select p.kn_id,
+           p.kn_name,
+           p.kn_gender,
+           p.kn_phone,
+           p.kn_id_card,
+           p.kn_synthesis_disease_tag,
+           p.kn_hypertension_disease_tag,
+           p.kn_diabetes_disease_tag,
+           p.kn_acute_coronary_disease_tag,
+           p.kn_cerebral_stroke_disease_tag,
+           p.kn_copd_disease_tag,
+           p.is_pmh_essential_hypertension,
+           p.is_pmh_type_two_diabetes,
+           p.is_pmh_coronary_heart_disease,
+           p.is_pmh_cerebral_infarction,
+           p.is_pmh_copd,
+           p.is_pmh_dyslipidemia_hyperlipidemia,
+           p.is_pmh_diabetic_retinopathy,
+           p.is_pmh_diabetic_nephropathy,
+           p.is_pmh_diabetic_foot,
+           p.is_seven_days_not_login,
+           ddp.kn_bind_doctor_datetime,
+           ddp.kn_status,
+           ddp.kn_message_status,
+           ddp.kn_message_num,
+           ddi.kn_id                                 AS kn_doctor_id,
+           ddi.kn_name                               AS kn_doctor_name,
+           ddi.kn_gender                             AS kn_doctor_gender,
+           ddi.kn_phone                              AS kn_doctor_phone,
+           ddi.kn_hospital_id                        AS kn_doctor_hospital_id,
+           ddi.kn_hospital_name                      AS kn_doctor_hospital_name,
+           ddi.kn_dept_name                          AS kn_doctor_dept_name,
+           group_concat(uphs.health_service_id) AS kn_health_service_id_str,
+           hmi.kn_health_manage_type                 AS kn_health_manage_type
+    FROM dpm_patient_info AS p
+             LEFT JOIN dpm_doctor_patient ddp ON p.kn_id = ddp.kn_patient_id
+             LEFT JOIN dpm_doctor_info ddi ON ddp.kn_doctor_id = ddi.kn_id AND ddi.kn_del = 0
+             LEFT JOIN upcs.upcs_patient_health_service uphs ON uphs.patient_id = p.kn_id  AND (uphs.expire_date IS NULL OR uphs.expire_date >= NOW())  AND uphs.health_service_id not in (2022090101, 2022090104)
+             LEFT JOIN health_manage_info hmi ON hmi.kn_patient_id = p.kn_id
+    WHERE p.kn_del = 0
+      AND ddi.kn_id IS NOT NULL
+      AND (
+            :doctorId is null
+            OR ddp.kn_doctor_id = :doctorId
+        )
+      AND (
+            :keyword is null
+            OR p.kn_phone LIKE concat('%', :keyword, '%')
+            OR p.kn_name LIKE concat('%', :keyword, '%')
+        )
+      AND (
+            (:crowdTypeAnyMatch = true)
+            OR (
+                    ((:hypertensionCrowdType is null) OR (p.is_pmh_essential_hypertension = 1))
+                    AND
+                    ((:diabetesCrowdType is null) OR (p.is_pmh_type_two_diabetes = 1))
+                    AND
+                    ((:acuteCoronaryCrowdType is null) OR (p.is_pmh_coronary_heart_disease = 1))
+                    AND
+                    ((:cerebralStrokeCrowdType is null) OR (p.is_pmh_cerebral_infarction = 1))
+                    AND
+                    ((:copdCrowdType is null) OR (p.is_pmh_copd = 1))
+                )
+        )
+      AND (
+            (:crowdTypeAnyMatch = false)
+            OR (
+                    ((:hypertensionCrowdType is not null) AND (p.is_pmh_essential_hypertension = 1))
+                    OR
+                    ((:diabetesCrowdType is not null) AND (p.is_pmh_type_two_diabetes = 1))
+                    OR
+                    ((:acuteCoronaryCrowdType is not null) AND (p.is_pmh_coronary_heart_disease = 1))
+                    OR
+                    ((:cerebralStrokeCrowdType is not null) AND (p.is_pmh_cerebral_infarction = 1))
+                    OR
+                    ((:copdCrowdType is not null) AND (p.is_pmh_copd = 1))
+                )
+        )
+      AND (
+            :status is null
+            OR ddp.kn_status = :status
+        )
+      AND (
+            :sevenDaysNotLoginStatus = false
+            OR p.is_seven_days_not_login = true
+        )
+      AND ddi.kn_id in (select uuit.kn_user_id
+                        from upcs.upcs_user_identity_tag uuit
+                                 inner join upcs.upcs_user uu on uu.kn_id = uuit.kn_user_id
+                        where uuit.is_del = false
+                          and uu.is_del = false
+                          and uuit.kn_identify_tag in ('DOCTOR', 'NURSE')
+                          and (
+                                (:orgIds is null and :regionIds is null)
+                                or (:orgIds is not null and uu.kn_id in (select uuo.kn_user_id
+                                                                         from upcs.upcs_user_org uuo
+                                                                         where uuo.is_del = false
+                                                                           and uuo.kn_org_id in (:orgIds)))
+                                or uu.kn_id in (select uure.kn_user_id
+                                                from upcs.upcs_user_region uure
+                                                where uure.is_del = false
+                                                  and uure.kn_region_code in
+                                                      (select kn_code from region_temp))
+                                or uu.kn_id in (select uuo.kn_user_id
+                                                from upcs.upcs_user_org uuo,
+                                                     upcs.upcs_org uo
+                                                where uuo.is_del = false
+                                                  and uo.is_del = false
+                                                  and uuo.kn_org_id = uo.kn_id
+                                                  and uo.kn_region_code in (select kn_code from region_temp))
+                            ))
+      AND ((:healthManageTypeList IS NULL AND :notHaveServicePackage = false) OR
+           (hmi.kn_health_manage_type IN (:healthManageTypeList)
+               OR
+            (:notHaveServicePackage = true AND (uphs.health_service_id IS NULL OR LENGTH(uphs.health_service_id) = 0)))
+        )
+      AND ( :messageStatus IS NULL OR ddp.kn_message_status = :messageStatus
+        )
+    GROUP BY p.kn_id,
+             p.kn_name,
+             p.kn_gender,
+             p.kn_phone,
+             p.kn_id_card,
+             p.kn_synthesis_disease_tag,
+             p.kn_hypertension_disease_tag,
+             p.kn_diabetes_disease_tag,
+             p.kn_acute_coronary_disease_tag,
+             p.kn_cerebral_stroke_disease_tag,
+             p.kn_copd_disease_tag,
+             p.is_seven_days_not_login,
+             ddp.kn_bind_doctor_datetime,
+             ddp.kn_status,
+             ddp.kn_message_status,
+             ddp.kn_message_num,
+             ddi.kn_id,
+             ddi.kn_name,
+             ddi.kn_gender,
+             ddi.kn_phone,
+             ddi.kn_hospital_id,
+             ddi.kn_hospital_name,
+             ddi.kn_dept_name,
+             hmi.kn_health_manage_type
+
+    ORDER BY FIELD(ddp.kn_message_status, 'NONE', 'READ', 'UNREAD') DESC,
+             p.is_seven_days_not_login  DESC,
+             FIELD(ddp.kn_status, 'NONE', 'SUCCESS', 'MAKE_PLAN', 'START_ASSESS') DESC,
+             ddp.kn_bind_doctor_datetime DESC
+}
+
+findServicePackageList(ids:BigInteger*) {
+    select health_service_id,
+           health_service_code,
+           health_service_name,
+           during_time,
+           created_by,
+           created_at
+    from upcs.upcs_health_service
+    where health_service_id in (:ids)
+}

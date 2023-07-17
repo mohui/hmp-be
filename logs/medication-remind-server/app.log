@@ -1,0 +1,84 @@
+2023-05-15 09:20:52.060  WARN 45800 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=14h57m35s331ms).
+2023-05-15 10:27:02.877  INFO 45800 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-05-15 10:27:02.899  INFO 45800 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-05-15 15:38:51.385  INFO 79325 --- [restartedMain] .m.r.MedicationRemindServerApplicationKt : Starting MedicationRemindServerApplicationKt using Java 17.0.6 on wanghehuideMacBookPro.local with PID 79325 (/Users/wanghehui/projects/java/hmp-be/medication-remind/medication-remind-server/build/classes/kotlin/main started by wanghehui in /Users/wanghehui/projects/java/hmp-be)
+2023-05-15 15:38:51.387 DEBUG 79325 --- [restartedMain] .m.r.MedicationRemindServerApplicationKt : Running with Spring Boot v2.6.8, Spring v5.3.21
+2023-05-15 15:38:51.388  INFO 79325 --- [restartedMain] .m.r.MedicationRemindServerApplicationKt : The following 1 profile is active: "dev-local"
+2023-05-15 15:38:54.101  INFO 79325 --- [restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=f4ed3c96-a7d4-3795-9a02-7e17ca32148a
+2023-05-15 15:38:54.858  INFO 79325 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2023-05-15 15:38:54.873  INFO 79325 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-05-15 15:38:54.874  INFO 79325 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.63]
+2023-05-15 15:38:55.040  INFO 79325 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-05-15 15:38:55.041  INFO 79325 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3300 ms
+2023-05-15 15:38:55.475  INFO 79325 --- [restartedMain] o.s.c.openfeign.FeignClientFactoryBean   : For 'user-permission-centre-server' URL not provided. Will try picking an instance via load-balancing.
+2023-05-15 15:38:55.549 DEBUG 79325 --- [restartedMain] o.s.b.w.s.ServletContextInitializerBeans : Mapping filters: filterRegistrationBean urls=[/*] order=-2147483647, springSecurityFilterChain urls=[/*] order=-100, filterRegistrationBean urls=[/*] order=2147483647, characterEncodingFilter urls=[/*] order=-2147483648, formContentFilter urls=[/*] order=-9900, requestContextFilter urls=[/*] order=-105, jwtAuthenticationFilter urls=[/*] order=2147483647
+2023-05-15 15:38:55.549 DEBUG 79325 --- [restartedMain] o.s.b.w.s.ServletContextInitializerBeans : Mapping servlets: dispatcherServlet urls=[/]
+2023-05-15 15:38:55.595 DEBUG 79325 --- [restartedMain] c.b.security.JwtAuthenticationFilter     : Filter 'jwtAuthenticationFilter' configured for use
+2023-05-15 15:38:55.770  WARN 79325 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : Unable to start LiveReload server
+2023-05-15 15:38:55.880  INFO 79325 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-05-15 15:38:56.378  INFO 79325 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-05-15 15:38:56.400  INFO 79325 --- [restartedMain] me.danwi.sqlex.core.migration.Migrator   : 准备将数据库(com.bjknrt.medication.remind)迁移到 10 版本
+2023-05-15 15:38:57.001  INFO 79325 --- [restartedMain] p6spy                                    : 
+连接ID：0 | 当前时间：2023-05-15 15:38:57 | 执行时间：11ms 
+ statement: create table if not exists _sqlex_version_(package text not null, version int not null, can_migrate bool not null) 
+2023-05-15 15:38:57.051  INFO 79325 --- [restartedMain] p6spy                                    : 
+连接ID：1 | 当前时间：2023-05-15 15:38:57 | 执行时间：17ms 
+ statement: lock tables _sqlex_version_ write 
+2023-05-15 15:38:57.052  INFO 79325 --- [restartedMain] me.danwi.sqlex.core.migration.Migrator   : 获取到全局锁,准备开始迁移
+2023-05-15 15:38:57.127  INFO 79325 --- [restartedMain] p6spy                                    : 
+连接ID：1 | 当前时间：2023-05-15 15:38:57 | 执行时间：8ms 
+ statement: select * from _sqlex_version_ where package='com.bjknrt.medication.remind' 
+2023-05-15 15:38:57.134  INFO 79325 --- [restartedMain] me.danwi.sqlex.core.migration.Migrator   : 数据库当前版本已经是 10,无需迁移
+2023-05-15 15:38:57.135  INFO 79325 --- [restartedMain] p6spy                                    : 
+连接ID：1 | 当前时间：2023-05-15 15:38:57 | 执行时间：1ms 
+ commit:  
+2023-05-15 15:38:57.137  INFO 79325 --- [restartedMain] p6spy                                    : 
+连接ID：1 | 当前时间：2023-05-15 15:38:57 | 执行时间：0ms 
+ statement: unlock tables 
+2023-05-15 15:38:57.138  INFO 79325 --- [restartedMain] me.danwi.sqlex.core.migration.Migrator   : 数据库(com.bjknrt.medication.remind)版本迁移完成,释放全局锁
+2023-05-15 15:38:57.139  INFO 79325 --- [restartedMain] p6spy                                    : 
+连接ID：1 | 当前时间：2023-05-15 15:38:57 | 执行时间：0ms 
+ rollback:  
+2023-05-15 15:38:57.139  INFO 79325 --- [restartedMain] me.danwi.sqlex.core.checker.Checker      : 准备比对数据库结构一致性
+2023-05-15 15:38:57.140  INFO 79325 --- [restartedMain] me.danwi.sqlex.core.checker.Checker      : 获取SqlEx Repository(com.bjknrt.medication.remind)定义结构
+2023-05-15 15:38:57.145  INFO 79325 --- [restartedMain] me.danwi.sqlex.core.checker.Checker      : 获取目标数据库结构
+2023-05-15 15:38:57.227  INFO 79325 --- [restartedMain] me.danwi.sqlex.core.checker.Checker      : 计算结构差异
+2023-05-15 15:38:57.228  INFO 79325 --- [restartedMain] me.danwi.sqlex.core.checker.Checker      : 结构一致性比对完成,无差异
+2023-05-15 15:38:57.303  INFO 79325 --- [restartedMain] o.s.c.openfeign.FeignClientFactoryBean   : For 'article-service-server' URL not provided. Will try picking an instance via load-balancing.
+2023-05-15 15:38:57.388  INFO 79325 --- [restartedMain] o.s.c.openfeign.FeignClientFactoryBean   : For 'wechat-service-server' URL not provided. Will try picking an instance via load-balancing.
+2023-05-15 15:38:57.566 DEBUG 79325 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 2 ResponseBodyAdvice
+2023-05-15 15:38:57.656 DEBUG 79325 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 24 mappings in 'requestMappingHandlerMapping'
+2023-05-15 15:38:57.695 DEBUG 79325 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2023-05-15 15:38:57.710 DEBUG 79325 --- [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 2 ResponseBodyAdvice
+2023-05-15 15:38:57.996  INFO 79325 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@bdd96a, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@41d23c8f, org.springframework.security.web.context.SecurityContextPersistenceFilter@646ce0a7, org.springframework.security.web.header.HeaderWriterFilter@886aec8, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7db2b983, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5ff74f76, com.bjknrt.security.JwtAuthenticationFilter@58ad5076, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1d706e33, org.springframework.security.web.session.SessionManagementFilter@4a849507, org.springframework.security.web.access.ExceptionTranslationFilter@5df737e2, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@6f6fcad]
+2023-05-15 15:38:58.517  INFO 79325 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2023-05-15 15:38:58.626  INFO 79325 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-05-15 15:38:58.626  INFO 79325 --- [restartedMain] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-05-15 15:38:58.626 DEBUG 79325 --- [restartedMain] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2023-05-15 15:38:58.626 DEBUG 79325 --- [restartedMain] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2023-05-15 15:38:58.626 DEBUG 79325 --- [restartedMain] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2023-05-15 15:38:58.627 DEBUG 79325 --- [restartedMain] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@61866620
+2023-05-15 15:38:58.628 DEBUG 79325 --- [restartedMain] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@609083fe
+2023-05-15 15:38:58.628 DEBUG 79325 --- [restartedMain] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2023-05-15 15:38:58.628  INFO 79325 --- [restartedMain] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2023-05-15 15:38:58.629  INFO 79325 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2023-05-15 15:38:58.649  INFO 79325 --- [restartedMain] .m.r.MedicationRemindServerApplicationKt : Started MedicationRemindServerApplicationKt in 8.02 seconds (JVM running for 14.577)
+2023-05-15 15:41:18.665 DEBUG 79325 --- [http-nio-8081-exec-1] c.b.security.JwtAuthenticationFilter     : Set SecurityContextHolder to JwtAuthenticationToken(principal=JwtUserDetails(id=1657995767299702784, issuedAt=Mon May 15 14:26:09 CST 2023, notBefore=Mon May 15 14:26:09 CST 2023, expiration=Mon May 15 16:37:12 CST 2023, userId=1630406989102186496, nickName=18739761136, enabled=true, loginName=18739761136), credentials=eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_22PQQ6CMBBF7zJrFgyFaYed7tx4hyKDqWIxpSQmhLtbTEwkuP1_5r38GW7RQQ1IlWauNOmCWeeFNiVk4GyEGsmUqJCJM_BNtw3k9fwGbFSRwQT1DK5dwx0xAcdxkvawoVKlEniIR-mGILsmGVyw0Q3-V6SYkmuUcPqoVF7mxIYxL9BQuZbeXe5n-5B1nNGKNSEqSqPE26aX9BbDJBn0w9X5P4fL8gZrQ9DTHAEAAA.Z5Uec_ylxqV3G84lOgTG8L5lBjtPSRLhIeHuRZ5Se9U)
+2023-05-15 15:41:18.698 DEBUG 79325 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/medicationRemind/batchDeleteByTypeAndPatientId", parameters={}
+2023-05-15 15:41:18.736 DEBUG 79325 --- [http-nio-8081-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.bjknrt.medication.remind.controller.MedicationRemindController#batchDeleteByTypeAndPatientId(List)
+2023-05-15 15:41:19.091 DEBUG 79325 --- [http-nio-8081-exec-1] RequestBodyMethodArgumentHandlerResolver : 解析请求数据 [application/json] 为 [[{"patientId":"1630406989102186496","types":["DIET_PLAN"]}]]
+2023-05-15 15:41:19.505 DEBUG 79325 --- [http-nio-8081-exec-1] RequestBodyMethodArgumentHandlerResolver : 解析参数：key=typesAndPatientParam，value=[TypesAndPatientParam(patientId=1630406989102186496, types=[DIET_PLAN])]
+2023-05-15 15:41:20.546  INFO 79325 --- [http-nio-8081-exec-1] p6spy                                    : 
+连接ID：1 | 当前时间：2023-05-15 15:41:20 | 执行时间：17ms 
+ statement: select * from `mr_health_plan` where ((`mr_health_plan`.`kn_type` in ('DIET_PLAN')) and ((`mr_health_plan`.`is_del`) = (false))) and ((`mr_health_plan`.`kn_patient_id`) = (1630406989102186496)) 
+2023-05-15 15:41:20.601  INFO 79325 --- [http-nio-8081-exec-1] p6spy                                    : 
+连接ID：1 | 当前时间：2023-05-15 15:41:20 | 执行时间：8ms 
+ statement: update `mr_health_plan` set  `is_del` = true where `mr_health_plan`.`kn_id` in (1656952373924331520) 
+2023-05-15 15:41:20.611  INFO 79325 --- [http-nio-8081-exec-1] p6spy                                    : 
+连接ID：1 | 当前时间：2023-05-15 15:41:20 | 执行时间：4ms 
+ commit:  
+2023-05-15 15:41:20.648 DEBUG 79325 --- [http-nio-8081-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [application/json] and supported [application/json]
+2023-05-15 15:41:20.652 DEBUG 79325 --- [http-nio-8081-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Nothing to write: null body
+2023-05-15 15:41:20.657 DEBUG 79325 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2023-05-15 16:29:20.739  INFO 79325 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-05-15 16:29:20.775  INFO 79325 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

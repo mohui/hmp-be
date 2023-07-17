@@ -1,0 +1,35 @@
+INSERT INTO qas_examination_paper (id, examination_paper_title, examination_paper_desc,
+                                   examination_paper_tip, examination_paper_code,
+                                   examination_paper_reference, evaluation_time,
+                                   strategy_code, created_by, created_at, updated_by,
+                                   updated_at, is_del)
+VALUES (3100, '行为习惯随访', '酒、饮食、睡眠、心理、用药情况', '', 'COPD_BEHAVIOR', '', '', 'COPD_BEHAVIOR',
+        1, current_timestamp(), 1, current_timestamp(), 0);
+
+-- 录入行为随访的题目
+insert into qas_questions(id, examination_paper_id, questions_title, questions_type, questions_sort, created_by,
+                          updated_by, questions_tip)
+values (310001, 3100, '您当前的身体质量指数（BMI）情况', 'FILL_IN_THE_BLANK', 1, 1, 1, null),
+       (310002, 3100, '本阶段%s您是否有以下情况：大声打鼾、白天感觉累或者想睡觉、别人有观察到您睡觉时有呼吸停止现象？', 'RADIO', 3, 1, 1, null),
+       (310003, 3100, '本阶段%s您是否有情绪低落、食欲降低、兴趣减退等情况？', 'RADIO', 4, 1, 1, null),
+       (310004, 3100, '本阶段%s您是否经常焦虑？（如担忧发生不好的事情）', 'RADIO', 5, 1, 1, null);
+
+
+-- 录入行为随访的选项
+insert into qas_option(id, questions_id, option_code, option_value, option_label, option_tip, option_sort, option_score,
+                       option_type, option_rule, created_by, updated_by, is_auto_commit, forward_to)
+values (31000101, 310001, 'COPD_BEHAVIOR_310001_1', '', '身高(cm)', '', 1, null, 'INPUT', '{\"required\":true,\"isNumber\":true,\"notZero\":true}', 1, 1, false, null),
+       (31000102, 310001, 'COPD_BEHAVIOR_310001_2', '', '体重(kg)', '', 2, null, 'INPUT', '{\"required\":true,\"isNumber\":true,\"notZero\":true}', 1, 1, false, null),
+
+
+       (31000201, 310002, 'COPD_BEHAVIOR_310002_1', 'A', '无', '', 1, 5, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (31000202, 310002, 'COPD_BEHAVIOR_310002_2', 'B', '偶尔', '', 2, 2, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (31000203, 310002, 'COPD_BEHAVIOR_310002_3', 'C', '经常', '', 3, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+
+       (31000301, 310003, 'COPD_BEHAVIOR_310003_1', 'A', '无', '', 1, 5, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (31000302, 310003, 'COPD_BEHAVIOR_310003_2', 'B', '偶尔', '', 2, 2, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (31000303, 310003, 'COPD_BEHAVIOR_310003_3', 'C', '经常', '', 3, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+
+       (31000401, 310004, 'COPD_BEHAVIOR_310004_1', 'A', '无', '', 1, 5, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (31000402, 310004, 'COPD_BEHAVIOR_310004_2', 'B', '偶尔', '', 2, 2, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (31000403, 310004, 'COPD_BEHAVIOR_310004_3', 'C', '经常', '', 3, 0, 'SELECT', '{"single":true}', 1, 1, false, null);

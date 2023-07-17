@@ -1,0 +1,22 @@
+-- 数据库Schema描述文件, 执行DDL操作
+-- 高血压身高设置为必填
+update hs_htn_visit set signs_weight = 0;
+ALTER TABLE `hs_htn_visit`
+    MODIFY COLUMN `signs_weight` double UNSIGNED NOT NULL COMMENT '体重. 单位: kg' AFTER `signs_height`;
+
+-- 糖尿病设置为必填
+update hs_t2dm_visit set signs_weight = 0;
+ALTER TABLE `hs_t2dm_visit`
+    MODIFY COLUMN `signs_weight` double UNSIGNED NOT NULL COMMENT '体重. 单位: kg' AFTER `signs_height`;
+
+-- 慢阻肺修改语句
+update hs_copd_visit set signs_height = 0, signs_weight = 0;
+-- 慢阻肺身高
+ALTER TABLE `hs_copd_visit`
+    MODIFY COLUMN `signs_height` double UNSIGNED NOT NULL COMMENT '身高. 单位: cm' AFTER `signs_dbp`;
+-- 慢阻肺体重
+ALTER TABLE `hs_copd_visit`
+    MODIFY COLUMN `signs_weight` double UNSIGNED NOT NULL COMMENT '体重. 单位: kg' AFTER `signs_height`;
+-- 慢阻肺体质
+alter table `hs_copd_visit`
+    ADD COLUMN `signs_bim` double unsigned DEFAULT NULL COMMENT '体质指数. 单位: kg/m²';

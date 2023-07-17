@@ -1,0 +1,6 @@
+alter table qas_disease_evaluate
+    modify systolic_pressure decimal(10, 2) null comment '收缩压（单位 mmHg）',
+    modify diastolic_blood_pressure decimal(10, 2) null comment '舒张压（单位 mmHg）',
+    modify fasting_blood_sugar decimal(10, 2) null comment '空腹血糖（单位 mmol/L）',
+    modify serum_tch decimal(10, 2) null comment '血清总胆固醇（单位 mmol/L）';
+

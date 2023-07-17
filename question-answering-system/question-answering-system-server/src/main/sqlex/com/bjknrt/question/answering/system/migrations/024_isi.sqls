@@ -1,0 +1,69 @@
+INSERT INTO qas_examination_paper (id, examination_paper_title, examination_paper_desc,
+                                   examination_paper_tip, examination_paper_code,
+                                   examination_paper_reference, evaluation_time,
+                                   strategy_code, created_by, created_at, updated_by,
+                                   updated_at, is_del)
+VALUES (1700, '失眠严重程度指数量表',
+        '失眠严重程度指数量表（Insomnia Severity Index，ISI）由加拿大的莫兰教授等人编制，用于判断及评估失眠人群最近2周内失眠症状，是目前临床上使用最为广泛的睡眠评估量表之一。这个量表共有7个问题，每个问题的评分从0分到4分共5个等级，得分越高说明失眠程度越重。',
+        null, 'ISI',
+        'Manzar Md Dilshad,Jahrami Haitham A,Bahammam Ahmed S,Structural validity of the Insomnia Severity Index:A systematic review and meta-analysis.[J].Sleep Med Rev,2021,60: 101531.',
+        '', 'DEFAULT', 1, '2022-08-10 11:56:36.838', 1, '2022-10-26 10:09:51.806', 0);
+
+insert into qas_questions(id, examination_paper_id, questions_title, questions_type, questions_sort, created_by,
+                          updated_by, questions_tip)
+values (1701, 1700, '请描述您最近（例如：最近 2 周）入睡困难的严重程度', 'RADIO', 1, 1, 1, null),
+       (1702, 1700, '请描述您最近（例如：最近 2 周）维持睡眠困难的严重程度', 'RADIO', 2, 1, 1, null),
+       (1703, 1700, '请描述您最近（例如：最近 2 周）早醒的严重程度', 'RADIO', 3, 1, 1, null),
+       (1704, 1700, '您对当前睡眠模式的满意度', 'RADIO', 4, 1, 1, null),
+       (1705, 1700, '您认为您的睡眠问题在多大程度上干扰了您的日间功能', 'RADIO', 5, 1, 1, null),
+       (1706, 1700, '与其他人相比，您的失眠问题对您的生活质量有多大程度的影响或损害', 'RADIO', 6, 1, 1, null),
+       (1707, 1700, '您对自己当前睡眠问题有多大程度的担忧/沮丧', 'RADIO', 7, 1, 1, null);
+insert into qas_option(id, questions_id, option_code, option_value, option_label, option_tip, option_sort, option_score,
+                       option_type, option_rule, created_by, updated_by)
+values (170101, 1701, '0', '0', '无', '', 1, 0, 'SELECT', '{"single":true}', 1, 1),
+       (170102, 1701, '1', '1', '轻度', '', 2, 1, 'SELECT', '{"single":true}', 1, 1),
+       (170103, 1701, '2', '2', '中度', '', 3, 2, 'SELECT', '{"single":true}', 1, 1),
+       (170104, 1701, '3', '3', '重度', '', 4, 3, 'SELECT', '{"single":true}', 1, 1),
+       (170105, 1701, '4', '4', '极重度', '', 5, 4, 'SELECT', '{"single":true}', 1, 1),
+
+       (170201, 1702, '0', '0', '无', '', 1, 0, 'SELECT', '{"single":true}', 1, 1),
+       (170202, 1702, '1', '1', '轻度', '', 2, 1, 'SELECT', '{"single":true}', 1, 1),
+       (170203, 1702, '2', '2', '中度', '', 3, 2, 'SELECT', '{"single":true}', 1, 1),
+       (170204, 1702, '3', '3', '重度', '', 4, 3, 'SELECT', '{"single":true}', 1, 1),
+       (170205, 1702, '4', '4', '极重度', '', 5, 4, 'SELECT', '{"single":true}', 1, 1),
+
+       (170301, 1703, '0', '0', '无', '', 1, 0, 'SELECT', '{"single":true}', 1, 1),
+       (170302, 1703, '1', '1', '轻度', '', 2, 1, 'SELECT', '{"single":true}', 1, 1),
+       (170303, 1703, '2', '2', '中度', '', 3, 2, 'SELECT', '{"single":true}', 1, 1),
+       (170304, 1703, '3', '3', '重度', '', 4, 3, 'SELECT', '{"single":true}', 1, 1),
+       (170305, 1703, '4', '4', '极重度', '', 5, 4, 'SELECT', '{"single":true}', 1, 1),
+
+       (170401, 1704, '0', '0', '很满意', '', 1, 4, 'SELECT', '{"single":true}', 1, 1),
+       (170402, 1704, '1', '1', '满意', '', 2, 3, 'SELECT', '{"single":true}', 1, 1),
+       (170403, 1704, '2', '2', '一般', '', 3, 2, 'SELECT', '{"single":true}', 1, 1),
+       (170404, 1704, '3', '3', '不满意', '', 4, 1, 'SELECT', '{"single":true}', 1, 1),
+       (170405, 1704, '4', '4', '很不满意', '', 5, 0, 'SELECT', '{"single":true}', 1, 1),
+
+       (170501, 1705, '0', '0', '没有干扰', '', 1, 0, 'SELECT', '{"single":true}', 1, 1),
+       (170502, 1705, '1', '1', '轻微', '', 2, 1, 'SELECT', '{"single":true}', 1, 1),
+       (170503, 1705, '2', '2', '有些', '', 3, 2, 'SELECT', '{"single":true}', 1, 1),
+       (170504, 1705, '3', '3', '较多', '', 4, 3, 'SELECT', '{"single":true}', 1, 1),
+       (170505, 1705, '4', '4', '很多干扰', '', 5, 4, 'SELECT', '{"single":true}', 1, 1),
+
+       (170601, 1706, '0', '0', '没有', '', 1, 0, 'SELECT', '{"single":true}', 1, 1),
+       (170602, 1706, '1', '1', '一点', '', 2, 1, 'SELECT', '{"single":true}', 1, 1),
+       (170603, 1706, '2', '2', '有些', '', 3, 2, 'SELECT', '{"single":true}', 1, 1),
+       (170604, 1706, '3', '3', '较多', '', 4, 3, 'SELECT', '{"single":true}', 1, 1),
+       (170605, 1706, '4', '4', '很多', '', 5, 4, 'SELECT', '{"single":true}', 1, 1),
+
+       (170701, 1707, '0', '0', '没有', '', 1, 0, 'SELECT', '{"single":true}', 1, 1),
+       (170702, 1707, '1', '1', '一点', '', 2, 1, 'SELECT', '{"single":true}', 1, 1),
+       (170703, 1707, '2', '2', '有些', '', 3, 2, 'SELECT', '{"single":true}', 1, 1),
+       (170704, 1707, '3', '3', '较多', '', 4, 3, 'SELECT', '{"single":true}', 1, 1),
+       (170705, 1707, '4', '4', '很多', '', 5, 4, 'SELECT', '{"single":true}', 1, 1);
+insert into qas_interpretation_of_results(id, examination_paper_id, min_value, max_value, results_tag, results_msg,
+                                          created_by, updated_by)
+values (1721, 1700, 0, 7, '无失眠', '', 1, 1),
+       (1722, 1700, 8, 14, '轻度失眠', '', 1, 1),
+       (1723, 1700, 15, 21, '中度失眠', '', 1, 1),
+       (1724, 1700, 22, 28, '重度失眠', '', 1, 1);

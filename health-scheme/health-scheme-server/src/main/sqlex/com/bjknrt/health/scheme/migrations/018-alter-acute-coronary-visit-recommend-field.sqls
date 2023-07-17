@@ -1,0 +1,33 @@
+alter table `hs_acute_coronary_visit`
+    ADD COLUMN `signs_height` double unsigned DEFAULT NULL COMMENT '身高. 单位: cm' AFTER signs_dbp;
+
+alter table `hs_acute_coronary_visit`
+    modify `recommend_weight` double unsigned DEFAULT NULL COMMENT '建议体重. 单位: kg';
+
+alter table `hs_acute_coronary_visit`
+    modify `signs_bim` double unsigned DEFAULT NULL COMMENT '体质指数. 单位: kg/m²';
+
+alter table `hs_acute_coronary_visit`
+    modify `recommend_bim` double unsigned DEFAULT NULL COMMENT '建议体质指数';
+
+
+alter table `hs_acute_coronary_visit`
+    modify `recommend_cigarettes_per` tinyint(3) unsigned DEFAULT NULL COMMENT '建议日吸烟量';
+
+alter table `hs_acute_coronary_visit`
+    modify `recommend_alcohol_per` double unsigned DEFAULT NULL COMMENT '建议饮酒量';
+
+alter table `hs_acute_coronary_visit`
+    modify `recommend_sport_per_week` tinyint(3) unsigned DEFAULT NULL COMMENT '建议每周运动次数 单位: 次';
+
+alter table `hs_acute_coronary_visit`
+    modify `recommend_sport_per_time` double unsigned DEFAULT NULL COMMENT '建议每次运动时间. 单位: 分钟';
+
+alter table `hs_acute_coronary_visit`
+    modify `recommend_salt_situation` varchar(16) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '建议摄盐情况. LIGHT: 轻; MIDDLE: 中; DEEP: 重';
+
+
+
+
+
+

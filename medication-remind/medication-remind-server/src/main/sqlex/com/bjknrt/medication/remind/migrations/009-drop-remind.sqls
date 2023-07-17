@@ -1,0 +1,2 @@
+-- 删除定时用药表
+drop table mr_medication_remind

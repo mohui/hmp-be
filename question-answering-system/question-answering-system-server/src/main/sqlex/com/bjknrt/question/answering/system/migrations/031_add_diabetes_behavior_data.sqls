@@ -1,0 +1,43 @@
+INSERT INTO qas_examination_paper (id, examination_paper_title, examination_paper_desc,
+                                   examination_paper_tip, examination_paper_code,
+                                   examination_paper_reference, evaluation_time,
+                                   strategy_code, created_by, created_at, updated_by,
+                                   updated_at, is_del)
+VALUES (2100, '行为习惯随访', '酒、饮食、睡眠、心理、用药情况', '', 'DIABETES_BEHAVIOR', '', '', 'DIABETES_BEHAVIOR', 1,
+        '2022-09-02 10:33:42', 1, '2022-10-21 14:59:34.412', 0);
+
+-- 录入行为随访的题目
+insert into qas_questions(id, examination_paper_id, questions_title, questions_type, questions_sort, created_by,
+                          updated_by, questions_tip)
+values (210001, 2100, '您当前的身体质量指数（BMI）情况', 'FILL_IN_THE_BLANK', 1, 1, 1, null),
+       (210002, 2100, '您当前的腰围是多少（cm）？', 'SHORT_ANSWER', 2, 1, 1, null),
+       (210003, 2100, '本阶段%s您是否有入睡困难、早醒、多梦等现象？', 'RADIO', 3, 1, 1, null),
+       (210004, 2100, '本阶段%s您是否有情绪低落、食欲降低、兴趣减退等情况？', 'RADIO', 4, 1, 1, null),
+       (210005, 2100, '本阶段%s您是否经常焦虑？（如担忧发生不好的事情）', 'RADIO', 5, 1, 1, null),
+       (210006, 2100, '本阶段%s您的工作压力是否较大？', 'RADIO', 6, 1, 1, null);
+
+
+-- 录入行为随访的选项
+insert into qas_option(id, questions_id, option_code, option_value, option_label, option_tip, option_sort, option_score,
+                       option_type, option_rule, created_by, updated_by, is_auto_commit, forward_to)
+values (21000101, 210001, 'DIABETES_BEHAVIOR_210001_1', '', '身高(cm)', '', 1, null, 'INPUT', '{\"required\":true,\"isNumber\":true,\"notZero\":true}', 1, 1, false, null),
+       (21000102, 210001, 'DIABETES_BEHAVIOR_210001_2', '', '体重(kg)', '', 2, null, 'INPUT', '{\"required\":true,\"isNumber\":true,\"notZero\":true}', 1, 1, false, null),
+
+
+       (21000201, 210002, 'DIABETES_BEHAVIOR_210002_1', '', '', '', 1, null, 'INPUT', null, 1, 1, false, null),
+
+       (21000301, 210003, 'DIABETES_BEHAVIOR_210003_1', 'A', '无', '', 1, 2, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (21000302, 210003, 'DIABETES_BEHAVIOR_210003_2', 'B', '偶尔', '', 2, 1, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (21000303, 210003, 'DIABETES_BEHAVIOR_210003_3', 'C', '经常', '', 3, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+
+       (21000401, 210004, 'DIABETES_BEHAVIOR_210004_1', 'A', '无', '', 1, 2, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (21000402, 210004, 'DIABETES_BEHAVIOR_210004_2', 'B', '偶尔', '', 2, 1, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (21000403, 210004, 'DIABETES_BEHAVIOR_210004_3', 'C', '经常', '', 3, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+
+       (21000501, 210005, 'DIABETES_BEHAVIOR_210005_1', 'A', '无', '', 1, 2, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (21000502, 210005, 'DIABETES_BEHAVIOR_210005_2', 'B', '偶尔', '', 2, 1, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (21000503, 210005, 'DIABETES_BEHAVIOR_210005_3', 'C', '经常', '', 3, 0, 'SELECT', '{"single":true}', 1, 1, false, null),
+
+       (21000601, 210006, 'DIABETES_BEHAVIOR_210006_1', 'A', '无', '', 1, 2, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (21000602, 210006, 'DIABETES_BEHAVIOR_210006_2', 'B', '偶尔', '', 2, 1, 'SELECT', '{"single":true}', 1, 1, false, null),
+       (21000603, 210006, 'DIABETES_BEHAVIOR_210006_3', 'C', '经常', '', 3, 0, 'SELECT', '{"single":true}', 1, 1, false, null);

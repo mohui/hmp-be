@@ -1,0 +1,9 @@
+alter table qas_questions_answer_record
+    modify total_score decimal(10, 2) null comment '问卷得分';
+
+alter table qas_questions_answer_result
+    modify option_score decimal(10, 2) null comment '选项分值';
+
+alter table qas_option
+    modify option_score decimal(10, 2)  null comment '选项分数';
+

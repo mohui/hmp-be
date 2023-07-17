@@ -1,0 +1,11 @@
+-- 更新运动评估第四题选项5的option_type
+update qas_option
+set option_type = 'SELECT'
+where id = 15000405;
+-- 运动评估第三题增加不选
+insert into qas_option(id, questions_id, option_code, option_value, option_label, option_tip, option_sort, option_score,
+                       option_type, option_rule, created_by, updated_by, is_auto_commit, forward_to)
+values (15000307, 150003, 'SPORT_150003_07', '7', '以上都不希望', '', 7, null, 'SELECT', '{\"single\":true}', 1, 1,
+        false, null);
+
+

@@ -1,0 +1,172 @@
+import java.util.Date
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.math.BigInteger
+
+# 卡片知识延伸
+cardRecommend*(userId:BigInteger, cardId:BigInteger) {
+    with record as
+             -- 所有卡片文章
+             (select a.kn_id,
+                     a.kn_article_title,
+                     a.kn_data_source,
+                     a.kn_updated_at,
+                     null                                                                                                                        as relation_id,
+                     if(EXISTS(SELECT 1 FROM as_article_tag_info t WHERE t.kn_tag = 'HYPERTENSION' and a.kn_id = t.kn_article_info_id), 1, 0)    as HYPERTENSION,
+                     if(EXISTS(SELECT 1 FROM as_article_tag_info t WHERE t.kn_tag = 'DIABETES' and a.kn_id = t.kn_article_info_id), 1, 0)        as DIABETES,
+                     if(EXISTS(SELECT 1 FROM as_article_tag_info t WHERE t.kn_tag = 'ACUTE_CORONARY' and a.kn_id = t.kn_article_info_id), 1, 0)  as ACUTE_CORONARY,
+                     if(EXISTS(SELECT 1 FROM as_article_tag_info t WHERE t.kn_tag = 'CEREBRAL_STROKE' and a.kn_id = t.kn_article_info_id), 1, 0) as CEREBRAL_STROKE,
+                     if(EXISTS(SELECT 1 FROM as_article_tag_info t WHERE t.kn_tag = 'COPD' and a.kn_id = t.kn_article_info_id), 1, 0)            as COPD
+              from as_article_info a
+              where a.is_del = 0
+                and a.kn_status = 'PUBLISHED'
+              union
+              select c.kn_id,
+                     c.kn_card_title,
+                     c.kn_data_source,
+                     c.kn_updated_at,
+                     c.kn_relation_article_id,
+                     if(EXISTS(SELECT 1 FROM as_article_tag_info t WHERE t.kn_tag = 'HYPERTENSION' and c.kn_id = t.kn_article_info_id), 1, 0)    as HYPERTENSION,
+                     if(EXISTS(SELECT 1 FROM as_article_tag_info t WHERE t.kn_tag = 'DIABETES' and c.kn_id = t.kn_article_info_id), 1, 0)        as DIABETES,
+                     if(EXISTS(SELECT 1 FROM as_article_tag_info t WHERE t.kn_tag = 'ACUTE_CORONARY' and c.kn_id = t.kn_article_info_id), 1, 0)  as ACUTE_CORONARY,
+                     if(EXISTS(SELECT 1 FROM as_article_tag_info t WHERE t.kn_tag = 'CEREBRAL_STROKE' and c.kn_id = t.kn_article_info_id), 1, 0) as CEREBRAL_STROKE,
+                     if(EXISTS(SELECT 1 FROM as_article_tag_info t WHERE t.kn_tag = 'COPD' and c.kn_id = t.kn_article_info_id), 1, 0)            as COPD
+              from as_card_info c
+              where c.is_del = 0
+                and c.kn_status = 'PUBLISHED'),
+         hot as
+             -- 阅读人数
+             (select count(r.kn_reader_id) read_num, r.kn_article_id
+              from as_read_record_info r
+              group by r.kn_article_id),
+         recommend as
+             -- 推荐文章
+             (select distinct r.kn_reader_id, r.kn_article_id
+              from as_recommend_record_info r
+              where r.kn_reader_id = :userId),
+         readed as
+             -- 阅读文章
+             (select distinct r.kn_reader_id, r.kn_article_id
+              from as_read_record_info r
+              where r.kn_reader_id = :userId)
+    select record.kn_id,
+           record.kn_article_title,
+           record.relation_id,
+           r2.relation_id = record.kn_id as is_relationed,
+           (record.HYPERTENSION = r2.HYPERTENSION) + (record.DIABETES = r2.DIABETES) + (record.ACUTE_CORONARY = r2.ACUTE_CORONARY) + (record.CEREBRAL_STROKE = r2.CEREBRAL_STROKE) +
+           (record.COPD = r2.COPD)       as same_tag_num
+    from record
+             -- 推荐
+             left join recommend on recommend.kn_article_id = record.kn_id
+        -- 阅读
+             left join readed on readed.kn_article_id = record.kn_id
+        -- 热门
+             left join hot on hot.kn_article_id = record.kn_id
+        -- 自己
+             left join record r2 on r2.kn_id = :cardId
+    where record.kn_id != :cardId
+          -- 直接关联，标签，未读，未推荐，热度
+    order by is_relationed desc, same_tag_num desc, readed.kn_article_id asc, recommend.kn_article_id asc, hot.read_num desc, record.kn_updated_at desc
+}
+
+
+# 文章推荐
+articleRecommend*(userId:BigInteger, hypertension:Boolean, diabetes:Boolean, acuteCoronary:Boolean, cerebralStroke:Boolean, copd:Boolean) {
+    with record as
+             -- 所有文章
+             (select a.kn_id,
+                     a.kn_article_title,
+                     a.kn_data_source,
+                     a.kn_updated_at,
+                     a.kn_cover_image,
+                     a.kn_summary,
+                     if(EXISTS(SELECT 1 FROM as_article_tag_info t WHERE t.kn_tag = 'HYPERTENSION' and a.kn_id = t.kn_article_info_id and t.is_del = 0), 1, 0)    as HYPERTENSION,
+                     if(EXISTS(SELECT 1 FROM as_article_tag_info t WHERE t.kn_tag = 'DIABETES' and a.kn_id = t.kn_article_info_id and t.is_del = 0), 1, 0)        as DIABETES,
+                     if(EXISTS(SELECT 1 FROM as_article_tag_info t WHERE t.kn_tag = 'ACUTE_CORONARY' and a.kn_id = t.kn_article_info_id and t.is_del = 0), 1, 0)  as ACUTE_CORONARY,
+                     if(EXISTS(SELECT 1 FROM as_article_tag_info t WHERE t.kn_tag = 'CEREBRAL_STROKE' and a.kn_id = t.kn_article_info_id and t.is_del = 0), 1, 0) as CEREBRAL_STROKE,
+                     if(EXISTS(SELECT 1 FROM as_article_tag_info t WHERE t.kn_tag = 'COPD' and a.kn_id = t.kn_article_info_id and t.is_del = 0), 1, 0)            as COPD
+              from as_article_info a
+              where a.is_del = 0
+                and a.kn_status = 'PUBLISHED'),
+         hot as
+             -- 阅读人数
+             (select count(r.kn_reader_id) read_num, r.kn_article_id
+              from as_read_record_info r
+              group by r.kn_article_id),
+         recommend as
+             -- 推荐文章
+             (select distinct r.kn_reader_id, r.kn_article_id
+              from as_recommend_record_info r
+              where r.kn_reader_id = :userId),
+         readed as
+             -- 阅读文章
+             (select distinct r.kn_reader_id, r.kn_article_id
+              from as_read_record_info r
+              where r.kn_reader_id = :userId)
+    select record.kn_id,
+           record.kn_article_title,
+           record.kn_cover_image,
+           record.kn_summary,
+           (record.HYPERTENSION = :hypertension) + (record.DIABETES = :diabetes) + (record.ACUTE_CORONARY = :acuteCoronary) + (record.CEREBRAL_STROKE = :cerebralStroke) +
+           (record.COPD = :copd) as same_tag_num
+    from record
+             -- 推荐
+             left join recommend on recommend.kn_article_id = record.kn_id
+        -- 阅读
+             left join readed on readed.kn_article_id = record.kn_id
+        -- 热门
+             left join hot on hot.kn_article_id = record.kn_id
+         -- 未读，标签，未推荐，热度
+    order by readed.kn_article_id asc, same_tag_num desc, recommend.kn_article_id asc, hot.read_num desc, record.kn_updated_at desc
+}
+
+# 卡片推荐
+cardRecommendList*(userId:BigInteger, hypertension:Boolean, diabetes:Boolean, acuteCoronary:Boolean, cerebralStroke:Boolean, copd:Boolean) {
+    with record as
+             -- 所有卡片
+             (select a.kn_id,
+                     a.kn_card_title,
+                     a.kn_data_source,
+                     a.kn_updated_at,
+                     if(EXISTS(SELECT 1 FROM as_article_tag_info t WHERE t.kn_tag = 'HYPERTENSION' and a.kn_id = t.kn_article_info_id and t.is_del = 0), 1, 0)    as HYPERTENSION,
+                     if(EXISTS(SELECT 1 FROM as_article_tag_info t WHERE t.kn_tag = 'DIABETES' and a.kn_id = t.kn_article_info_id and t.is_del = 0), 1, 0)        as DIABETES,
+                     if(EXISTS(SELECT 1 FROM as_article_tag_info t WHERE t.kn_tag = 'ACUTE_CORONARY' and a.kn_id = t.kn_article_info_id and t.is_del = 0), 1, 0)  as ACUTE_CORONARY,
+                     if(EXISTS(SELECT 1 FROM as_article_tag_info t WHERE t.kn_tag = 'CEREBRAL_STROKE' and a.kn_id = t.kn_article_info_id and t.is_del = 0), 1, 0) as CEREBRAL_STROKE,
+                     if(EXISTS(SELECT 1 FROM as_article_tag_info t WHERE t.kn_tag = 'COPD' and a.kn_id = t.kn_article_info_id and t.is_del = 0), 1, 0)            as COPD
+              from as_card_info a
+              where a.is_del = 0
+                and a.kn_status = 'PUBLISHED'),
+         hot as
+             -- 阅读人数
+             (select count(r.kn_reader_id) read_num, r.kn_article_id
+              from as_read_record_info r
+              group by r.kn_article_id),
+         recommend as
+             -- 推荐文章
+             (select distinct r.kn_reader_id, r.kn_article_id
+              from as_recommend_record_info r
+              where r.kn_reader_id = :userId),
+         readed as
+             -- 阅读文章
+             (select distinct r.kn_reader_id, r.kn_article_id
+              from as_read_record_info r
+              where r.kn_reader_id = :userId)
+    select record.kn_id,
+           record.kn_card_title,
+           record.HYPERTENSION,
+           record.DIABETES,
+           record.ACUTE_CORONARY,
+           record.CEREBRAL_STROKE,
+           record.COPD,
+           (record.HYPERTENSION = :hypertension) + (record.DIABETES = :diabetes) + (record.ACUTE_CORONARY = :acuteCoronary) + (record.CEREBRAL_STROKE = :cerebralStroke) +
+           (record.COPD = :copd) as same_tag_num
+    from record
+             -- 推荐
+             left join recommend on recommend.kn_article_id = record.kn_id
+        -- 阅读
+             left join readed on readed.kn_article_id = record.kn_id
+        -- 热门
+             left join hot on hot.kn_article_id = record.kn_id
+         -- 未读，标签，未推荐，热度
+    order by readed.kn_article_id asc, same_tag_num desc, recommend.kn_article_id asc, hot.read_num desc, record.kn_updated_at desc
+}

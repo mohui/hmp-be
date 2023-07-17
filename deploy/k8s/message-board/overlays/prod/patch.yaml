@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: message-board
+spec:
+  replicas: 2
+  template:
+    spec:
+      containers:
+        - name: message-board
+          env:
+            - name: APP_PROFILE
+              value: prod
+            - name: NACOS_SERVER_ADDR
+              value: 192.168.3.151:8848,192.168.3.152:8848,192.168.3.153:8848

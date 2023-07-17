@@ -1,0 +1,2 @@
+alter table `hs_stage_report`
+    add column stage_report_type varchar(64) not null default 'HYPERTENSION' comment 'HYPERTENSION-高血压，DIABETES-糖尿病';

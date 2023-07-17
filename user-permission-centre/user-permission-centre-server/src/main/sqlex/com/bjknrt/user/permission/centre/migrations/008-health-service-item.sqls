@@ -1,0 +1,64 @@
+create table if not exists upcs_health_management_item
+(
+    health_management_item_id   bigint unsigned primary key comment '项目id',
+    health_management_item_code varchar(10)                              not null comment '项目code',
+    health_management_item_name varchar(10)                              not null comment '项目名称',
+    created_by                  bigint                                   not null comment '创建人',
+    created_at                  datetime(3) default CURRENT_TIMESTAMP(3) not null comment '创建时间'
+) comment '服务包项目列表';
+
+create table if not exists upcs_health_service
+(
+    health_service_id   bigint unsigned primary key comment '服务包id',
+    health_service_code varchar(10)                              not null comment '服务包code',
+    health_service_name varchar(10)                              not null comment '服务包名称',
+    during_time         smallint comment '生效时长-月',
+    created_by          bigint                                   not null comment '创建人',
+    created_at          datetime(3) default CURRENT_TIMESTAMP(3) not null comment '创建时间'
+) comment '服务包列表';
+
+create table if not exists upcs_health_service_item
+(
+    health_service_id         bigint unsigned                          not null comment '服务包id',
+    health_management_item_id bigint unsigned                          not null comment '项目id',
+    created_by                bigint                                   not null comment '创建人',
+    created_at                datetime(3) default CURRENT_TIMESTAMP(3) not null comment '创建时间',
+    primary key (health_service_id, health_management_item_id)
+) comment '服务包项目关系表';
+
+create table if not exists upcs_health_service_activation_code
+(
+    activation_code   varchar(30)     not null comment '激活码',
+    health_service_id bigint unsigned not null comment '服务包id',
+    usage_times       int             not null default 1 comment '激活码使用次数',
+    created_by        bigint          not null comment '创建人',
+    created_at        datetime(3)              default CURRENT_TIMESTAMP(3) not null comment '创建时间',
+    primary key (activation_code, health_service_id)
+) comment '服务包激活码列表';
+
+create table if not exists upcs_patient_health_service
+(
+    patient_id        bigint unsigned                          not null comment '患者id',
+    health_service_id bigint unsigned                          not null comment '服务包id',
+    activation_code   varchar(30) comment '激活码',
+    expire_date       datetime(3) comment '到期时间',
+    created_by        bigint                                   not null comment '创建人',
+    created_at        datetime(3) default CURRENT_TIMESTAMP(3) not null comment '创建时间'
+) comment '患者签约服务包关系表';
+
+-- 初始化健康管理服务数据
+INSERT INTO upcs_health_service (health_service_id, health_service_code, health_service_name, during_time, created_by,
+                                 created_at)
+VALUES (2022090101, 'basic', '基础健康管理服务', null, 1, '2022-09-01 17:23:38.695');
+INSERT INTO upcs_health_service (health_service_id, health_service_code, health_service_name, during_time, created_by,
+                                 created_at)
+VALUES (2022090102, 'htn', '高血压健康管理服务', null, 1, '2022-09-01 17:23:38.695');
+INSERT INTO upcs_health_service (health_service_id, health_service_code, health_service_name, during_time, created_by,
+                                 created_at)
+VALUES (2022090103, 't2dm', '糖尿病健康管理服务', null, 1, '2022-09-01 17:23:38.695');
+INSERT INTO upcs_health_service (health_service_id, health_service_code, health_service_name, during_time, created_by,
+                                 created_at)
+VALUES (2022090104, 'pain', '疼痛健康管理服务', null, 1, '2022-09-01 17:23:38.695');
+INSERT INTO upcs_health_service (health_service_id, health_service_code, health_service_name, during_time, created_by,
+                                 created_at)
+VALUES (2022090105, 'temp', '综合健康管理服务', null, 1, '2022-09-01 17:23:38.695');

@@ -1,0 +1,109 @@
+import java.math.BigInteger
+import java.time.LocalDateTime
+
+selectLeastIndicatorMeasureAtListByPatientId(patientId:BigInteger) {
+
+   with hi as (
+       (select kn_measure_at
+        from hi_body_height
+        where kn_patient_id = :patientId
+        order by kn_measure_at desc
+        limit 1)
+       union
+       (select kn_measure_at
+        from hi_body_weight
+        where kn_patient_id = :patientId
+        order by kn_measure_at desc
+        limit 1)
+       union
+       (select kn_measure_at
+        from hi_blood_lipids
+        where kn_patient_id = :patientId
+        order by kn_measure_at desc
+        limit 1)
+       union
+       (select kn_measure_at
+        from hi_blood_pressure
+        where kn_patient_id = :patientId
+        order by kn_measure_at desc
+        limit 1)
+       union
+       (select kn_measure_at
+        from hi_blood_sugar
+        where kn_patient_id = :patientId
+        order by kn_measure_at desc
+        limit 1)
+       union
+       (select kn_measure_at
+        from hi_bmi
+        where kn_patient_id = :patientId
+        order by kn_measure_at desc
+        limit 1)
+       union
+       (select kn_measure_at
+        from hi_drinking
+        where kn_patient_id = :patientId
+        order by kn_measure_at desc
+        limit 1)
+       union
+       (select kn_measure_at
+        from hi_heart_rate
+        where kn_patient_id = :patientId
+        order by kn_measure_at desc
+        limit 1)
+       union
+       (select kn_measure_at
+        from hi_pulse
+        where kn_patient_id = :patientId
+        order by kn_measure_at desc
+        limit 1)
+       union
+       (select kn_measure_at
+        from hi_smoke
+        where kn_patient_id = :patientId
+        order by kn_measure_at desc
+        limit 1)
+       union
+       (select kn_measure_at
+        from hi_waistline
+        where kn_patient_id = :patientId
+        order by kn_measure_at desc
+        limit 1)
+       union
+       (select kn_measure_at
+        from hi_body_temperature
+        where kn_patient_id = :patientId
+        order by kn_measure_at desc
+        limit 1)
+       union
+       (select kn_measure_at
+        from hi_pulse_oximetry
+        where kn_patient_id = :patientId
+        order by kn_measure_at desc
+        limit 1)
+   )
+   select kn_measure_at
+   from hi
+   order by hi.kn_measure_at desc
+   limit 1
+}
+
+findDailyDrinking(startTime:LocalDateTime, endTime:LocalDateTime, patientId:BigInteger) {
+    SELECT str_to_date(date_format(kn_measure_at, '%Y-%m-%d'), '%Y-%m-%d') measureDate,
+           round(sum(kn_total_alcohol), 2)                                 taValue
+    FROM hi_drinking
+    WHERE kn_patient_id = :patientId
+      AND kn_measure_at >= :startTime
+      AND kn_measure_at < :endTime
+    GROUP BY measureDate
+}
+
+findDailySmoke(startTime:LocalDateTime, endTime:LocalDateTime, patientId:BigInteger) {
+    SELECT str_to_date(date_format(kn_measure_at, '%Y-%m-%d'), '%Y-%m-%d') measureDate,
+           sum(kn_num)                                                     numValue
+    FROM hi_smoke
+    WHERE kn_patient_id = :patientId
+      AND kn_measure_at >= :startTime
+      AND kn_measure_at < :endTime
+    GROUP BY measureDate
+}

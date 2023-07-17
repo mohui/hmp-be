@@ -1,0 +1,62 @@
+-- 修改慢阻肺表
+-- 先删除老的慢阻肺表
+drop table `hs_copd_visit`;
+
+-- 创建慢阻肺
+CREATE TABLE `hs_copd_visit`
+(
+    `id`                              bigint(20) unsigned NOT NULL COMMENT '主键',
+    `patient_id`                      bigint(20) unsigned NOT NULL COMMENT '患者id',
+    `patient_name`                    varchar(255)        NOT NULL COMMENT '患者姓名(手录)',
+    `doctor_id`                       bigint(20) unsigned                    DEFAULT NULL COMMENT '随访医生id',
+    `doctor_name`                     varchar(255)                           DEFAULT NULL COMMENT '随访医生姓名(手录)',
+    `follow_way`                      varchar(16) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '随访方式. SELF. 患者自填. OUTPATIENT. 门诊; FAMILY. 家庭; PHONE. 电话;ONLINE.线上',
+    `follow_date`                     datetime                               DEFAULT NULL COMMENT '随访日期',
+
+    `is_wheezing_effort`              tinyint(1)          NOT NULL           DEFAULT FALSE COMMENT '费力才喘',
+    `is_wheezing_walk_fast`           tinyint(1)          NOT NULL           DEFAULT FALSE COMMENT '走快会喘',
+    `is_wheezing_stroll`              tinyint(1)          NOT NULL           DEFAULT FALSE COMMENT '平路会喘',
+    `is_wheezing_hundred_meters`      tinyint(1)          NOT NULL           DEFAULT FALSE COMMENT '百米会喘',
+    `is_wheezing_little`              tinyint(1)          NOT NULL           DEFAULT FALSE COMMENT '稍动就喘',
+    `is_symptom_cough`                tinyint(1)          NOT NULL           DEFAULT FALSE COMMENT '咳嗽、咳痰比平时多',
+    `is_symptom_purulent_sputum`      tinyint(1)          NOT NULL           DEFAULT FALSE COMMENT '咳脓痰',
+    `is_symptom_inappetence`          tinyint(1)          NOT NULL           DEFAULT FALSE COMMENT '食欲不振',
+    `is_symptom_abdominal_distention` tinyint(1)          NOT NULL           DEFAULT FALSE COMMENT '腹胀',
+    `is_symptom_breathing`            tinyint(1)          NOT NULL           DEFAULT FALSE COMMENT '活动后呼吸困难',
+    `is_symptom_systemic_edema`       tinyint(1)          NOT NULL           DEFAULT FALSE COMMENT '下肢或全身浮肿',
+    `is_symptom_none`                 tinyint(1)          NOT NULL           DEFAULT FALSE COMMENT '无以上症状',
+    `symptom_other`                   varchar(255)                           DEFAULT NULL COMMENT '其它',
+    `pulse_oxygen_saturation`         double unsigned     NOT NULL COMMENT '近期脉搏氧饱和度为: %',
+    `pulse`                           double unsigned     NOT NULL COMMENT '脉搏: 次/分',
+    `signs_sbp`                       double unsigned     NOT NULL COMMENT '血压 - 收缩压. 单位: mmHg',
+    `signs_dbp`                       double unsigned     NOT NULL COMMENT '血压 - 舒张压. 单位: mmHg',
+    `signs_height`                    double unsigned                        DEFAULT NULL COMMENT '身高. 单位: cm',
+    `signs_weight`                    double unsigned                        DEFAULT NULL COMMENT '体重. 单位: kg',
+    `is_cigarettes_per`               tinyint(1)          NOT NULL           DEFAULT FALSE COMMENT '不吸烟',
+    `life_cigarettes_per_day`         tinyint(3) unsigned NOT NULL           DEFAULT 0 COMMENT '日吸烟量. 单位: 支',
+    `recommend_cigarettes_per`        tinyint(3) unsigned NOT NULL           DEFAULT 0 COMMENT '建议日吸烟量',
+    `is_alcohol_per`                  tinyint(1)          NOT NULL           DEFAULT FALSE COMMENT '不饮酒',
+    `life_alcohol_per_day`            double unsigned     NOT NULL           DEFAULT 0 COMMENT '日饮酒量. 单位: 两',
+    `recommend_alcohol_per`           double unsigned     NOT NULL           DEFAULT 0 COMMENT '建议饮酒量',
+    `life_sport_per_week`             tinyint(3) unsigned                    DEFAULT NULL COMMENT '每周运动次数. 单位: 次',
+    `life_sport_per_time`             double unsigned                        DEFAULT NULL COMMENT '每次运动时间. 单位: 分钟',
+    `recommend_sport_per_week`        tinyint(3) unsigned                    DEFAULT NULL COMMENT '建议每周运动次数 单位: 次',
+    `recommend_sport_per_time`        double unsigned                        DEFAULT NULL COMMENT '建议每次运动时间. 单位: 分钟',
+    `life_salt_situation`             varchar(255)                           DEFAULT NULL COMMENT '摄盐情况. LIGHT: 轻; MIDDLE: 中; DEEP: 重',
+    `life_follow_medical_advice`      varchar(255)                           DEFAULT NULL COMMENT '遵医行为. GOOD: 良好; ORDINARY: 一般; BAD: 差',
+    `drug_compliance`                 varchar(255)        NOT NULL COMMENT '服药依从性. LAW: 规律; GAP: 间断; NO: 不服药',
+    `is_reactions_pains`              tinyint(1)          NOT NULL           DEFAULT FALSE COMMENT '心跳过快或心慌',
+    `is_reactions_convulsion`         tinyint(1)          NOT NULL           DEFAULT FALSE COMMENT '手颤或其他抽搐',
+    `is_reactions_dizziness_headache` tinyint(1)          NOT NULL           DEFAULT FALSE COMMENT '头痛头晕',
+    `is_reactions_nausea_vomiting`    tinyint(1)          NOT NULL           DEFAULT FALSE COMMENT '恶心呕吐',
+    `is_reactions_none`               tinyint(1)          NOT NULL           DEFAULT FALSE COMMENT '无以上症状',
+    `reactions_other`                 varchar(255)                           DEFAULT NULL COMMENT '其它',
+    `pulmonary_function`              double unsigned                        DEFAULT NULL COMMENT '肺功能:%',
+    `created_by`                      bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `created_at`                      timestamp           NOT NULL           DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_by`                      bigint(20) unsigned NOT NULL COMMENT '更新人',
+    `updated_at`                      timestamp           NOT NULL           DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='慢阻肺患者随访表';

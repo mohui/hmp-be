@@ -1,0 +1,24 @@
+dev:doctor-patient-management:build:
+  extends:
+    - .doctor-patient-management:init
+  stage: build
+  tags:
+    - pve
+    - docker
+  variables:
+    IMAGE_TAG: dev-${CI_COMMIT_SHORT_SHA}
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^standalone*/'
+      changes:
+        - ${MODULE_NAME}/*.{kts,properties,yml}
+        - ${MODULE_NAME}/**/*
+  script:
+    - gradle build publishAllPublicationsToBjknrtRepository
+  cache:
+    paths:
+      - .gradle/wrapper
+      - .gradle/caches
+  artifacts:
+    when: always
+    reports:
+      junit: ${MODULE_NAME}/**/build/test-results/test/**/TEST-*.xml

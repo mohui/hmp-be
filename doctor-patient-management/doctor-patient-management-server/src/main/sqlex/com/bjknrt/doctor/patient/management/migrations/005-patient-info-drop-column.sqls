@@ -1,0 +1,29 @@
+alter table dpm_patient_info
+    drop   kn_height;
+
+alter table dpm_patient_info
+    drop   kn_weight;
+
+alter table dpm_patient_info
+    drop   kn_waistline;
+
+alter table dpm_patient_info
+    drop   kn_fasting_blood_sugar;
+
+
+alter table dpm_patient_info
+    drop   kn_diastolic_blood_pressure;
+
+
+alter table dpm_patient_info
+    drop   kn_systolic_pressure;
+
+alter table dpm_patient_info
+    drop   kn_serum_tch;
+
+alter table dpm_patient_info
+    drop   kn_height_density_protein_tch;
+
+alter table dpm_patient_info
+    drop   kn_low_density_protein_tch;
+

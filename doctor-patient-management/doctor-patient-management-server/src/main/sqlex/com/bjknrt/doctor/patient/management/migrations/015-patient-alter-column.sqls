@@ -1,0 +1,6 @@
+update dpm_patient_info
+set `is_seven_days_not_login` = 0
+where `is_seven_days_not_login` is null;
+
+alter table dpm_patient_info
+    modify `is_seven_days_not_login` boolean not null default false comment '是否为7天未登录';

@@ -1,0 +1,25 @@
+-- 功能性步行分级量表（Functional Ambulation Category Scale ,FAC）
+ALTER TABLE `qas_examination_paper`
+    MODIFY COLUMN `examination_paper_title` varchar(300) NOT NULL COMMENT '问卷题名称' AFTER `id`;
+
+INSERT INTO qas_examination_paper (id, examination_paper_title, examination_paper_desc,
+                                   examination_paper_tip, examination_paper_code,
+                                   examination_paper_reference, evaluation_time,
+                                   strategy_code, created_by, created_at, updated_by,
+                                   updated_at, is_del)
+VALUES (3000, '功能性步行分级量表（Functional Ambulation Category Scale ,FAC）','功能性步行分级量表由Holden等人于1986年发表，适用于运动障碍的患者，通过观察评估，主观评定不同疾病患者的步行功能并对其分级。',
+        null, 'FUNCTIONAL_WALKING_SCALE', '张玉梅,宋鲁平.康复评定常用量表(第二版)[M].北京:科学技术文献出版社,2019:55-56.', '', 'FUNCTIONAL_WALKING_SCALE',
+        1, current_timestamp(), 1, current_timestamp(), 0);
+
+insert into qas_questions(id, examination_paper_id, questions_title, questions_type, questions_sort, created_by,
+                          updated_by, questions_tip)
+values (300001, 3000, '请从下列选项中选择出最符合患者实际情况的一项', 'RADIO', 1, 1, 1, null);
+
+insert into qas_option(id, questions_id, option_code, option_value, option_label, option_tip, option_sort, option_score,
+                       option_type, option_rule, created_by, updated_by)
+values (30000101, 300001, 'FUNCTIONAL_WALKING_SCALE_300001_30000101', '1', '0级：患者不能行走或者在2人帮助下行走', '', 1, 0, 'SELECT', '{\"single\":true}', 1, 1),
+       (30000102, 300001, 'FUNCTIONAL_WALKING_SCALE_300001_30000102', '2', '1级：患者需在1人连续扶持下减重并维持平衡', '', 2, 0, 'SELECT', '{\"single\":true}', 1, 1),
+       (30000103, 300001, 'FUNCTIONAL_WALKING_SCALE_300001_30000103', '3', '2级：患者在1人持续或者间断扶持下行走', '', 3, 0, 'SELECT', '{\"single\":true}', 1, 1),
+       (30000104, 300001, 'FUNCTIONAL_WALKING_SCALE_300001_30000104', '4', '3级：患者无需他人直接的身体扶持，而在监督下行走', '', 4, 0, 'SELECT', '{\"single\":true}', 1, 1),
+       (30000105, 300001, 'FUNCTIONAL_WALKING_SCALE_300001_30000105', '5', '4级：患者能在平摊地上而独立行走，但在上下楼、上下坡或不平路而需要帮助', '', 5, 0, 'SELECT', '{\"single\":true}', 1, 1),
+       (30000106, 300001, 'FUNCTIONAL_WALKING_SCALE_300001_30000106', '6', '5级：患者能够独立行走', '', 6, 0, 'SELECT', '{\"single\":true}', 1, 1);
